@@ -1,0 +1,45 @@
+{
+    "name": "youniwemi/digital-invoice",
+    "type": "library",
+    "description": "Digital Invoice is an easy wrapper around easybill/zugferd-php, josemmo/einvoicing and atgp/factur-x that will allow you generate Factur-x and UBL (Peppol, Cius...) invoices in a very easy way.",
+    "keywords": ["Factur-x" , "UBL" , "Peppol", "Cius", "Digital Invoice" , "Invoice" , "E-Invoicing", "ZUGFeRD" ],
+    "license": "MIT",
+    "authors": [
+        {
+          "name": "Rahal Aboulfeth",
+          "email": "rahal.aboulfeth@gmail.com"
+        }
+    ],
+    "require": {
+        "easybill/zugferd-php": "dev-master",
+        "atgp/factur-x": "^1.0",
+        "milo/schematron": "dev-master",
+        "josemmo/einvoicing": "^0.2.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8 || ^9"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/Youniwemi/zugferd-php"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/Youniwemi/schematron"
+        }
+    ],
+    "scripts": {
+        "test": "vendor/bin/phpunit test"
+    },
+    "autoload": {
+        "psr-4": {
+            "DigitalInvoice\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DigitalInvoice\\Test\\": "tests/"
+        }
+    }
+}

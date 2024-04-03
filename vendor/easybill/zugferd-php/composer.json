@@ -1,0 +1,44 @@
+{
+  "name": "easybill/zugferd-php",
+  "description": "ZUGFeRD PHP SDK (Factur-X, XRechnung) - Convert PHP Objects to XML and back.",
+  "keywords": [
+    "ZUGFeRD", "Factur-X", "XRechnung"
+  ],
+  "type": "library",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Patrick Romowicz",
+      "email": "patrick@romowicz.de"
+    }
+  ],
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "jms/serializer": "^3.16",
+    "ext-dom": "*"
+  },
+  "suggest": {
+    "ext-libxml": "Needed for XSD validation"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.3",
+    "ext-libxml": "*",
+    "friendsofphp/php-cs-fixer": "^3.16"
+  },
+  "autoload": {
+    "psr-4": {
+      "Easybill\\ZUGFeRD\\": "src/zugferd10",
+      "Easybill\\ZUGFeRD211\\": "src/zugferd211"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Easybill\\ZUGFeRD\\": "tests/zugferd10",
+      "Easybill\\ZUGFeRD211\\": "tests/zugferd211"
+    }
+  },
+  "config": {
+    "platform-check": false
+  }
+}

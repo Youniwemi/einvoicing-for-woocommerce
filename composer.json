@@ -1,0 +1,33 @@
+{
+  "require": {
+    "php": "^8.1",
+    "ext-mbstring": "*",
+    "ext-gd": "*",
+    "ext-dom": "*",
+    "ext-iconv": "*",
+    "dompdf/dompdf": "^2.0",
+    "youniwemi/digital-invoice": "dev-master",
+    "freemius/wordpress-sdk": "^2.6"
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/Youniwemi/zugferd-php"
+    }
+  ],
+  "scripts": {
+    "cs": "phpcs -s --standard=phpcs.xml .",
+    "cbf": "phpcbf --standard=phpcs.xml .",
+    "qit": "qit run:phpstan --zip ../../WORDPRESS_PLUGINS/woocommerce-einvoicing.woocommerce.zip woocommerce-einvoicing"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require-dev": {
+    "woocommerce/qit-cli": "^0.3.4"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}

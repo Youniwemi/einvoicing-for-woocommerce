@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<ruleset name="E-Invoicing for WooCommerce">
+	<ini name="error_reporting" value="E_ALL &#38; ~E_DEPRECATED" />
+	<description>E-Invoicing For WooCommerce coding standards</description>
+	<exclude-pattern>/.github/*</exclude-pattern>
+	<exclude-pattern>/.git/*</exclude-pattern>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/languages/*</exclude-pattern>
+	<exclude-pattern>/assets/*</exclude-pattern>
+
+    <rule ref="WooCommerce-Core" />
+    <rule ref="WooCommerce" />
+	<rule ref="WordPress.Security" />
+	<rule ref="WordPress.Security.EscapeOutput">
+	    <properties>
+	        <property name="customEscapingFunctions" type="array">
+	            <element value="esc_xml"/>
+	        </property>
+	    </properties>
+	</rule>
+</ruleset>
