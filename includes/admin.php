@@ -165,7 +165,7 @@ add_action(
 		if ( isset( $_GET['html'] ) ) {
 			include WOOEI_TEMPLATE . 'invoice-preview.php';
 		} else {
-			$profile    = get_option( 'wooei_invoice_type', WOOEI_TYPES_PDF );
+			$profile    = get_invoice_profile();
 			$xml_or_pdf = is_xml( $profile ) ? 'xml' : 'pdf';
 			PdfInvoice::send_headers( $order->ID . '.' . $xml_or_pdf, $xml_or_pdf );
 

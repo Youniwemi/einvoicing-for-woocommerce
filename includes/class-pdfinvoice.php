@@ -167,7 +167,7 @@ class PdfInvoice {
 	 */
 	public function render( $is_html = false ) {
 		$is_final = ! $is_html;
-		$type     = get_option( 'wooei_invoice_type', WOOEI_TYPES_PDF );
+		$type     = get_invoice_profile();
 
 		if ( $is_final && WOOEI_TYPES_XRECHNUNG === $type ) {
 			return get_e_invoice( '', $this->order, $type );

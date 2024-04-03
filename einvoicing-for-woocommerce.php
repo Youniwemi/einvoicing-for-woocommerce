@@ -2,14 +2,14 @@
 /**
  * Plugin Name: E-Invoicing For WooCommerce
  * Plugin URI: https://www.woo-einvoicing.com
- * Version: 0.1.5
+ * Version: 0.1.6
  * Author: Instareza
  * Author URI: https://www.instareza.com
  * Description: Setup your WooCommerce PDF invoices effortlessly and ensure compliance with the latest electronic invoicing regulations! Enable Factur-X, UBL, ZUGFeRD and Xrechnung standards while customizing your invoices to reflect your brand.
  * Text Domain: einvoicing-for-woocommerce
  * Domain Path: /languages
  * Requires PHP: 8.1
- * Stable tag: 0.1.5
+ * Stable tag: 0.1.6
  *
  * WC requires at least: 7.0
  * WC tested up to: 8.7

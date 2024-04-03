@@ -107,6 +107,15 @@ function is_ubl( string $profile ) {
 	);
 }
 
+/**
+ * Gets the profile.
+ *
+ * @return     string The Invoice profile.
+ */
+function get_invoice_profile() {
+	return get_option( 'wooei_invoice_type', WOOEI_TYPES_PDF );
+}
+
 
 /**
  * Determines whether the specified profile is xml.
@@ -115,7 +124,10 @@ function is_ubl( string $profile ) {
  *
  * @return     bool    True if the specified profile is xml, False otherwise.
  */
-function is_xml( string $profile ) {
+function is_xml( string $profile = null ) {
+	if ( null === $profile ) {
+		$profile = get_invoice_profile();
+	}
 	return WOOEI_TYPES_XRECHNUNG === $profile || is_ubl( $profile );
 }
 
@@ -212,27 +224,34 @@ function render_invoice( WC_Abstract_Order $order, $is_html = true ) {
 /**
  * Saves a pdf temporary.
  *
- * @param      string            $pdf    The pdf.
+ * @param      string            $content    The invoice content (pdf or xml).
  * @param      WC_Abstract_Order $order  The order.
  *
  * @return     string             the filepath of the saved pdf.
  */
-function save_pdf_temp( string $pdf, WC_Abstract_Order $order ) {
+function save_invoice_temp( string $content, WC_Abstract_Order $order ) {
 	// Get the URL of the temporary file.
 	$upload_dir         = wp_upload_dir();
 	$date               = $order->get_date_created();
 	$temp_directory_url = $upload_dir['basedir'] . '/tmp_invoice-' . $date->format( 'hidmY' ) . '/'; // Construct the URL.
 
-	if ( ! WP_Filesystem() ) {
-		return;
-	}
-	global $wp_filesystem;
+	$ext      = is_xml() ? 'xml' : 'pdf';
+	$filepath = $temp_directory_url . 'Invoices-' . $order->ID . '.' . $ext;
+	if ( WP_Filesystem() ) {
+		global $wp_filesystem;
 
-	if ( ! is_dir( $temp_directory_url ) || ! wp_is_writable( $temp_directory_url ) ) {
-		$wp_filesystem->mkdir( $temp_directory_url );
+		if ( ! is_dir( $temp_directory_url ) || ! wp_is_writable( $temp_directory_url ) ) {
+			$wp_filesystem->mkdir( $temp_directory_url );
+		}
+		$wp_filesystem->put_contents( $filepath, $content );
+
+	} else {
+		if ( ! is_dir( $temp_directory_url ) || ! wp_is_writable( $temp_directory_url ) ) {
+			mkdir( $temp_directory_url );
+		}
+		file_put_contents( $filepath, $content ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents -- We use file_put_contents only if WP_Filesystem not available
 	}
-	$filepath = $temp_directory_url . 'Invoices-' . $order->ID . '.pdf';
-	$wp_filesystem->put_contents( $filepath, $pdf );
+
 	return $filepath;
 }
 
@@ -246,20 +265,23 @@ function save_pdf_temp( string $pdf, WC_Abstract_Order $order ) {
  * @return     array   The email attachments.
  */
 function attach_invoice_to_email( array $attachments, string $email_id, mixed $maybe_order ) {
+
 	// no order, or not in our declared types.
 	if ( ! ( $maybe_order instanceof WC_Abstract_Order ) || ! isset( WOOEI_EMAIL_TYPES[ $email_id ] ) ) {
 		return $attachments;
 	}
-	$can_attach = get_option( 'wooei_attach_invoice', 'no' );
+	$can_attach = get_option( 'wooei_invoice_attach_invoice', 'no' );
+
 	if ( 'no' === $can_attach ) {
 		return $attachments;
 	}
-	$send_for = get_option( 'wooei_attach', array() );
+	$send_for = get_option( 'wooei_invoice_attach', array() );
 
 	if ( isset( $send_for[ $email_id ] ) && 'yes' === $send_for[ $email_id ] ) {
-		$pdf_content   = render_invoice( $maybe_order, false );
-		$attachments[] = save_pdf_temp( $pdf_content, $maybe_order );
+		$invoice_content = render_invoice( $maybe_order, false );
+		$attachments[]   = save_invoice_temp( $invoice_content, $maybe_order );
 	}
+
 	return $attachments;
 }
 

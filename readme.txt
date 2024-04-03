@@ -1,17 +1,17 @@
-=== E-Invoicing For Woocommerce ===
+=== E-Invoicing For WooCommerce ===
 Contributors: rahal.aboulfeth
-Tags: e-invoicing, factur-x, UBL, pdf, invoices, woocommerce
+Tags: e-invoicing, factur-x, UBL, invoices, WooCommerce
 Requires at least: 5.0
-Tested up to: 6.4.3
+Tested up to: 6.5
 Requires PHP: 8.1
 License: GPL
-Stable tag: 0.1.5
+Stable tag: 0.1.6
 
-Customize and align your WooCommerce PDF invoices with your brand and ensure they comply with the latest e-invoicing standards, including Factur-X, UBL, ZUGFeRD, and XRechnung.
+Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and other e-invoicing standards.
 
 == Description ==
 
-# WooCommerce E-Invoicing Customizer
+=== WooCommerce E-Invoicing Customizer ===
 
 Customize your WooCommerce PDF invoices and enable Factur-X, UBL, ZUGFeRD, and XRechnung formats to comply with electronic invoicing regulations while customizing your invoices to reflect your brand.
 
@@ -50,8 +50,11 @@ Big Thanks to :
 - [Youniwemi](https://packagist.org/packages/youniwemi/digital-invoice) for Digital Invoice - Easy wrapper around easybill/zugferd-php, atgp/factur-x and josemmo/einvoicing  that will allow you generate Factur-x and UBL in a very easy way.
 
 == Changelog ==
+= 0.1.6 : Fix adding invoice to emails as attachements
+* Updated tested Wordpress up to version
+* Fixed typos in readme
 = 0.1.5 : Allow E-Invoices to be attached to more WooCommerce Emails
-* Updated tested Wordpress and WooCommerce up to versions
+* Updated tested WooCommerce up to version
 * Updated translations
 = 0.1.4 : Applying Wordpress Plugin review team feedback
 * Multiple sanitization and escaping fixes.
