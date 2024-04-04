@@ -95,7 +95,7 @@ class PdfInvoice {
 		);
 
 		// instantiate and use the dompdf class.
-		$dompdf = new Dompdf( $options );
+		$dompdf = new Dompdf( $options, 'UTF-8' );
 		$dompdf->loadHtml( $html );
 		$dompdf->setPaper( $this->pdf_settings['paper_size'], $this->pdf_settings['paper_orientation'] );
 		$dompdf->render();
@@ -185,7 +185,8 @@ class PdfInvoice {
 		$html_safe = ob_get_clean();
 
 		if ( $is_final ) {
-			$pdf_safe = $this->output( $html_safe );
+			$head     = "<!doctype html>\n<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'/><style>* { font-family: DejaVu Sans, sans-serif; }</style></head><body>";
+			$pdf_safe = $this->output( $head . $html_safe . '</body></html>' );
 			return get_e_invoice( $pdf_safe, $this->order, $type );
 		}
 		return $html_safe;
