@@ -2,10 +2,10 @@
 Contributors: rahal.aboulfeth
 Tags: e-invoicing, factur-x, UBL, invoices, WooCommerce
 Requires at least: 5.0
-Tested up to: 6.5
+Tested up to: 6.5.2
 Requires PHP: 8.1
 License: GPL
-Stable tag: 0.1.7
+Stable tag: 0.1.8
 
 Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and other e-invoicing standards.
 

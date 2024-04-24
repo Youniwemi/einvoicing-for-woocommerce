@@ -2,17 +2,18 @@
 /**
  * Plugin Name: E-Invoicing For WooCommerce
  * Plugin URI: https://www.woo-einvoicing.com
- * Version: 0.1.7
+ * Version: 0.1.8
  * Author: Instareza
  * Author URI: https://www.instareza.com
  * Description: Setup your WooCommerce PDF invoices effortlessly and ensure compliance with the latest electronic invoicing regulations! Enable Factur-X, UBL, ZUGFeRD and Xrechnung standards while customizing your invoices to reflect your brand.
  * Text Domain: einvoicing-for-woocommerce
  * Domain Path: /languages
  * Requires PHP: 8.1
- * Stable tag: 0.1.7
+ * Requires Plugins: woocommerce
+ * Stable tag: 0.1.8
  *
  * WC requires at least: 7.0
- * WC tested up to: 8.7
+ * WC tested up to: 8.8.2
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'WOOEI_VERSION', '0.1.7' );
+define( 'WOOEI_VERSION', '0.1.8' );
 define( 'WOOEI_PLUGIN_DIR', __DIR__ );
 define( 'WOOEI_PLUGIN_FILE', __FILE__ );
 define( 'WOOEI_VENDOR', WOOEI_PLUGIN_DIR . '/vendor/' );
@@ -86,6 +87,8 @@ function get_environment_warning() {
  * Loads the plugins files if no environment warning
  */
 function load() {
+	define( 'WOOEI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+	load_plugin_textdomain( 'einvoicing-for-woocommerce', false, dirname( WOOEI_PLUGIN_BASENAME ) . '/languages' );
 	$warning = get_environment_warning();
 	if ( $warning ) {
 		if ( is_admin() ) {
@@ -98,7 +101,6 @@ function load() {
 		}
 		return;
 	}
-	define( 'WOOEI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 	define( 'WOOEI_PLUGIN_ASSETS', untrailingslashit( plugins_url( '/', __FILE__ ) ) . '/assets/' );
 	define( 'WOOEI_TEMPLATE', WOOEI_PLUGIN_DIR . '/templates/' );
 	define(

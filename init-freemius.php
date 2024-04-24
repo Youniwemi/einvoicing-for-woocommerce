@@ -7,21 +7,16 @@
  */
 namespace WOOEI;
 
-
 if ( !defined( 'ABSPATH' ) ) {
     exit;
     // Exit if accessed directly.
 }
-
-
 if ( !function_exists( 'wooei_fs' ) ) {
     /**
      * Create a helper function for easy SDK access.
      */
-    function wooei_fs()
-    {
-        global  $wooei_fs ;
-        
+    function wooei_fs() {
+        global $wooei_fs;
         if ( !isset( $wooei_fs ) ) {
             // Include Freemius SDK.
             include_once WOOEI_VENDOR . 'freemius/wordpress-sdk/start.php';
@@ -36,20 +31,19 @@ if ( !function_exists( 'wooei_fs' ) ) {
                 'has_addons'     => false,
                 'has_paid_plans' => true,
                 'trial'          => array(
-                'days'               => 14,
-                'is_require_payment' => true,
-            ),
+                    'days'               => 14,
+                    'is_require_payment' => true,
+                ),
                 'menu'           => array(
-                'slug'    => 'einvoicing-for-woocommerce',
-                'support' => false,
-            ),
+                    'slug'    => 'einvoicing-for-woocommerce',
+                    'support' => false,
+                ),
                 'is_live'        => true,
             ) );
         }
-        
         return $wooei_fs;
     }
-    
+
     // Init Freemius.
     wooei_fs();
     /**
@@ -59,7 +53,6 @@ if ( !function_exists( 'wooei_fs' ) ) {
      */
     do_action( 'wooei_fs_loaded' );
 }
-
 // Onboarding is presented in the dashboard as well.
 add_filter( 'wooei_show_onboarding', function ( $show ) {
     $pagenow = $GLOBALS['pagenow'];
@@ -71,8 +64,7 @@ add_filter( 'wooei_show_onboarding', function ( $show ) {
 /**
  * Adds the Woo E-Invoicing admin menu.
  */
-function admin_menu()
-{
+function admin_menu() {
     // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode, WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, Generic.PHP.ForbiddenFunctions.Found -- Passing a base64-encoded SVG using a data URI.
     $svg_icon = base64_encode( file_get_contents( WOOEI_ASSETS . 'images/icon.svg' ) );
     add_menu_page(
@@ -88,8 +80,7 @@ function admin_menu()
 /**
  * Woo E-Invoicing admin page, help with the onboarding.
  */
-function plugin_page()
-{
+function plugin_page() {
     // go the our tab.
     wp_safe_redirect( settings_url() );
     exit;
@@ -98,16 +89,15 @@ function plugin_page()
 /**
  * WooCommerce notice settings, open to receive feedback.
  */
-function notice_settings()
-{
+function notice_settings() {
     ?>
 	<div class="notice notice-info is-dismissible" ><p>
 	<?php 
-    echo  wp_kses_post( sprintf(
+    echo wp_kses_post( sprintf( 
         /* translators: 1: Url to the contact form. */
         __( 'Welcome to E-Invoicing For WooCommerce, feel to <a href="%s" >contact us</a> if you have any question or suggestion.', 'einvoicing-for-woocommerce' ),
         esc_url( wooei_fs()->contact_url() )
-    ) ) ;
+     ) );
     ?>
 		</p><button type="button" class="notice-dismiss" onclick="this.parentNode.remove();" ></button>
 	</div>
@@ -115,12 +105,10 @@ function notice_settings()
 }
 
 add_action( 'wooei_ready', function () {
-    
     if ( is_admin() ) {
         add_action( 'admin_menu', __NAMESPACE__ . '\\admin_menu' );
         add_action( 'woocommerce_before_settings_einvoicing', __NAMESPACE__ . '\\notice_settings' );
     }
-
 } );
 add_action( 'wooei_before_templates', function () {
     ?>

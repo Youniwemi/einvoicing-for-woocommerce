@@ -124,7 +124,7 @@ class Settings extends WC_Settings_Page {
 			'invoice_type'           => array(
 				'name'    => __( 'Invoice Format', 'einvoicing-for-woocommerce' ),
 				'type'    => 'select',
-				'desc'    => __( 'Select the invoice format as per your country\'s regulations.' ),
+				'desc'    => __( 'Select the invoice format as per your country\'s regulations.', 'einvoicing-for-woocommerce' ),
 				'options' => WOOEI_TYPES,
 				'id'      => $this->id . '_invoice_type',
 			),
