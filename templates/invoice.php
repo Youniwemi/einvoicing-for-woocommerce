@@ -152,7 +152,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	}
 	/****** TBALE INVOICE ORDERS SECTION **********/
 	.fx-invoice-order {
-		height: calc(100vh);
+		min-height: calc(70vh);
 	}
 
 	table.order-details tr:nth-child(even) {
@@ -411,8 +411,8 @@ do_action( 'wooei_before_document', $this->order );
 								</dl>
 							</td>
 							<td class="quantity"><?php echo esc_html( $item['quantity'] ); ?></td>
-							<td class="price"><?php echo esc_html( $item['subtotal'] ); ?></td>
-							<td class="total"><?php echo esc_html( $item['total'] ); ?></td>
+							<td class="price"><?php echo esc_html( $this->format_money( $item['subtotal'] ) ); ?></td>
+							<td class="total"><?php echo esc_html( $this->format_money( $item['total'] ) ); ?></td>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>

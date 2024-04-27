@@ -48,6 +48,27 @@ class PdfInvoice {
 	 */
 	public $order;
 
+	/**
+	 * Price decimals
+	 *
+	 * @var int
+	 */
+	protected $price_decimals;
+
+	/**
+	 * Price decimal separator.
+	 *
+	 * @var string
+	 */
+	protected $price_decimal_separator;
+
+	/**
+	 * Price Thousand Separator
+	 *
+	 * @var string
+	 */
+	protected $price_thousand_separator;
+
 
 	/**
 	 * Default settings
@@ -67,8 +88,11 @@ class PdfInvoice {
 	 * @param array             $pdf_settings The pdf settings.
 	 */
 	public function __construct( WC_Abstract_Order $order, $pdf_settings = array() ) {
-		$this->order        = $order;
-		$this->pdf_settings = array_merge( self::DEFAULT_SETTINGS, $pdf_settings );
+		$this->order                    = $order;
+		$this->pdf_settings             = array_merge( self::DEFAULT_SETTINGS, $pdf_settings );
+		$this->price_decimals           = wc_get_price_decimals();
+		$this->price_decimal_separator  = wc_get_price_decimal_separator();
+		$this->price_thousand_separator = wc_get_price_thousand_separator();
 	}
 
 	/**
@@ -211,6 +235,19 @@ class PdfInvoice {
 		header( 'Expires: 0' );
 		header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
 		header( 'Pragma: public' );
+
+	}
+
+	/**
+	 * Formats prices in defined WooCommerce options.
+	 *
+	 * @param      mixed $price  The price.
+	 *
+	 * @return     string  Formated price
+	 */
+	public function format_money( $price ) {
+		$price = (float) $price;
+		return number_format( $price, $this->price_decimals, $this->price_decimal_separator, $this->price_thousand_separator );
 
 	}
 }
