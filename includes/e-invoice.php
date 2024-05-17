@@ -220,6 +220,39 @@ function render_invoice( WC_Abstract_Order $order, $is_html = true ) {
 	return $invoice->render( $is_html );
 }
 
+/**
+ * Get invoice filemae
+ *
+ * @param      WC_Abstract_Order $order  The order.
+ *
+ * @return     string             the filename.
+ */
+function invoice_filename( WC_Abstract_Order $order ) {
+	$ext = is_xml() ? 'xml' : 'pdf';
+	return 'Invoice-' . $order->ID . '.' . $ext;
+}
+
+
+
+/**
+ * Ensures a directory exists
+ *
+ * @param      string $directory_path  The directory.
+ */
+function ensure_directory_exists( $directory_path ) {
+	if ( WP_Filesystem() ) {
+		global $wp_filesystem;
+
+		if ( ! is_dir( $directory_path ) || ! wp_is_writable( $directory_path ) ) {
+			$wp_filesystem->mkdir( $directory_path );
+		}
+	} else {
+		if ( ! is_dir( $directory_path ) || ! wp_is_writable( $directory_path ) ) {
+			mkdir( $directory_path );
+		}
+	}
+}
+
 
 /**
  * Saves a pdf temporary.
@@ -235,20 +268,12 @@ function save_invoice_temp( string $content, WC_Abstract_Order $order ) {
 	$date               = $order->get_date_created();
 	$temp_directory_url = $upload_dir['basedir'] . '/tmp_invoice-' . $date->format( 'hidmY' ) . '/'; // Construct the URL.
 
-	$ext      = is_xml() ? 'xml' : 'pdf';
-	$filepath = $temp_directory_url . 'Invoices-' . $order->ID . '.' . $ext;
+	$filepath = $temp_directory_url . invoice_filename( $order );
+	ensure_directory_exists( $temp_directory_url );
 	if ( WP_Filesystem() ) {
-		global $wp_filesystem;
-
-		if ( ! is_dir( $temp_directory_url ) || ! wp_is_writable( $temp_directory_url ) ) {
-			$wp_filesystem->mkdir( $temp_directory_url );
-		}
 		$wp_filesystem->put_contents( $filepath, $content );
 
 	} else {
-		if ( ! is_dir( $temp_directory_url ) || ! wp_is_writable( $temp_directory_url ) ) {
-			mkdir( $temp_directory_url );
-		}
 		file_put_contents( $filepath, $content ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents -- We use file_put_contents only if WP_Filesystem not available
 	}
 

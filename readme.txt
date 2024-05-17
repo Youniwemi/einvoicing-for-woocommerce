@@ -2,10 +2,10 @@
 Contributors: rahal.aboulfeth
 Tags: e-invoicing, factur-x, UBL, invoices, WooCommerce
 Requires at least: 5.0
-Tested up to: 6.5.2
+Tested up to: 6.5.3
 Requires PHP: 8.1
 License: GPL
-Stable tag: 0.1.9
+Stable tag: 0.2.0
 
 Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and other e-invoicing standards.
 
@@ -13,7 +13,7 @@ Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and oth
 
 === WooCommerce E-Invoicing Customizer ===
 
-Customize your WooCommerce PDF invoices and enable Factur-X, UBL, ZUGFeRD, and XRechnung formats to comply with electronic invoicing regulations while customizing your invoices to reflect your brand.
+Customize your WooCommerce PDF invoices and enable FacturX, UBL, ZUGFeRD, and XRechnung formats to comply with electronic invoicing regulations while customizing your invoices to reflect your brand.
 
 == Features ==
 
@@ -27,12 +27,12 @@ Customize your WooCommerce PDF invoices and enable Factur-X, UBL, ZUGFeRD, and X
 
 - WordPress 5.0 or higher.
 - PHP 8.1 or higher.
-- PHP Extensions: GD, mbstring, dom, and iconv enabled.
+- PHP Extensions: GD, mbstring, dom, and iconv enabled. ZipArchive to allow zip creation.
 
 == Installation ==
 1. Upload the plugin to your plugins folder: 'wp-content/plugins/'
 2. Activate the 'E-Invoicing For Woocommerce' plugin from the Plugins admin panel.
-3. Customize your installation in the Woocommerce "Settings" Page in the  E-Invoicing Tab.
+3. Customize your installation in the Woocommerce "Settings" Page in the E-Invoicing Tab.
 4. Enjoy.
 
 == Usage ==
@@ -50,6 +50,9 @@ Big Thanks to :
 - [Youniwemi](https://packagist.org/packages/youniwemi/digital-invoice) for Digital Invoice - Easy wrapper around easybill/zugferd-php, atgp/factur-x and josemmo/einvoicing  that will allow you generate Factur-x and UBL in a very easy way.
 
 == Changelog ==
+= 0.2.0 : Bulk invoices download
+* This version adds the possibility to download multiple e-invoices in a Zip package from the WooCommerce orders list table.
+* After each upgrade, an admin notice will display the changes since the previously installed version.
 = 0.1.9 : Minor Improvements
 * Prices in the invoice table now utilize WooCommerce formatting for consistency.
 * Corrected an issue where the footer was not properly aligned in the Preview mode.
@@ -77,3 +80,8 @@ Big Thanks to :
 * Nice instructive notices, better captions and labels.
 = 0.0.1 : Initial release of E-Invoicing for WooCommerce =
 * Initial release, PDF Invoice Customizer supporting Factur-X and ZUGFeRD formats, ensuring compliance with French and German e-invoicing standards.
+
+
+== Upgrade Notice ==
+= 0.2 =
+This version adds the possibility to download multiple e-invoices in a Zip package from the WooCommerce orders list table.

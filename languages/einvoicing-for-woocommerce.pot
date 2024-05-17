@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-04-03 11:44+0000\n"
+"POT-Creation-Date: 2024-05-17 19:03+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Rahal <rahal.aboulfeth@gmail.com>\n"
 "Language-Team: \n"
@@ -17,95 +17,239 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: vendor\n"
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
 
-#: einvoicing-for-woocommerce.php:59
+#: einvoicing-for-woocommerce.php:60
 #, php-format
 msgid "E-Invoicing For Woocommerce - The minimum PHP version required for this plugin is %1$s. You are running %2$s."
 msgstr ""
 
-#: einvoicing-for-woocommerce.php:66
+#: einvoicing-for-woocommerce.php:67
 #, php-format
 msgid "E-Invoicing For Woocommerce requires the php extension \"%s\" to be loaded to work."
 msgstr ""
 
-#: einvoicing-for-woocommerce.php:72
+#: einvoicing-for-woocommerce.php:73
 msgid "E-Invoicing For Woocommerce requires WooCommerce to be activated to work."
 msgstr ""
 
-#: einvoicing-for-woocommerce.php:77
+#: einvoicing-for-woocommerce.php:78
 #, php-format
 msgid "E-Invoicing For Woocommerce - The minimum WooCommerce version required for this plugin is %1$s. You are running %2$s."
 msgstr ""
 
-#: einvoicing-for-woocommerce.php:108
+#: einvoicing-for-woocommerce.php:110
 msgid "New order (Admin email)"
 msgstr ""
 
-#: einvoicing-for-woocommerce.php:109
+#: einvoicing-for-woocommerce.php:111
 msgid "Completed order"
 msgstr ""
 
-#: einvoicing-for-woocommerce.php:110
+#: einvoicing-for-woocommerce.php:112
 msgid "Processing order"
 msgstr ""
 
-#: einvoicing-for-woocommerce.php:111
+#: einvoicing-for-woocommerce.php:113
 msgid "Customer invoice / Order details"
 msgstr ""
 
-#: includes/admin.php:51
-msgid "Check E-Invoicing settings"
-msgstr ""
-
-#: includes/admin.php:52
-msgid "Verify your invoice customization"
-msgstr ""
-
-#: includes/admin.php:61
-msgid "Setup E-Invoicing settings"
-msgstr ""
-
-#: includes/admin.php:62
-msgid "Visually customize your invoice"
-msgstr ""
-
-#: includes/admin.php:71
-msgid "Welcome Back! Woo E-Invoicing reinstallation Is complete and almost ready to go"
-msgstr ""
-
-#: includes/admin.php:72
-msgid "Please ensure that your settings and customization are still accurate and enjoy e-invoicing regulations compliance"
-msgstr ""
-
-#: includes/admin.php:74
-msgid "Woo E-Invoicing For WooCommerce is installed, almost ready to go"
-msgstr ""
-
-#: includes/admin.php:75
-msgid "In just a few steps, you'll meet all e-invoicing regulations effortlessly. All you need to do is set up your company details and visually customize your invoice."
-msgstr ""
-
-#: includes/admin.php:86
+#: includes/admin.php:38
 msgid "Dismiss this notice."
 msgstr ""
 
-#: includes/admin.php:129
+#: includes/admin.php:77
+msgid "Check E-Invoicing settings"
+msgstr ""
+
+#: includes/admin.php:78
+msgid "Verify your invoice customization"
+msgstr ""
+
+#: includes/admin.php:87
+msgid "Setup E-Invoicing settings"
+msgstr ""
+
+#: includes/admin.php:88
+msgid "Visually customize your invoice"
+msgstr ""
+
+#: includes/admin.php:94
+msgid "Welcome Back! E-Invoicing For WooCommerce reinstallation Is complete and almost ready to go"
+msgstr ""
+
+#: includes/admin.php:95
+msgid "Please ensure that your settings and customization are still accurate and enjoy e-invoicing regulations compliance."
+msgstr ""
+
+#: includes/admin.php:97
+msgid "E-Invoicing For WooCommerce is installed, almost ready to go"
+msgstr ""
+
+#: includes/admin.php:98
+msgid "In just a few steps, you'll meet all e-invoicing regulations effortlessly. All you need to do is set up your company details and visually customize your invoice."
+msgstr ""
+
+#: includes/admin.php:150
 msgid "Preview the invoice"
 msgstr ""
 
-#: includes/admin.php:130
+#: includes/admin.php:151
 msgid "Download the invoice"
 msgstr ""
 
-#: includes/admin.php:144
+#: includes/admin.php:165
 msgid "Invoice"
 msgstr ""
 
-#: includes/admin.php:192
+#: includes/admin.php:213
 msgid "View E-Invoicing for WooCommerce documentation"
 msgstr ""
 
-#: includes/admin.php:192
+#: includes/admin.php:213
 msgid "E-Invoicing Documentation"
+msgstr ""
+
+#: includes/admin.php:260
+msgid "Download invoices"
+msgstr ""
+
+#: includes/admin.php:283
+msgid "ZipArchive not present, please check your configuration"
+msgstr ""
+
+#: includes/admin.php:330
+msgid "Your export is ready."
+msgstr ""
+
+#: includes/admin.php:331
+msgid "Click to download"
+msgstr ""
+
+#: includes/changesets.php:22
+msgid "0.2.0 : Bulk invoices download"
+msgstr ""
+
+#: includes/changesets.php:23
+msgid "This version adds the possibility to download multiple e-invoices in a Zip package from the WooCommerce orders list table."
+msgstr ""
+
+#: includes/changesets.php:24
+msgid "After each upgrade, an admin notice will display the changes since the previously installed version."
+msgstr ""
+
+#: includes/changesets.php:26
+msgid "0.1.9 : Minor Improvements"
+msgstr ""
+
+#: includes/changesets.php:27
+msgid "Prices in the invoice table now utilize WooCommerce formatting for consistency."
+msgstr ""
+
+#: includes/changesets.php:28
+msgid "Corrected an issue where the footer was not properly aligned in the Preview mode."
+msgstr ""
+
+#: includes/changesets.php:30
+msgid "0.1.8 : Fix translation loading and added WooCommerce as a plugin dependency"
+msgstr ""
+
+#: includes/changesets.php:31
+msgid "0.1.7 : Fix arabic caracters in pdf invoice"
+msgstr ""
+
+#: includes/changesets.php:32
+msgid "0.1.6 : Fix adding invoice to emails as attachements"
+msgstr ""
+
+#: includes/changesets.php:33
+msgid "Updated tested Wordpress up to version"
+msgstr ""
+
+#: includes/changesets.php:34
+msgid "Fixed typos in readme"
+msgstr ""
+
+#: includes/changesets.php:36
+msgid "0.1.5 : Allow E-Invoices to be attached to more WooCommerce Emails"
+msgstr ""
+
+#: includes/changesets.php:37
+msgid "Updated tested WooCommerce up to version"
+msgstr ""
+
+#: includes/changesets.php:38
+msgid "Updated translations"
+msgstr ""
+
+#: includes/changesets.php:40
+msgid "0.1.4 : Applying Wordpress Plugin review team feedback"
+msgstr ""
+
+#: includes/changesets.php:41
+msgid "Multiple sanitization and escaping fixes."
+msgstr ""
+
+#: includes/changesets.php:42
+msgid "Use WOOEI as unique prefix."
+msgstr ""
+
+#: includes/changesets.php:44
+msgid "0.1.3 : Minor style adjustments."
+msgstr ""
+
+#: includes/changesets.php:45
+msgid "0.1.2 : Renamed slug to comply with the naming guidelines."
+msgstr ""
+
+#: includes/changesets.php:46
+msgid "0.1.1 : Added PHP extensions (gd, mbstring, iconv and dom) verification before loading the plugin."
+msgstr ""
+
+#: includes/changesets.php:47
+msgid "0.1.0 : Introduced support for the UBL format, expanding e-invoicing capabilities."
+msgstr ""
+
+#: includes/changesets.php:48
+msgid "0.0.9 : Implemented role-based access control, allowing customization of minimum capabilities required for setting up the plugin."
+msgstr ""
+
+#: includes/changesets.php:49
+msgid "0.0.8 : Resolved compatibility issues with the Astra WordPress theme."
+msgstr ""
+
+#: includes/changesets.php:50
+msgid "0.0.7 : Minor fixes to improve the user experience."
+msgstr ""
+
+#: includes/changesets.php:51
+msgid "0.0.6 : Confirmed compatibility with WooCommerce 8.4"
+msgstr ""
+
+#: includes/changesets.php:52
+msgid "Declare compatibility with **High performance order tables**"
+msgstr ""
+
+#: includes/changesets.php:54
+msgid "0.0.5 : Improved the plugin onboarding experience"
+msgstr ""
+
+#: includes/changesets.php:54
+msgid "Nice instructive notices, better captions and labels."
+msgstr ""
+
+#: includes/changesets.php:55
+msgid "0.0.1 : Initial release of E-Invoicing for WooCommerce"
+msgstr ""
+
+#: includes/changesets.php:56
+msgid "Initial release, PDF Invoice Customizer supporting Factur-X and ZUGFeRD formats, ensuring compliance with French and German e-invoicing standards."
+msgstr ""
+
+#: includes/changesets.php:70
+msgid "Thank you for upgrading E-Invoicing For WooCommerce"
+msgstr ""
+
+#: includes/changesets.php:71
+msgid "Please take notice of what changed :"
 msgstr ""
 
 #: includes/class-customizer-helper.php:426
@@ -437,7 +581,7 @@ msgstr ""
 msgid "Set the size of your footer text to balance readability. (Default size is 12px)"
 msgstr ""
 
-#: includes/class-pdfinvoice.php:135
+#: includes/class-pdfinvoice.php:159
 #, php-format
 msgid "Invoice #%s"
 msgstr ""

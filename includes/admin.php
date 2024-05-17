@@ -11,8 +11,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+define( 'WOOEI_ZIP_EXPORT_PATH', 'tmp_invoice-zip-' );
+
 use \Automattic\WooCommerce\Utilities\FeaturesUtil;
 use WC_Abstract_Order;
+
+
+/**
+ * Starts a branded notice.
+ */
+function start_branded_notice() { ?>
+<div class="notice notice-info is-dismissible" style="display:flex; align-items: center;column-gap:2em">
+	<div>
+		<img width="120" src="<?php echo esc_url( WOOEI_PLUGIN_ASSETS . '/images/logo-dark.png' ); ?>" />
+	</div>
+	<div>
+	<?php
+}
+
+/**
+ * Ends a branded notice.
+ */
+function end_branded_notice() {
+	?>
+	</div>
+	<button type="button" class="notice-dismiss" onclick="this.parentNode.remove();" ><span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'einvoicing-for-woocommerce' ); ?></span></button>
+</div>
+	<?php
+}
 
 /**
  * Get the plugin setting url.
@@ -61,17 +87,14 @@ function onboarding_notice() {
 			$setting_title   = __( 'Setup E-Invoicing settings', 'einvoicing-for-woocommerce' );
 			$customize_title = __( 'Visually customize your invoice', 'einvoicing-for-woocommerce' );
 		}
-		?>
-	<div class="notice notice-info is-dismissible" style="display:flex; align-items: center;column-gap:2em">
-		<div>
-			<img width="120" src="<?php echo esc_url( WOOEI_PLUGIN_ASSETS . '/images/logo-dark.png' ); ?>" />
-		</div>
-		<div>
-		<?php if ( $customized && $configured && $is_plugins_page ) { ?>
-			<h3><?php echo esc_html__( 'Welcome Back! Woo E-Invoicing reinstallation Is complete and almost ready to go', 'einvoicing-for-woocommerce' ); ?></h3>
-			<p><?php echo esc_html__( 'Please ensure that your settings and customization are still accurate and enjoy e-invoicing regulations compliance', 'einvoicing-for-woocommerce' ); ?></p>
+
+		start_branded_notice();
+		if ( $customized && $configured && $is_plugins_page ) {
+			?>
+			<h3><?php echo esc_html__( 'Welcome Back! E-Invoicing For WooCommerce reinstallation Is complete and almost ready to go', 'einvoicing-for-woocommerce' ); ?></h3>
+			<p><?php echo esc_html__( 'Please ensure that your settings and customization are still accurate and enjoy e-invoicing regulations compliance.', 'einvoicing-for-woocommerce' ); ?></p>
 		<?php } else { ?>
-			<h3><?php echo esc_html__( 'Woo E-Invoicing For WooCommerce is installed, almost ready to go', 'einvoicing-for-woocommerce' ); ?></h3>
+			<h3><?php echo esc_html__( 'E-Invoicing For WooCommerce is installed, almost ready to go', 'einvoicing-for-woocommerce' ); ?></h3>
 			<p><?php echo esc_html__( 'In just a few steps, you\'ll meet all e-invoicing regulations effortlessly. All you need to do is set up your company details and visually customize your invoice.', 'einvoicing-for-woocommerce' ); ?></p>            
 		<?php } ?> 
 			<p>
@@ -82,15 +105,16 @@ function onboarding_notice() {
 				<a class="button <?php echo ( ! $just_installed && $configured ? 'button-primary' : '' ); ?>" href="<?php echo esc_url( Invoice_Customizer::customizer_link() ); ?>"  ><?php echo esc_html( $customize_title ); ?></a>
 		<?php endif; ?>
 			</p>
-		</div>
-		<button type="button" class="notice-dismiss" onclick="this.parentNode.remove();" ><span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'einvoicing-for-woocommerce' ); ?></span></button>
-	</div>
 		<?php
+		end_branded_notice();
+		if ( $just_installed ) {
+			delete_transient( 'wooei_just_activated' );
+		}
 	}
 };
 
 /**
- * Show a nice onboarding notice
+ * Show a nice onboarding notice.
  */
 add_action( 'admin_notices', __NAMESPACE__ . '\onboarding_notice' );
 
@@ -198,6 +222,22 @@ add_filter(
 );
 
 /**
+ * Show upgrade notice
+ *
+ * @param      array $data      The data.
+ * @param      array $response  The response.
+ */
+function prefix_plugin_update_message( $data, $response ) {
+	if ( isset( $response['upgrade_notice'] ) ) {
+		printf(
+			'<div class="update-message">%s</div>',
+			wp_kses_post( wpautop( $response['upgrade_notice'] ) )
+		);
+	}
+}
+add_action( 'in_plugin_update_message-einvoicing-for-woocommerce/einvoicing-for-woocommerce.php', __NAMESPACE__ . '\prefix_plugin_update_message', 10, 2 );
+
+/**
  * Declare compatibility with WooCommerce
  */
 add_action(
@@ -208,3 +248,92 @@ add_action(
 		}
 	}
 );
+
+// Adding to order list bulk invoice download item.
+add_filter( 'bulk_actions-edit-shop_order', __NAMESPACE__ . '\add_bulk_download_item', 20, 1 );
+/**
+ * Add Bulk download Item
+ *
+ * @param      array $actions  The actions.
+ *
+ * @return     array The actions.
+ */
+function add_bulk_download_item( $actions ) {
+	if ( class_exists( 'ZipArchive' ) ) {
+		$actions['download_invoices'] = __( 'Download invoices', 'einvoicing-for-woocommerce' );
+	}
+	return $actions;
+}
+
+
+
+// Make the action from selected orders.
+add_filter( 'handle_bulk_actions-edit-shop_order', __NAMESPACE__ . '\downloads_handle_bulk', 10, 3 );
+/**
+ * Create a zip for selected post_ids
+ *
+ * @param      string $redirect_to  The redirect to.
+ * @param      string $action       The action.
+ * @param      string $post_ids     The post identifiers.
+ *
+ * @return     string  The filtred redirect url
+ */
+function downloads_handle_bulk( $redirect_to, $action, $post_ids ) {
+	if ( 'download_invoices' !== $action ) {
+		return $redirect_to;
+	}
+	if ( ! class_exists( 'ZipArchive' ) ) {
+		wp_die( esc_html__( 'ZipArchive not present, please check your configuration', 'einvoicing-for-woocommerce' ) );
+	}
+	$zip        = new \ZipArchive();
+	$upload_dir = wp_upload_dir();
+	$date       = gmdate( 'hidmY' );
+	$filepath   = $date . '/' . "export-$date.zip";
+	$temp_zip   = $upload_dir['basedir'] . '/' . WOOEI_ZIP_EXPORT_PATH . $filepath;
+	ensure_directory_exists( dirname( $temp_zip ) );
+	if ( $zip->open( $temp_zip, \ZipArchive::CREATE ) === true ) {
+		foreach ( $post_ids as $post_id ) {
+			$order           = wc_get_order( $post_id );
+			$invoice_content = render_invoice( $order, false );
+			$zip->addFromString( invoice_filename( $order ), $invoice_content );
+		}
+		$zip->close();
+		$redirect_to = add_query_arg(
+			array(
+				'invoice_export'       => $filepath,
+				'nonce_invoice_export' => wp_create_nonce( 'nonce_invoice_export' ),
+
+			),
+			$redirect_to
+		);
+	}
+
+	return $redirect_to;
+}
+
+
+// The results notice from bulk action on orders.
+add_action( 'admin_notices', __NAMESPACE__ . '\downloads_notice' );
+/**
+ * Shows download link
+ */
+function downloads_notice() {
+	// check nonce.
+	if ( ! isset( $_REQUEST['nonce_invoice_export'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['nonce_invoice_export'] ) ), 'nonce_invoice_export' ) ) {
+		return;
+	}
+	if ( ! isset( $_REQUEST['invoice_export'] ) || empty( $_REQUEST['invoice_export'] ) ) {
+		return; // Exit, not concerned.
+	}
+	// Avoid parent directory explore.
+	$path       = str_replace( '..', '', sanitize_text_field( wp_unslash( $_REQUEST['invoice_export'] ) ) );
+	$upload_dir = wp_upload_dir();
+	if ( file_exists( $upload_dir['basedir'] . '/' . WOOEI_ZIP_EXPORT_PATH . $path ) ) {
+		$export_url = $upload_dir ['baseurl'] . '/' . WOOEI_ZIP_EXPORT_PATH . $path;
+		$ready      = __( 'Your export is ready.', 'einvoicing-for-woocommerce' );
+		$click      = __( 'Click to download', 'einvoicing-for-woocommerce' );
+		printf( '<div id="message" class="updated fade"><p>%s <a href="%s">%s</a></p></div>', esc_html( $ready ), esc_url( $export_url ), esc_html( $click ) );
+	} else {
+		printf( 'Exported file is not present' );
+	}
+}

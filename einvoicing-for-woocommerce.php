@@ -2,7 +2,7 @@
 /**
  * Plugin Name: E-Invoicing For WooCommerce
  * Plugin URI: https://www.woo-einvoicing.com
- * Version: 0.1.9
+ * Version: 0.2.0
  * Author: Instareza
  * Author URI: https://www.instareza.com
  * Description: Setup your WooCommerce PDF invoices effortlessly and ensure compliance with the latest electronic invoicing regulations! Enable Factur-X, UBL, ZUGFeRD and Xrechnung standards while customizing your invoices to reflect your brand.
@@ -10,7 +10,7 @@
  * Domain Path: /languages
  * Requires PHP: 8.1
  * Requires Plugins: woocommerce
- * Stable tag: 0.1.9
+ * Stable tag: 0.2.0
  *
  * WC requires at least: 7.0
  * WC tested up to: 8.8.2
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'WOOEI_VERSION', '0.1.9' );
+define( 'WOOEI_VERSION', '0.2.0' );
 define( 'WOOEI_PLUGIN_DIR', __DIR__ );
 define( 'WOOEI_PLUGIN_FILE', __FILE__ );
 define( 'WOOEI_VENDOR', WOOEI_PLUGIN_DIR . '/vendor/' );
@@ -152,6 +152,7 @@ function load() {
 
 	if ( is_admin() ) {
 
+		include WOOEI_INCLUDES . '/changesets.php';
 		// Onboarding stuff.
 		include WOOEI_INCLUDES . '/admin.php';
 
@@ -179,7 +180,8 @@ function load() {
 register_activation_hook(
 	__FILE__,
 	function () {
-		set_transient( 'wooei_just_activated', 'yes', 60 );
+		update_option( 'wooei_version', WOOEI_VERSION );
+		set_transient( 'wooei_just_activated', 'yes' );
 	}
 );
 
