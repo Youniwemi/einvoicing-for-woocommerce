@@ -168,6 +168,22 @@ class Settings extends WC_Settings_Page {
 			'id'   => $this->id . '_customizer_end',
 		);
 
+		$changeset = 'admin.php?page=einvoicing-changes';
+		$changeset = admin_url( $changeset );
+
+		$settings['section_invoicing_misc'] = array(
+			'name' => __( 'Miscellaneous', 'einvoicing-for-woocommerce' ),
+			'type' => 'title',
+			/* translators: %s: URL to Invoice customizer. */
+			'desc' => sprintf( __( 'Discover the project <a href="%s">changesets</a>.', 'einvoicing-for-woocommerce' ), esc_url( $changeset ) ),
+			'id'   => $this->id . '_customizer_misc',
+		);
+
+		$settings['section_invoicing_misc_end'] = array(
+			'type' => 'sectionend',
+			'id'   => $this->id . '_customizer_misc_end',
+		);
+
 		return $settings;
 	}
 }

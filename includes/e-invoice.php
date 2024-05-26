@@ -271,6 +271,7 @@ function save_invoice_temp( string $content, WC_Abstract_Order $order ) {
 	$filepath = $temp_directory_url . invoice_filename( $order );
 	ensure_directory_exists( $temp_directory_url );
 	if ( WP_Filesystem() ) {
+		global $wp_filesystem;
 		$wp_filesystem->put_contents( $filepath, $content );
 
 	} else {

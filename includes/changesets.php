@@ -19,6 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 function show_changesets_since( string $current ) {
 	// Let's define all the changesets, this way, we can easily translate them, and most importantly show what changed since the previous version.
 	$all = array(
+		__( '0.2.1 : Important critical fixes', 'einvoicing-for-woocommerce' ) => array(
+			__( 'This version adds the possibility to view the project changes.', 'einvoicing-for-woocommerce' ),
+			__( 'Fixed refresh preview.', 'einvoicing-for-woocommerce' ),
+			__( 'Fixed error while attaching invoice to email.', 'einvoicing-for-woocommerce' ),
+		),
 		__( '0.2.0 : Bulk invoices download', 'einvoicing-for-woocommerce' ) => array(
 			__( 'This version adds the possibility to download multiple e-invoices in a Zip package from the WooCommerce orders list table.', 'einvoicing-for-woocommerce' ),
 			__( 'After each upgrade, an admin notice will display the changes since the previously installed version.', 'einvoicing-for-woocommerce' ),
@@ -65,7 +70,9 @@ function show_changesets_since( string $current ) {
 		},
 		ARRAY_FILTER_USE_KEY
 	);
-	start_branded_notice();
+	if ( '0' !== $current ) {
+		start_branded_notice();
+	}
 	?>
 	<h3><?php echo esc_html__( 'Thank you for upgrading E-Invoicing For WooCommerce', 'einvoicing-for-woocommerce' ); ?></h3>
 	<p><?php echo esc_html__( 'Please take notice of what changed :', 'einvoicing-for-woocommerce' ); ?></p> 
@@ -81,7 +88,10 @@ function show_changesets_since( string $current ) {
 			}
 		}
 	}
-	end_branded_notice();
+	if ( '0' !== $current ) {
+		end_branded_notice();
+	}
+
 }
 
 /**
@@ -121,3 +131,25 @@ function db_check() {
 }
 
 add_action( 'admin_notices', __NAMESPACE__ . '\db_check' );
+
+
+add_action(
+	'admin_menu',
+	function() {
+		add_submenu_page(
+			null,
+			'E-Invoicing For Woo changesets',
+			'E-Invoicing For Woo changesets',
+			'manage_options',
+			'einvoicing-changes',
+			__NAMESPACE__ . '\all_changesets'
+		);
+	}
+);
+
+/**
+ * Show all changesets page
+ */
+function all_changesets() {
+	show_changesets_since( '0' );
+}

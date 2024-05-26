@@ -187,6 +187,7 @@ class Invoice_Customizer extends Customizer_Helper {
 			$this->min_capability,
 			$link
 		);
+
 	}
 
 
@@ -333,7 +334,6 @@ class Invoice_Customizer extends Customizer_Helper {
 					'description' => __( 'Choose a color that forms the backdrop of your invoice for a cohesive brand look.', 'einvoicing-for-woocommerce' ),
 					'section'     => 'general',
 					'control'     => 'color',
-					'transport'   => 'postMessage',
 					'selectors'   => '.container',
 					'default'     => $this->get_defaults( 'main_bg_color' ),
 				),
@@ -395,7 +395,6 @@ class Invoice_Customizer extends Customizer_Helper {
 					'description' => __( 'Upload your company logo for brand recognition.', 'einvoicing-for-woocommerce' ),
 					'section'     => 'header_invoice',
 					'control'     => 'image',
-					'transport'   => 'postMessage',
 					'selectors'   => '#invoice_logo',
 					'default'     => $this->get_defaults( 'logo' ),
 				),
@@ -417,7 +416,6 @@ class Invoice_Customizer extends Customizer_Helper {
 					'description' => __( 'Select a color for the header that complements your logo and enhances the header text.', 'einvoicing-for-woocommerce' ),
 					'section'     => 'header_invoice',
 					'control'     => 'color',
-					'transport'   => 'postMessage',
 					'selectors'   => '.fx-invoice-head',
 					'default'     => $this->get_defaults( 'head_bg_color' ),
 				),
@@ -427,7 +425,7 @@ class Invoice_Customizer extends Customizer_Helper {
 					'description' => __( 'Choose a text color that provides sufficient contrast against the header background for easy reading.', 'einvoicing-for-woocommerce' ),
 					'section'     => 'header_invoice',
 					'control'     => 'color',
-					'transport'   => 'postMessage',
+
 					'selectors'   => '.fx-invoice-shop-info',
 					'default'     => $this->get_defaults( 'head_txt_color' ),
 				),
@@ -557,7 +555,6 @@ class Invoice_Customizer extends Customizer_Helper {
 					'description' => __( 'Choose a background color for the invoice details area to create visual distinction from other sections.', 'einvoicing-for-woocommerce' ),
 					'section'     => 'details_invoice',
 					'control'     => 'color',
-					'transport'   => 'postMessage',
 					'selectors'   => '.fx-invoice-shipping',
 					'default'     => $this->get_defaults( 'details_invoice_bg' ),
 				),
@@ -567,7 +564,7 @@ class Invoice_Customizer extends Customizer_Helper {
 					'description' => __( 'Pick a color for the main body of text that ensures easy reading against the background.', 'einvoicing-for-woocommerce' ),
 					'section'     => 'details_invoice',
 					'control'     => 'color',
-					'transport'   => 'postMessage',
+
 					'selectors'   => '.fx-invoice-shipping',
 					'default'     => $this->get_defaults( 'details_invoice_txt' ),
 				),
@@ -577,7 +574,7 @@ class Invoice_Customizer extends Customizer_Helper {
 					'description' => __( 'Set a distinct color for the detail section titles to separate them from other text and enhance hierarchy.', 'einvoicing-for-woocommerce' ),
 					'section'     => 'details_invoice',
 					'control'     => 'color',
-					'transport'   => 'postMessage',
+
 					'selectors'   => '.fx-invoice-shipping',
 					'default'     => $this->get_defaults( 'details_invoice_title' ),
 				),
@@ -611,7 +608,6 @@ class Invoice_Customizer extends Customizer_Helper {
 				// FOOTER.
 				array(
 					'id'          => 'footer',
-					'transport'   => 'postMessage',
 					'selectors'   => '#footer_text',
 					'label'       => __( 'Type your footer message', 'einvoicing-for-woocommerce' ),
 					'description' => __( 'Enter any legal information, notes of thanks, or company details here.', 'einvoicing-for-woocommerce' ),
@@ -625,7 +621,6 @@ class Invoice_Customizer extends Customizer_Helper {
 					'description' => __( 'Choose a background color that complements the header and provides a visual anchor for your invoice.', 'einvoicing-for-woocommerce' ),
 					'section'     => 'general',
 					'control'     => 'color',
-					'transport'   => 'postMessage',
 					'section'     => 'footer_section',
 					'selectors'   => '.fx-footer .fx-container',
 					'default'     => $this->get_defaults( 'main_bg_color' ),

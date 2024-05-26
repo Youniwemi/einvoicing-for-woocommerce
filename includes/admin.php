@@ -15,6 +15,7 @@ define( 'WOOEI_ZIP_EXPORT_PATH', 'tmp_invoice-zip-' );
 
 use \Automattic\WooCommerce\Utilities\FeaturesUtil;
 use WC_Abstract_Order;
+use ZipArchive;
 
 
 /**
@@ -259,7 +260,7 @@ add_filter( 'bulk_actions-edit-shop_order', __NAMESPACE__ . '\add_bulk_download_
  * @return     array The actions.
  */
 function add_bulk_download_item( $actions ) {
-	if ( class_exists( 'ZipArchive' ) ) {
+	if ( class_exists( ZipArchive::class ) ) {
 		$actions['download_invoices'] = __( 'Download invoices', 'einvoicing-for-woocommerce' );
 	}
 	return $actions;
@@ -282,16 +283,16 @@ function downloads_handle_bulk( $redirect_to, $action, $post_ids ) {
 	if ( 'download_invoices' !== $action ) {
 		return $redirect_to;
 	}
-	if ( ! class_exists( 'ZipArchive' ) ) {
+	if ( ! class_exists( ZipArchive::class ) ) {
 		wp_die( esc_html__( 'ZipArchive not present, please check your configuration', 'einvoicing-for-woocommerce' ) );
 	}
-	$zip        = new \ZipArchive();
+	$zip        = new ZipArchive();
 	$upload_dir = wp_upload_dir();
 	$date       = gmdate( 'hidmY' );
 	$filepath   = $date . '/' . "export-$date.zip";
 	$temp_zip   = $upload_dir['basedir'] . '/' . WOOEI_ZIP_EXPORT_PATH . $filepath;
 	ensure_directory_exists( dirname( $temp_zip ) );
-	if ( $zip->open( $temp_zip, \ZipArchive::CREATE ) === true ) {
+	if ( $zip->open( $temp_zip, ZipArchive::CREATE ) === true ) {
 		foreach ( $post_ids as $post_id ) {
 			$order           = wc_get_order( $post_id );
 			$invoice_content = render_invoice( $order, false );
