@@ -293,6 +293,9 @@ class Invoice_Customizer extends Customizer_Helper {
 				'template'               => __( 'Ready-to-Use designs', 'einvoicing-for-woocommerce' ),
 
 				// GENERAL STYLE (BACKGROUND MAIL COLOR,FONT FAMILY...).
+				'fields'                 => __( 'Fields visibility', 'einvoicing-for-woocommerce' ),
+
+				// GENERAL STYLE (BACKGROUND MAIL COLOR,FONT FAMILY...).
 				'general'                => __( 'Global style options', 'einvoicing-for-woocommerce' ),
 
 				// INVOICE HEADER (LOGO & INVOICE INFORMATION).
@@ -325,6 +328,32 @@ class Invoice_Customizer extends Customizer_Helper {
 					'choices'     => self::get_prebuilt_templates(),
 					'default'     => 'black',
 					'transport'   => 'refresh',
+				),
+
+				array(
+					'id'         => 'fields',
+					'label'      => __( 'Setup fields visibility', 'einvoicing-for-woocommerce' ),
+					'section'    => 'fields',
+					'default'    => array(),
+					'components' => array(
+						'display_phone' => array(
+
+							'label'       => __( 'Display client phone number', 'einvoicing-for-woocommerce' ),
+							'description' => __( 'Hide or displays the customer phone number', 'einvoicing-for-woocommerce' ),
+							'section'     => 'fields',
+							'type'        => 'checkbox',
+							'default'     => false,
+						),
+
+						'display_email' => array(
+
+							'label'       => __( 'Display client email number', 'einvoicing-for-woocommerce' ),
+							'description' => __( 'Hide or displays the customer email number', 'einvoicing-for-woocommerce' ),
+							'section'     => 'fields',
+							'type'        => 'checkbox',
+							'default'     => false,
+						),
+					),
 				),
 
 				// GENERAL STYLE (BACKGROUND MAIL COLOR,FONT FAMILY...).
@@ -410,6 +439,7 @@ class Invoice_Customizer extends Customizer_Helper {
 						'max' => 300,
 					),
 				),
+
 				array(
 					'id'          => 'head_bg_color',
 					'label'       => __( 'Select header background color', 'einvoicing-for-woocommerce' ),

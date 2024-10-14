@@ -170,7 +170,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	.order-details .quantity,
 	.order-details .price,
 	.order-details .total {
-		width: 15%;
+		width: 14%;
 	}
 
 	table.order-details{ 
@@ -210,14 +210,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		background-color:<?php echo esc_attr( $main_bg_color ); ?>;
 	}
 
-	table.totals {
-		width: 100%;
-		margin-top: 5mm;
+	table.order-details  .totals .no-borders {
+		padding: 2.5mm !important;
 	}
 
-	table.totals .price {
-		width: 50%;
-	}
+
 	/***************** CUSTOMER NOTE SECTION ******************/
 	.customer-notes {
 		padding: 0 15px 0px 0;
@@ -286,10 +283,10 @@ do_action( 'wooei_before_document', $this->order );
 					 */
 					do_action( 'wooei_after_billing_address', $this->order );
 					?>
-					<?php if ( isset( $this->settings['display_email'] ) ) : ?>
+					<?php if ( isset( $fields['display_email'] ) && $fields['display_email'] ) : ?>
 						<div class="billing-email"><?php echo esc_html( $this->get_billing_email() ); ?></div>
 					<?php endif; ?>
-					<?php if ( isset( $this->settings['display_phone'] ) ) : ?>
+					<?php if ( isset( $fields['display_phone'] ) && $fields['display_phone'] ) : ?>
 						<div class="billing-phone"><?php echo esc_html( $this->get_billing_phone() ); ?></div>
 					<?php endif; ?>
 				</div>
@@ -315,7 +312,7 @@ do_action( 'wooei_before_document', $this->order );
 					 */
 					do_action( 'wooei_after_shipping_address', $this->order );
 					?>
-					<?php if ( isset( $this->settings['display_phone'] ) ) : ?>
+					<?php if ( isset( $fields['display_phone'] ) ) : ?>
 						<div class="shipping-phone"><?php echo esc_html( $this->get_shipping_phone() ); ?></div>
 					<?php endif; ?>
 				</div>
@@ -335,13 +332,13 @@ do_action( 'wooei_before_document', $this->order );
 						 */
 						do_action( 'wooei_before_order_data', $this->order );
 						?>
-						<?php if ( isset( $this->settings['display_number'] ) ) : ?>
+						<?php if ( isset( $fields['display_invoice_number'] ) && $fields['display_invoice_number'] ) : ?>
 							<div class="invoice-number">
 							<?php echo esc_html( $this->get_number_title() ); ?>
 							<?php echo esc_html( $this->get_invoice_number() ); ?>
 							</div>
 						<?php endif; ?>
-						<?php if ( isset( $this->settings['display_date'] ) ) : ?>
+						<?php if ( isset( $fields['display_invoice_date'] ) && $fields['display_invoice_date'] ) : ?>
 							<div class="invoice-date">
 							<?php echo esc_html( $this->get_date_title() ); ?>
 							<?php echo esc_html( $this->get_date_paid() ? $this->get_date_paid()->format( 'd-m-Y' ) : 'Not paid' ); ?>
@@ -416,9 +413,10 @@ do_action( 'wooei_before_document', $this->order );
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
-				<tfoot>
-					<tr class="no-borders">
-						<td class="no-borders"  colspan="2">
+				<tfoot class="totals">
+					<tr><td class="no-borders" colspan="4" ></td></tr>
+					<tr>
+						<td class="no-borders"  colspan="1" rowspan="<?php echo count( $this->order->get_order_item_totals() ) + 1; ?>">
 							<div class="customer-notes">
 								<?php if ( $this->get_customer_note() ) : ?>
 									<h3><?php esc_html_e( 'Customer Notes', 'einvoicing-for-woocommerce' ); ?></h3>
@@ -426,19 +424,13 @@ do_action( 'wooei_before_document', $this->order );
 								<?php endif; ?>
 							</div>                
 						</td>
-						<td class="no-borders" colspan="2">
-							<table class="totals">
-								<tfoot>
-									<?php foreach ( $this->order->get_order_item_totals() as $key => $total ) : ?>
-										<tr class="<?php echo esc_attr( $key ); ?>">
-											<th class="description"><?php echo esc_html( $total['label'] ); ?></th>
-											<td class="price"><span class="totals-price"><?php echo wp_kses_post( $total['value'] ); ?></span></td>
-										</tr>
-									<?php endforeach; ?>
-								</tfoot>
-							</table>
-						</td>
 					</tr>
+					<?php foreach ( $this->order->get_order_item_totals() as $key => $total ) : ?>
+						<tr class="<?php echo esc_attr( $key ); ?>">
+							<th colspan="2" class="description"><?php echo esc_html( $total['label'] ); ?></th>
+							<td class="price"><span class="totals-price"><?php echo wp_kses_post( $total['value'] ); ?></span></td>
+						</tr>
+					<?php endforeach; ?>
 				</tfoot>
 			</table>
 			<?php

@@ -252,6 +252,7 @@ add_action(
 
 // Adding to order list bulk invoice download item.
 add_filter( 'bulk_actions-edit-shop_order', __NAMESPACE__ . '\add_bulk_download_item', 20, 1 );
+add_filter( 'bulk_actions-woocommerce_page_wc-orders', __NAMESPACE__ . '\add_bulk_download_item', 20, 1 );
 /**
  * Add Bulk download Item
  *
@@ -270,6 +271,8 @@ function add_bulk_download_item( $actions ) {
 
 // Make the action from selected orders.
 add_filter( 'handle_bulk_actions-edit-shop_order', __NAMESPACE__ . '\downloads_handle_bulk', 10, 3 );
+add_filter( 'handle_bulk_actions-woocommerce_page_wc-orders', __NAMESPACE__ . '\downloads_handle_bulk', 10, 3 );
+
 /**
  * Create a zip for selected post_ids
  *

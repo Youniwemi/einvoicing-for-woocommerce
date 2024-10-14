@@ -7,7 +7,7 @@
     "ext-iconv": "*",
     "dompdf/dompdf": "^2.0",
     "youniwemi/digital-invoice": "dev-master",
-    "freemius/wordpress-sdk": "^2.6"
+    "freemius/wordpress-sdk": "^2.8"
   },
   "repositories": [
     {
