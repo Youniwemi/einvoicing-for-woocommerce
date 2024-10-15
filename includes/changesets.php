@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function show_changesets_since( string $current ) {
 	// Let's define all the changesets, this way, we can easily translate them, and most importantly show what changed since the previous version.
 	$all = array(
+		__( '0.2.3 : Fix fatal error after the plugin upgrade.', 'einvoicing-for-woocommerce' ) => null,
 		__( '0.2.2 : Minor Improvements', 'einvoicing-for-woocommerce' ) => array(
 			__( 'Updated tested Wordpress up to version.', 'einvoicing-for-woocommerce' ),
 			__( 'Added option to support adding phone number and email to the invoice', 'einvoicing-for-woocommerce' ),

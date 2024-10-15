@@ -5,7 +5,7 @@ Requires at least: 5.0
 Tested up to: 6.6.2
 Requires PHP: 8.1
 License: GPL
-Stable tag: 0.2.2
+Stable tag: 0.2.3
 
 Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and other e-invoicing standards.
 

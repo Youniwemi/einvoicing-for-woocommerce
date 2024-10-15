@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-10-14 23:40+0100\n"
+"POT-Creation-Date: 2024-10-15 19:56+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Rahal <rahal.aboulfeth@gmail.com>\n"
 "Language-Team: \n"
@@ -125,158 +125,162 @@ msgid "Click to download"
 msgstr ""
 
 #: includes/changesets.php:22
-msgid "0.2.2 : Minor Improvements"
+msgid "0.2.3 : Fix fatal error after the plugin upgrade."
 msgstr ""
 
 #: includes/changesets.php:23
-msgid "Updated tested Wordpress up to version."
+msgid "0.2.2 : Minor Improvements"
 msgstr ""
 
 #: includes/changesets.php:24
+msgid "Updated tested Wordpress up to version."
+msgstr ""
+
+#: includes/changesets.php:25
 msgid "Added option to support adding phone number and email to the invoice"
 msgstr ""
 
-#: includes/changesets.php:27
+#: includes/changesets.php:28
 msgid "0.2.1 : Important critical fixes"
 msgstr ""
 
-#: includes/changesets.php:28
+#: includes/changesets.php:29
 msgid "This version adds the possibility to view the project changes."
 msgstr ""
 
-#: includes/changesets.php:29
+#: includes/changesets.php:30
 msgid "Fixed refresh preview."
 msgstr ""
 
-#: includes/changesets.php:30
+#: includes/changesets.php:31
 msgid "Fixed error while attaching invoice to email."
 msgstr ""
 
-#: includes/changesets.php:32
+#: includes/changesets.php:33
 msgid "0.2.0 : Bulk invoices download"
 msgstr ""
 
-#: includes/changesets.php:33
+#: includes/changesets.php:34
 msgid "This version adds the possibility to download multiple e-invoices in a Zip package from the WooCommerce orders list table."
 msgstr ""
 
-#: includes/changesets.php:34
+#: includes/changesets.php:35
 msgid "After each upgrade, an admin notice will display the changes since the previously installed version."
 msgstr ""
 
-#: includes/changesets.php:36
+#: includes/changesets.php:37
 msgid "0.1.9 : Minor Improvements"
 msgstr ""
 
-#: includes/changesets.php:37
+#: includes/changesets.php:38
 msgid "Prices in the invoice table now utilize WooCommerce formatting for consistency."
 msgstr ""
 
-#: includes/changesets.php:38
+#: includes/changesets.php:39
 msgid "Corrected an issue where the footer was not properly aligned in the Preview mode."
 msgstr ""
 
-#: includes/changesets.php:40
+#: includes/changesets.php:41
 msgid "0.1.8 : Fix translation loading and added WooCommerce as a plugin dependency"
 msgstr ""
 
-#: includes/changesets.php:41
+#: includes/changesets.php:42
 msgid "0.1.7 : Fix arabic caracters in pdf invoice"
 msgstr ""
 
-#: includes/changesets.php:42
+#: includes/changesets.php:43
 msgid "0.1.6 : Fix adding invoice to emails as attachements"
 msgstr ""
 
-#: includes/changesets.php:43
+#: includes/changesets.php:44
 msgid "Updated tested Wordpress up to version"
 msgstr ""
 
-#: includes/changesets.php:44
+#: includes/changesets.php:45
 msgid "Fixed typos in readme"
 msgstr ""
 
-#: includes/changesets.php:46
+#: includes/changesets.php:47
 msgid "0.1.5 : Allow E-Invoices to be attached to more WooCommerce Emails"
 msgstr ""
 
-#: includes/changesets.php:47
+#: includes/changesets.php:48
 msgid "Updated tested WooCommerce up to version"
 msgstr ""
 
-#: includes/changesets.php:48
+#: includes/changesets.php:49
 msgid "Updated translations"
 msgstr ""
 
-#: includes/changesets.php:50
+#: includes/changesets.php:51
 msgid "0.1.4 : Applying Wordpress Plugin review team feedback"
 msgstr ""
 
-#: includes/changesets.php:51
+#: includes/changesets.php:52
 msgid "Multiple sanitization and escaping fixes."
 msgstr ""
 
-#: includes/changesets.php:52
+#: includes/changesets.php:53
 msgid "Use WOOEI as unique prefix."
 msgstr ""
 
-#: includes/changesets.php:54
+#: includes/changesets.php:55
 msgid "0.1.3 : Minor style adjustments."
 msgstr ""
 
-#: includes/changesets.php:55
+#: includes/changesets.php:56
 msgid "0.1.2 : Renamed slug to comply with the naming guidelines."
 msgstr ""
 
-#: includes/changesets.php:56
+#: includes/changesets.php:57
 msgid "0.1.1 : Added PHP extensions (gd, mbstring, iconv and dom) verification before loading the plugin."
 msgstr ""
 
-#: includes/changesets.php:57
+#: includes/changesets.php:58
 msgid "0.1.0 : Introduced support for the UBL format, expanding e-invoicing capabilities."
 msgstr ""
 
-#: includes/changesets.php:58
+#: includes/changesets.php:59
 msgid "0.0.9 : Implemented role-based access control, allowing customization of minimum capabilities required for setting up the plugin."
 msgstr ""
 
-#: includes/changesets.php:59
+#: includes/changesets.php:60
 msgid "0.0.8 : Resolved compatibility issues with the Astra WordPress theme."
 msgstr ""
 
-#: includes/changesets.php:60
+#: includes/changesets.php:61
 msgid "0.0.7 : Minor fixes to improve the user experience."
 msgstr ""
 
-#: includes/changesets.php:61
+#: includes/changesets.php:62
 msgid "0.0.6 : Confirmed compatibility with WooCommerce 8.4"
 msgstr ""
 
-#: includes/changesets.php:62
+#: includes/changesets.php:63
 msgid "Declare compatibility with **High performance order tables**"
 msgstr ""
 
-#: includes/changesets.php:64
+#: includes/changesets.php:65
 msgid "0.0.5 : Improved the plugin onboarding experience"
 msgstr ""
 
-#: includes/changesets.php:64
+#: includes/changesets.php:65
 msgid "Nice instructive notices, better captions and labels."
 msgstr ""
 
-#: includes/changesets.php:65
+#: includes/changesets.php:66
 msgid "0.0.1 : Initial release of E-Invoicing for WooCommerce"
 msgstr ""
 
-#: includes/changesets.php:66
+#: includes/changesets.php:67
 msgid "Initial release, PDF Invoice Customizer supporting Factur-X and ZUGFeRD formats, ensuring compliance with French and German e-invoicing standards."
 msgstr ""
 
-#: includes/changesets.php:82
+#: includes/changesets.php:83
 msgid "Thank you for upgrading E-Invoicing For WooCommerce"
 msgstr ""
 
-#: includes/changesets.php:83
+#: includes/changesets.php:84
 msgid "Please take notice of what changed :"
 msgstr ""
 

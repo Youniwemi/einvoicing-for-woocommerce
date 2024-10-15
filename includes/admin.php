@@ -229,10 +229,10 @@ add_filter(
  * @param      array $response  The response.
  */
 function prefix_plugin_update_message( $data, $response ) {
-	if ( isset( $response['upgrade_notice'] ) ) {
+	if ( isset( $response->upgrade_notice ) ) {
 		printf(
 			'<div class="update-message">%s</div>',
-			wp_kses_post( wpautop( $response['upgrade_notice'] ) )
+			wp_kses_post( wpautop( $response->upgrade_notice ) )
 		);
 	}
 }
