@@ -34,7 +34,7 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 	$invoice->setSeller(
 		get_option( 'wooei_id_company' ),
 		(string) get_option( 'wooei_id_type' ),
-		get_bloginfo( 'name' )
+		get_option( 'wooei_company_name', get_bloginfo( 'name' ) )
 	);
 
 	$invoice->setSellerContact(

@@ -77,6 +77,12 @@ class Settings extends WC_Settings_Page {
 				'desc' => __( 'Provide your legally recognized business details for identification and verification.', 'einvoicing-for-woocommerce' ),
 				'id'   => $this->id . '_settings_company',
 			),
+			'company_name'           => array(
+				'name' => __( 'Company Name', 'einvoicing-for-woocommerce' ),
+				'type' => 'text',
+				'desc' => __( 'Enter the company name to show in your invoices.', 'einvoicing-for-woocommerce' ),
+				'id'   => $this->id . '_company_name',
+			),
 			'id_company'             => array(
 				'name' => __( 'Company Identification Number', 'einvoicing-for-woocommerce' ),
 				'type' => 'text',

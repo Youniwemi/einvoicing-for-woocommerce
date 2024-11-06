@@ -158,7 +158,7 @@ class PdfInvoice {
 				/* translators: 1: Invoice Number */
 				return sprintf( __( 'Invoice #%s', 'einvoicing-for-woocommerce' ), $this->order->get_id() );
 			case 'shop_name':
-				return get_bloginfo( 'name' );
+				return get_option( 'wooei_company_name', get_bloginfo( 'name' ) );
 
 			case 'shop_address':
 				$countries = WC()->countries;
