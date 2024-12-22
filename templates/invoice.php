@@ -274,7 +274,9 @@ do_action( 'wooei_before_document', $this->order );
 				<h2 class="fx-invoice-title"><?php esc_html_e( 'Billing to:', 'einvoicing-for-woocommerce' ); ?></h2>
 				<div class="address billing-address">
 					<div class="billing-nane"><?php echo esc_html( $this->get_billing_to() ); ?></div>
-					<?php echo esc_html( $this->get_billing_address_1() ); ?>
+					<div class="customer-billing-address">
+					<?php echo wp_kses_post( $this->get_billing_address() ); ?>
+					</div>
 					<?php
 					/**
 					 * After billing address
@@ -303,7 +305,9 @@ do_action( 'wooei_before_document', $this->order );
 					 */
 					do_action( 'wooei_before_shipping_address', $this->order );
 					?>
-					<?php echo esc_html( $this->get_shipping_address_1() ); ?>
+					<div class="customer-shipping-address">
+					<?php echo esc_html( $this->get_shipping_address() ); ?>
+					</div>
 					<?php
 					/**
 					 * After Shipping Address

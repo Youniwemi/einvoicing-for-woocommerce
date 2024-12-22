@@ -2,10 +2,10 @@
 Contributors: rahal.aboulfeth
 Tags: e-invoicing, factur-x, UBL, invoices, WooCommerce
 Requires at least: 5.0
-Tested up to: 6.6.2
+Tested up to: 6.7.1
 Requires PHP: 8.1
 License: GPL
-Stable tag: 0.2.4
+Stable tag: 0.2.5
 
 Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and other e-invoicing standards.
 
@@ -39,7 +39,7 @@ Customize your WooCommerce PDF invoices and enable FacturX, UBL, ZUGFeRD, and XR
 
 1. Go to **WooCommerce > Settings > E-Invoicing settings** to access the plugin settings.
 2. Customize your PDF invoices according to your preferences.
-3. Enable Factur-X, UBL, ZUGFeRD or Xrechnung formats for compliance with your e-invoicing regulations.
+3. Enable Factur-X, UBL, ZUGFeRD or Xrechnung einvoice formats for compliance with your e-invoicing regulations.
 
 == Support and Compatibility ==
 
@@ -50,6 +50,10 @@ Big Thanks to :
 - [Youniwemi](https://packagist.org/packages/youniwemi/digital-invoice) for Digital Invoice - Easy wrapper around easybill/zugferd-php, atgp/factur-x and josemmo/einvoicing  that will allow you generate Factur-x and UBL in a very easy way.
 
 == Changelog ==
+= 0.2.5 : PDF Invoice, added missing customer info
+* Pdf Invoice now displays extensive billing and shipping information (company name, address line 1, address line 2, city, postal code, state, country)
+* Fixed compatibility with OceanWp theme.
+* Updated tested Wordpress and WooCommerce up to version.
 = 0.2.4 : Welcome to the spanish translation
 * Added the possiblity to set a company name different than the shop name.
 * Added spanish translation

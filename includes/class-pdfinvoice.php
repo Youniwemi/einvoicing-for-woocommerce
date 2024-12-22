@@ -151,6 +151,38 @@ class PdfInvoice {
 			case 'get_billing_last_name':
 				return $this->order->$method();
 
+			case 'get_billing_address':
+				return implode(
+					'<br/>',
+					array_filter(
+						array(
+							$this->order->get_billing_company(),
+							$this->order->get_billing_address_1(),
+							$this->order->get_billing_address_2(),
+							$this->order->get_billing_city(),
+							$this->order->get_billing_postcode(),
+							$this->order->get_billing_state(),
+							$this->order->get_billing_country(),
+						)
+					)
+				);
+
+			case 'get_shipping_address':
+				return implode(
+					'<br/>',
+					array_filter(
+						array(
+							$this->order->get_shipping_company(),
+							$this->order->get_shipping_address_1(),
+							$this->order->get_shipping_address_2(),
+							$this->order->get_shipping_city(),
+							$this->order->get_shipping_postcode(),
+							$this->order->get_shipping_state(),
+							$this->order->get_shipping_country(),
+						)
+					)
+				);
+
 			case 'get_billing_to':
 				return $this->order->get_billing_first_name() . ' ' . $this->order->get_billing_last_name();
 

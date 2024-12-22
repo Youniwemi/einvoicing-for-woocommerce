@@ -88,7 +88,8 @@ class Invoice_Customizer extends Customizer_Helper {
 	/**
 	 * Loads a template.
 	 */
-	protected function load_template() {
+	public function load_template() {
+
 		check_ajax_referer( 'wooei_load_template_nonce', 'wooei_load_template_nonce' );
 		if ( empty( $_POST['template'] ) ) {
 			die( 1 );
@@ -96,6 +97,7 @@ class Invoice_Customizer extends Customizer_Helper {
 		$template = sanitize_text_field( wp_unslash( $_POST['template'] ) );
 
 		$settings = static::get_template_defaults( $template );
+
 		if ( $settings ) {
 			$saved             = get_option( static::$settings_option );
 			$saved['template'] = $template;

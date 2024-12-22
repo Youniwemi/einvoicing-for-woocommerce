@@ -19,6 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 function show_changesets_since( string $current ) {
 	// Let's define all the changesets, this way, we can easily translate them, and most importantly show what changed since the previous version.
 	$all = array(
+		__( '0.2.5 : PDF Invoice Enhancements and Compatibility Fixes', 'einvoicing-for-woocommerce' ) => array(
+			__( 'PDF Invoice now displays extensive billing and shipping information (company name, address line 1, address line 2, city, postal code, state, country)', 'einvoicing-for-woocommerce' ),
+			__( 'Fixed compatibility with OceanWP theme', 'einvoicing-for-woocommerce' ),
+			__( 'Updated WordPress and WooCommerce compatibility to latest versions', 'einvoicing-for-woocommerce' ),
+		),
 		__( '0.2.4 : Welcome to the spanish translation', 'einvoicing-for-woocommerce' ) => array(
 			__( 'Added the possiblity to set a company name different than the shop name.', 'einvoicing-for-woocommerce' ),
 			__( 'Added spanish translation', 'einvoicing-for-woocommerce' ),
