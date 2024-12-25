@@ -306,7 +306,7 @@ do_action( 'wooei_before_document', $this->order );
 					do_action( 'wooei_before_shipping_address', $this->order );
 					?>
 					<div class="customer-shipping-address">
-					<?php echo esc_html( $this->get_shipping_address() ); ?>
+					<?php echo wp_kses_post( $this->get_shipping_address() ); ?>
 					</div>
 					<?php
 					/**

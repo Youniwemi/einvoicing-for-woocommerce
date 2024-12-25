@@ -27,6 +27,7 @@ use WP_Http;
 class PdfInvoice {
 
 
+
 	/**
 	 * Invoice html content
 	 *
@@ -267,7 +268,6 @@ class PdfInvoice {
 		header( 'Expires: 0' );
 		header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
 		header( 'Pragma: public' );
-
 	}
 
 	/**
@@ -280,6 +280,5 @@ class PdfInvoice {
 	public function format_money( $price ) {
 		$price = (float) $price;
 		return number_format( $price, $this->price_decimals, $this->price_decimal_separator, $this->price_thousand_separator );
-
 	}
 }

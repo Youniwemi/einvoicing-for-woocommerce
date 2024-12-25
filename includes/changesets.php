@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function show_changesets_since( string $current ) {
 	// Let's define all the changesets, this way, we can easily translate them, and most importantly show what changed since the previous version.
 	$all = array(
+		__( '0.2.6 : Fix bad escaping in delivery address.', 'einvoicing-for-woocommerce' ) => null,
 		__( '0.2.5 : PDF Invoice Enhancements and Compatibility Fixes', 'einvoicing-for-woocommerce' ) => array(
 			__( 'PDF Invoice now displays extensive billing and shipping information (company name, address line 1, address line 2, city, postal code, state, country)', 'einvoicing-for-woocommerce' ),
 			__( 'Fixed compatibility with OceanWP theme', 'einvoicing-for-woocommerce' ),
@@ -80,7 +81,7 @@ function show_changesets_since( string $current ) {
 
 	$changes = array_filter(
 		$all,
-		function( $title ) use ( $current ) {
+		function ( $title ) use ( $current ) {
 			list($version, $_title) = explode( ' : ', $title );
 			return version_compare( trim( $version ), $current ) > 0;
 		},
@@ -107,7 +108,6 @@ function show_changesets_since( string $current ) {
 	if ( '0' !== $current ) {
 		end_branded_notice();
 	}
-
 }
 
 /**
@@ -143,7 +143,6 @@ function db_check() {
 		}
 		delete_transient( 'wooei_just_upgraded' );
 	}
-
 }
 
 add_action( 'admin_notices', __NAMESPACE__ . '\db_check' );
@@ -151,7 +150,7 @@ add_action( 'admin_notices', __NAMESPACE__ . '\db_check' );
 
 add_action(
 	'admin_menu',
-	function() {
+	function () {
 		add_submenu_page(
 			null,
 			'E-Invoicing For Woo changesets',
