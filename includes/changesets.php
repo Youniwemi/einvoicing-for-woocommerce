@@ -19,6 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 function show_changesets_since( string $current ) {
 	// Let's define all the changesets, this way, we can easily translate them, and most importantly show what changed since the previous version.
 	$all = array(
+		__( '0.2.7 : Minor Improvements', 'einvoicing-for-woocommerce' ) => array(
+			__( 'Updated dependency digital-invoice dependency', 'einvoicing-for-woocommerce' ),
+			__( 'Pdf Invoice : Show date_modified when order is not paid', 'einvoicing-for-woocommerce' ),
+		),
 		__( '0.2.6 : Fix bad escaping in delivery address.', 'einvoicing-for-woocommerce' ) => null,
 		__( '0.2.5 : PDF Invoice Enhancements and Compatibility Fixes', 'einvoicing-for-woocommerce' ) => array(
 			__( 'PDF Invoice now displays extensive billing and shipping information (company name, address line 1, address line 2, city, postal code, state, country)', 'einvoicing-for-woocommerce' ),

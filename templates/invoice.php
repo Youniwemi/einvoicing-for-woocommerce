@@ -342,19 +342,13 @@ do_action( 'wooei_before_document', $this->order );
 							<?php echo esc_html( $this->get_invoice_number() ); ?>
 							</div>
 						<?php endif; ?>
-						<?php if ( isset( $fields['display_invoice_date'] ) && $fields['display_invoice_date'] ) : ?>
-							<div class="invoice-date">
-							<?php echo esc_html( $this->get_date_title() ); ?>
-							<?php echo esc_html( $this->get_date_paid() ? $this->get_date_paid()->format( 'd-m-Y' ) : 'Not paid' ); ?>
-							</div>
-						<?php endif; ?>
 						<div class="order-number">
 							<?php esc_html_e( 'Order Number:', 'einvoicing-for-woocommerce' ); ?>
 							<?php echo esc_html( $this->get_order_number() ); ?>
 						</div>
 						<div class="order-date">
 							<?php esc_html_e( 'Order Date:', 'einvoicing-for-woocommerce' ); ?>
-							<?php echo esc_html( $this->get_date_paid() ? $this->get_date_paid()->format( 'd-m-Y' ) : 'Not paid' ); ?>
+							<?php echo esc_html( $this->get_date_paid() ? $this->get_date_paid()->format( 'd-m-Y' ) : $this->get_date_modified()->format( 'd-m-Y' ) ); ?>
 						</div>
 						<?php
 						/**

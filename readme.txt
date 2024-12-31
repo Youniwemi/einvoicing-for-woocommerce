@@ -5,7 +5,7 @@ Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 8.1
 License: GPL
-Stable tag: 0.2.6
+Stable tag: 0.2.7
 
 Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and other e-invoicing standards.
 
@@ -50,11 +50,14 @@ Big Thanks to :
 - [Youniwemi](https://packagist.org/packages/youniwemi/digital-invoice) for Digital Invoice - Easy wrapper around easybill/zugferd-php, atgp/factur-x and josemmo/einvoicing  that will allow you generate Factur-x and UBL in a very easy way.
 
 == Changelog ==
-= 0.2.6 : Fix bad escaping in delivery address.
-= 0.2.5 : PDF Invoice, added missing customer info
-* Pdf Invoice now displays extensive billing and shipping information (company name, address line 1, address line 2, city, postal code, state, country)
-* Fixed compatibility with OceanWp theme.
-* Updated tested Wordpress and WooCommerce up to version.
+= 0.2.7 : Happy new year and Thank you all for your support. 
+* Updated dependency digital-invoice dependency
+* Pdf Invoice : Show date_modified when order is not paid
+= 0.2.6 : Fix bad escaping in delivery address. 
+= 0.2.5 : PDF Invoice Enhancements and Compatibility Fixes
+* PDF Invoice now displays extensive billing and shipping information (company name, address line 1, address line 2, city, postal code, state, country)
+* Fixed compatibility with OceanWP theme
+* Updated WordPress and WooCommerce compatibility to latest versions
 = 0.2.4 : Welcome to the spanish translation
 * Added the possiblity to set a company name different than the shop name.
 * Added spanish translation
