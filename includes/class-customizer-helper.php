@@ -13,11 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WP_Customize_Manager;
 
-
 /**
  * WordPress Customizer helper
  */
 abstract class Customizer_Helper {
+
+
 
 	/**
 	 * Defaults
@@ -80,7 +81,6 @@ abstract class Customizer_Helper {
 		if ( $this->is_preview_or_customization() ) {
 			// Ensure we can selectively refresh widgets.
 			add_action( 'customize_preview_init', array( $this, 'customize_preview_init' ), 0 );
-
 		}
 	}
 
@@ -362,7 +362,7 @@ abstract class Customizer_Helper {
 		global $wp_filter;
 		foreach ( $wp_filter[ $action ]->callbacks as $priority => $callbacks ) {
 			foreach ( $callbacks as $order => $callback ) {
-				if ( is_object( $callback['function'][0] ) ) {
+				if ( is_array( $callback['function'] ) && is_object( $callback['function'][0] ) ) {
 					$object = get_class( $callback['function'][0] );
 					$method = $callback['function'][1];
 					if ( in_array( array( $object, $method ), $except, true ) ) {

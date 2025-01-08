@@ -17,11 +17,10 @@ use \Automattic\WooCommerce\Utilities\FeaturesUtil;
 use WC_Abstract_Order;
 use ZipArchive;
 
-
 /**
  * Starts a branded notice.
  */
-function start_branded_notice() { ?>
+function start_branded_notice() {   ?>
 <div class="notice notice-info is-dismissible" style="display:flex; align-items: center;column-gap:2em">
 	<div>
 		<img width="120" src="<?php echo esc_url( WOOEI_PLUGIN_ASSETS . '/images/logo-dark.png' ); ?>" />
@@ -47,7 +46,7 @@ function end_branded_notice() {
  * @return     string  The setting url.
  */
 function settings_url() {
-	return admin_url( 'admin.php?page=wc-settings&tab=einvoicing' );
+	return admin_url( 'admin.php?page=wc-settings&tab=wooei' );
 }
 
 
@@ -100,7 +99,7 @@ function onboarding_notice() {
 		<?php } ?> 
 			<p>
 		<?php if ( $just_installed || false === $configured ) : ?>
-				<a class="button-primary button" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=einvoicing' ) ); ?>"  ><?php echo esc_html( $setting_title ); ?></a>
+				<a class="button-primary button" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=wooei' ) ); ?>"  ><?php echo esc_html( $setting_title ); ?></a>
 		<?php endif; ?>
 		<?php if ( $just_installed || false === $customized ) : ?>
 				<a class="button <?php echo ( ! $just_installed && $configured ? 'button-primary' : '' ); ?>" href="<?php echo esc_url( Invoice_Customizer::customizer_link() ); ?>"  ><?php echo esc_html( $customize_title ); ?></a>
@@ -153,7 +152,6 @@ function add_invoice_download_links( string $column, $the_order ) {
 			$title    = $the_order->get_order_number();
 			echo '<a class="thickbox" href="' . esc_url( $preview ) . '" title="' . esc_attr__( 'Preview the invoice', 'einvoicing-for-woocommerce' ) . ' ' . esc_attr( $title ) . '"><span class="dashicons dashicons-visibility icon-preview-file fx-icon "></span></a>';
 			echo ' <a href="' . esc_url( $download ) . '" title="' . esc_attr__( 'Download the invoice', 'einvoicing-for-woocommerce' ) . '"><span class="dashicons dashicons-download"></span></a>';
-
 		}
 	}
 }
