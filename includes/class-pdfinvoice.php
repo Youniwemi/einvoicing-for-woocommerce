@@ -28,6 +28,8 @@ class PdfInvoice {
 
 
 
+
+
 	/**
 	 * Invoice html content
 	 *
@@ -191,8 +193,18 @@ class PdfInvoice {
 				return $this->order->get_billing_first_name() . ' ' . $this->order->get_billing_last_name();
 
 			case 'title':
+				$order_id = $this->order->get_id();
+				if ( has_invoice_numbering() ) {
+					$number = get_invoice_number( $this->order );
+
+					if ( null === $number ) {
+						return __( 'Not invoiced yet', 'einvoicing-for-woocommerce' );
+					}
+				} else {
+					$number = $order_id;
+				}
 				/* translators: 1: Invoice Number */
-				return sprintf( __( 'Invoice #%s', 'einvoicing-for-woocommerce' ), $this->order->get_id() );
+				return sprintf( __( 'Invoice #%s', 'einvoicing-for-woocommerce' ), $number );
 			case 'shop_name':
 				return get_option( 'wooei_company_name', get_bloginfo( 'name' ) );
 

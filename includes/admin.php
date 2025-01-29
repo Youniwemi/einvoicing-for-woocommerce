@@ -157,6 +157,26 @@ function add_invoice_download_links( string $column, $the_order ) {
 }
 
 /**
+ * Adds invoice number.
+ *
+ * @param      string $column     The column.
+ * @param      mixed  $the_order  The order.
+ */
+function add_invoice_number( string $column, $the_order ) {
+
+	if ( 'invoice_number' === $column ) {
+		if ( is_numeric( $the_order ) ) {
+			$the_order = wc_get_order( $the_order );
+		}
+		if ( $the_order instanceof WC_Abstract_Order ) {
+			$number = get_invoice_number( $the_order );
+			echo $number ? esc_html( $number ) : esc_html__( 'Not invoiced yet', 'einvoicing-for-woocommerce' );
+		}
+	}
+}
+
+
+/**
  * Adds invoice columns.
  *
  * @param array $columns The columns.
@@ -164,6 +184,9 @@ function add_invoice_download_links( string $column, $the_order ) {
  * @return array  The columns with added column.
  */
 function add_invoice_columns( array $columns ) {
+	if ( has_invoice_numbering() ) {
+		$columns['invoice_number'] = __( 'Invoice Number', 'einvoicing-for-woocommerce' );
+	}
 	$columns['invoice'] = __( 'Invoice', 'einvoicing-for-woocommerce' );
 	add_thickbox();
 	return $columns;
@@ -175,6 +198,9 @@ add_filter( 'manage_woocommerce_page_wc-orders_columns', __NAMESPACE__ . '\add_i
 
 add_action( 'manage_shop_order_posts_custom_column', __NAMESPACE__ . '\add_invoice_download_links', 10, 2 );
 add_action( 'manage_woocommerce_page_wc-orders_custom_column', __NAMESPACE__ . '\add_invoice_download_links', 10, 2 );
+
+add_action( 'manage_shop_order_posts_custom_column', __NAMESPACE__ . '\add_invoice_number', 10, 2 );
+add_action( 'manage_woocommerce_page_wc-orders_custom_column', __NAMESPACE__ . '\add_invoice_number', 10, 2 );
 
 
 /**
@@ -278,7 +304,7 @@ add_filter( 'handle_bulk_actions-woocommerce_page_wc-orders', __NAMESPACE__ . '\
  * @param      string $action       The action.
  * @param      string $post_ids     The post identifiers.
  *
- * @return     string  The filtred redirect url
+ * @return     string  The filtred redirect url.
  */
 function downloads_handle_bulk( $redirect_to, $action, $post_ids ) {
 	if ( 'download_invoices' !== $action ) {
@@ -339,3 +365,59 @@ function downloads_notice() {
 		printf( 'Exported file is not present' );
 	}
 }
+
+
+
+/**
+ * Adds an invoice number field.
+ *
+ * @param      WC_Abstract_Order $order  The order.
+ */
+function add_invoice_number_field( WC_Abstract_Order $order ) {
+	woocommerce_wp_text_input(
+		array(
+			'id'            => '_invoice_number',
+			'label'         => __( 'Invoice Number :', 'einvoicing-for-woocommerce' ),
+			'value'         => get_post_meta( $order->get_id(), '_invoice_number', true ),
+			'wrapper_class' => 'form-field-wide',
+		)
+	);
+}
+
+/**
+ * Saves an invoice number field.
+ *
+ * @param      int $order_id  The order identifier.
+ */
+function save_invoice_number_field( int $order_id ) {
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( empty( $_POST['woocommerce_meta_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['woocommerce_meta_nonce'] ), 'woocommerce_save_data' ) ) {
+		return;
+	}
+	if ( isset( $_POST['_invoice_number'] ) ) {
+		update_post_meta( $order_id, '_invoice_number', wp_unslash( (int) $_POST['_invoice_number'] ) );
+	}
+}
+
+/**
+ * Displays the invoice number
+ *
+ * @param      WC_Abstract_Order $order  The order.
+ */
+function display_invoice_number( WC_Abstract_Order $order ) {
+	$invoice_number = get_invoice_number( $order );
+	if ( $invoice_number ) {
+		echo '<p class="woocommerce-order-data__meta order_number"><strong>' . esc_html__( 'Invoice #', 'einvoicing-for-woocommerce' ) . '</strong>' . esc_html( $invoice_number ) . '</p>';
+	}
+}
+
+if ( has_invoice_numbering() ) {
+	// Add invoice number field to order edit page.
+	add_action( 'woocommerce_admin_order_data_after_order_details', __NAMESPACE__ . '\add_invoice_number_field' );
+	// Save custom invoice number.
+	add_action( 'woocommerce_process_shop_order_meta', __NAMESPACE__ . '\save_invoice_number_field' );
+
+	// Display the invoice number in the admin order details.
+	add_action( 'woocommerce_admin_order_data_after_payment_info', __NAMESPACE__ . '\display_invoice_number' );
+}
+

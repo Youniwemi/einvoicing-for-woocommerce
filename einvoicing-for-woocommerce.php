@@ -2,7 +2,7 @@
 /**
  * Plugin Name: E-Invoicing For WooCommerce
  * Plugin URI: https://www.woo-einvoicing.com
- * Version: 0.2.9
+ * Version: 0.3.0
  * Author: Instareza
  * Author URI: https://www.instareza.com
  * Description: Setup your WooCommerce PDF invoices effortlessly and ensure compliance with the latest electronic invoicing regulations! Enable Factur-X, UBL, ZUGFeRD and Xrechnung standards while customizing your invoices to reflect your brand.
@@ -10,7 +10,7 @@
  * Domain Path: /languages
  * Requires PHP: 8.1
  * Requires Plugins: woocommerce
- * Stable tag: 0.2.9
+ * Stable tag: 0.3.0
  *
  * WC requires at least: 7.0
  * WC tested up to: 9.5.1
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'WOOEI_VERSION', '0.2.9' );
+define( 'WOOEI_VERSION', '0.3.0' );
 define( 'WOOEI_PLUGIN_DIR', __DIR__ );
 define( 'WOOEI_PLUGIN_FILE', __FILE__ );
 define( 'WOOEI_VENDOR', WOOEI_PLUGIN_DIR . '/vendor/' );
@@ -80,7 +80,6 @@ function get_environment_warning() {
 
 	return false;
 }
-
 
 
 /**
@@ -139,10 +138,38 @@ function load() {
 		)
 	);
 
+	define( 'WOOEI_NUMBERING_ORDER', 'order_id' );
+	define( 'WOOEI_NUMBERING_INVOICE', 'invoice_number' );
+
+	define(
+		'WOOEI_NUMBERING_STRATEGY',
+		array(
+			WOOEI_NUMBERING_ORDER   => __( 'Use Order Number', 'einvoicing-for-woocommerce' ),
+			WOOEI_NUMBERING_INVOICE => __( 'Use sequential invoice number', 'einvoicing-for-woocommerce' ),
+		)
+	);
+
+	define( 'WOOEI_NUMBERING_NO_RESET', 'no' );
+	define( 'WOOEI_NUMBERING_RESET_YEAR', 'yearly' );
+
+	define(
+		'WOOEI_INVOICE_NUMBER_RESET',
+		array(
+			WOOEI_NUMBERING_NO_RESET   => __( 'Never', 'einvoicing-for-woocommerce' ),
+			WOOEI_NUMBERING_RESET_YEAR => __( 'Yearly', 'einvoicing-for-woocommerce' ),
+		)
+	);
+
 	include WOOEI_VENDOR . 'autoload.php';
 
 	// E-Invoicing functions.
 	include WOOEI_INCLUDES . '/e-invoice.php';
+
+	// Attachment Hooks.
+	include WOOEI_INCLUDES . '/attachments.php';
+
+	// Numbering functions and Hooks.
+	include WOOEI_INCLUDES . '/numbering.php';
 
 	// E-Invoice Pdf/Xml Generation.
 	include WOOEI_INCLUDES . '/class-pdfinvoice.php';

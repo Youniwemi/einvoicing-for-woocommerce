@@ -24,6 +24,8 @@ define( 'WOOEI_PERMISSION_MANAGER', 'manage_woocommerce' );
 class Invoice_Customizer extends Customizer_Helper {
 
 
+
+
 	/**
 	 * Settings option
 	 *
@@ -82,7 +84,6 @@ class Invoice_Customizer extends Customizer_Helper {
 		if ( $this->is_previewing ) {
 			add_action( 'template_redirect', array( $this, 'preview_invoice' ), 1 );
 		}
-
 	}
 
 	/**
@@ -132,7 +133,6 @@ class Invoice_Customizer extends Customizer_Helper {
 			);
 			include WOOEI_INCLUDES . 'compatibility.php';
 		}
-
 	}
 
 
@@ -189,7 +189,6 @@ class Invoice_Customizer extends Customizer_Helper {
 			$this->min_capability,
 			$link
 		);
-
 	}
 
 

@@ -5,7 +5,7 @@ Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 8.1
 License: GPL
-Stable tag: 0.2.9
+Stable tag: 0.3.0
 
 Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and other e-invoicing standards.
 
@@ -17,7 +17,7 @@ Customize your WooCommerce PDF invoices and enable FacturX, UBL, ZUGFeRD, and XR
 
 == Features ==
 
-- **PDF Invoice Customization:** Elevate your PDF invoices to match your brand identity, using the official wordpress customizer.
+- **PDF Invoice Customization:** Elevate your PDF invoices to match your brand identity with our native Invoice Designer, using the official wordpress customizer.
 - **Factur-X, UBL, ZUGFeRD and Xrechnung Formats:** Enable compliance with the latest e-invoicing regulations.
 - **Automatically attach invoice** PDF or Factur-X to WooCommerce emails of your choice.
 - **Effortless Integration:** Integrates with your existing WooCommerce setup.
@@ -43,14 +43,15 @@ Customize your WooCommerce PDF invoices and enable FacturX, UBL, ZUGFeRD, and XR
 
 == Support and Compatibility ==
 
-E-Invoicing for WooCommerce leverages the native WordPress Customizer, ensuring a user-friendly and familiar experience. We strive for extensive compatibility across installations, but understand that occasional issues may arise. Should you encounter any incompatibilities with your setup, please reach out without hesitation. Our team is committed to promptly addressing and resolving any concerns to enhance your overall experience.
+E-Invoicing for WooCommerce Invoice Designer leverages the native WordPress Customizer, ensuring a user-friendly and familiar experience. We strive for extensive compatibility across installations, but understand that occasional issues may arise. Should you encounter any incompatibilities with your setup, please reach out without hesitation. Our team is committed to promptly addressing and resolving any concerns to enhance your overall experience.
 
 
 == Screenshots ==
 1. Select E-invoice Format ( FacturX, UBL versions)
 2. PDF Invoice Customizer - available sections
 3. PDF Invoice Designer - Header
-3. PDF Invoice Designer - Footer
+4. PDF Invoice Designer - Footer
+5. Invoice numbering setup
 
 
 == Credits ==
@@ -58,6 +59,9 @@ Big Thanks to :
 - [Youniwemi](https://packagist.org/packages/youniwemi/digital-invoice) for Digital Invoice - Easy wrapper around easybill/zugferd-php, atgp/factur-x and josemmo/einvoicing  that will allow you generate Factur-x and UBL in a very easy way.
 
 == Changelog ==
+= 0.3.0 : Added sequential invoice numbering
+* Added settings section to configure numbering strategy, format, override last number.
+* On change status change to processing or completed, the invoice number is applied.
 = 0.2.9 : Better compatibility with different themes and plugins
 * Fixed a fatal error that occurred in some cases if the theme or installed plugins were interacting with the native customizer.
 * Fixed the settings link to redirect to E-Invoice tab instead of WooCommerce.
