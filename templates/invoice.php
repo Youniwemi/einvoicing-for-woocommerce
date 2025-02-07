@@ -388,7 +388,7 @@ do_action( 'wooei_before_document', $this->order );
 						?>
 						<tr class="item-order item-<?php echo esc_attr( $item_id ); ?>">
 							<td class="product">
-								<span class="item-name"><?php echo esc_html( $item['name'] ); ?></span>
+								<span class="item-name"><?php echo wp_kses_post( $item['name'] ); ?></span>
 								<span class="item-meta"><?php echo esc_html( $item['meta'] ); ?></span>
 								<?php if ( isset( $item['sku'] ) && isset( $item['weight'] ) ) : ?>
 									<dl class="meta">

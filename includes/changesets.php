@@ -19,6 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 function show_changesets_since( string $current ) {
 	// Let's define all the changesets, this way, we can easily translate them, and most importantly show what changed since the previous version.
 	$all = array(
+		__( '0.3.1 : Updated digital-invoice dependency', 'einvoicing-for-woocommerce' ) => array(
+			__( 'Better german translation', 'einvoicing-for-woocommerce' ),
+		),
 		__( '0.3.0 : Added sequential invoice numbering', 'einvoicing-for-woocommerce' ) => array(
 			__( 'Added settings section to configure numbering strategy, format, override last number.', 'einvoicing-for-woocommerce' ),
 			__( 'On change status change to processing or completed, the invoice number is applied.', 'einvoicing-for-woocommerce' ),

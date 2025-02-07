@@ -1425,17 +1425,17 @@
         },
         {
             "name": "youniwemi/digital-invoice",
-            "version": "v0.1.7",
-            "version_normalized": "0.1.7.0",
+            "version": "v0.1.8",
+            "version_normalized": "0.1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Youniwemi/digital-invoice.git",
-                "reference": "4dd317a4fc18d827aed8bcd278ce9ebb9c6c7745"
+                "reference": "3bdeb32bf2d9b0c07da945fa0056b086b436b528"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Youniwemi/digital-invoice/zipball/4dd317a4fc18d827aed8bcd278ce9ebb9c6c7745",
-                "reference": "4dd317a4fc18d827aed8bcd278ce9ebb9c6c7745",
+                "url": "https://api.github.com/repos/Youniwemi/digital-invoice/zipball/3bdeb32bf2d9b0c07da945fa0056b086b436b528",
+                "reference": "3bdeb32bf2d9b0c07da945fa0056b086b436b528",
                 "shasum": ""
             },
             "require": {
@@ -1447,7 +1447,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^8 || ^9"
             },
-            "time": "2024-12-31T14:26:22+00:00",
+            "time": "2025-02-06T20:20:46+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1478,7 +1478,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Youniwemi/digital-invoice/issues",
-                "source": "https://github.com/Youniwemi/digital-invoice/tree/v0.1.7"
+                "source": "https://github.com/Youniwemi/digital-invoice/tree/v0.1.8"
             },
             "install-path": "../youniwemi/digital-invoice"
         }
