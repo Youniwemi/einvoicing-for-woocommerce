@@ -209,20 +209,19 @@ add_action( 'manage_woocommerce_page_wc-orders_custom_column', __NAMESPACE__ . '
 add_action(
 	'post_action_download_e_invoice',
 	function ( $id ) {
-
 		check_ajax_referer( 'download_e_invoice', 'nonce_invoice' );
 		$order = wc_get_order( $id );
 		if ( isset( $_GET['xml'] ) ) {
-			$profile    = get_invoice_profile();
+			$profile = get_invoice_profile();
 			$invoice = get_invoice( $order, 'urn:cen.eu:en16931:2017#compliant#urn:factur-x.eu:1p0:basic' );
-			//header( 'Content-Type: text/xml');
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- safe binary pdf content or xml.
 			echo $invoice->getXml();
-		} else if ( isset( $_GET['html'] ) ) {
+		} elseif ( isset( $_GET['html'] ) ) {
 			include WOOEI_TEMPLATE . 'invoice-preview.php';
 		} else {
 			$profile    = get_invoice_profile();
 			$xml_or_pdf = is_xml( $profile ) ? 'xml' : 'pdf';
-			PdfInvoice::send_headers( $order->ID . '.' . $xml_or_pdf, $xml_or_pdf );
+			PdfInvoice::send_headers( $order->get_id() . '.' . $xml_or_pdf, $xml_or_pdf );
 
 			$xml_or_pdf_content_safe = render_invoice( $order, false );
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- safe binary pdf content or xml.

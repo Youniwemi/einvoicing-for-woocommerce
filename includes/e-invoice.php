@@ -55,11 +55,11 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 		$seller_country_code
 	);
 
-	if ( count($order->get_tax_totals())== 0 ){
-		$invoice->setTaxExemption( Invoice::EXEMPT_FROM_TAX, "Exempt From Tax");
+	if ( count( $order->get_tax_totals() ) === 0 ) {
+		$invoice->setTaxExemption( Invoice::EXEMPT_FROM_TAX, 'Exempt From Tax' );
 	}
-	// only if tax
-	if (  get_option( 'wooei_id_vat' ) ) {
+	// only if tax.
+	if ( get_option( 'wooei_id_vat' ) ) {
 		$invoice->setSellerTaxRegistration( $seller_country_code . get_option( 'wooei_id_vat' ), 'VA' );
 	}
 
@@ -79,8 +79,8 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 		$buyer_country_code ? $buyer_country_code : $seller_country_code
 	);
 
-	if ($date_paid){
-		$invoice->setPaymentTerms($date_paid);
+	if ( $date_paid ) {
+		$invoice->setPaymentTerms( $date_paid );
 	}
 
 	foreach ( $order->get_items() as $key => $item ) {
@@ -89,7 +89,7 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 		$quantity                 = $item->get_quantity();
 		$line_price_without_tax   = (float) $total_line;
 		$single_price_without_tax = $line_price_without_tax / max( 1, $quantity );
-		$tax_rate                 = $line_price_without_tax == 0? 0 : ($tax /  $line_price_without_tax) * 100;
+		$tax_rate                 = 0 === $line_price_without_tax ? 0 : ( $tax / $line_price_without_tax ) * 100;
 		$invoice->addItem( $item['name'], $single_price_without_tax, $tax_rate, $quantity, 'H87', $item['product_id'] );
 	}
 
@@ -149,10 +149,11 @@ function is_xml( string $profile = null ) {
  * @param      string            $pdf    The pdf content.
  * @param      WC_Abstract_Order $order  The order.
  * @param      string            $type   The type/profile.
+ * @param      bool              $return_xml   Return the xml only.
  *
  * @return     string    The e invoice content.
  */
-function get_e_invoice( string $pdf, WC_Abstract_Order $order, string $type = null, $returnXml = false ) {
+function get_e_invoice( string $pdf, WC_Abstract_Order $order, string $type = null, $return_xml = false ) {
 	switch ( $type ) {
 		case WOOEI_TYPES_FACTURX:
 			$profile = Invoice::FACTURX_BASIC;
@@ -164,7 +165,7 @@ function get_e_invoice( string $pdf, WC_Abstract_Order $order, string $type = nu
 			$profile = Invoice::FACTURX_XRECHNUNG;
 			break;
 		case WOOEI_TYPES_UBL_PEPPOL:
-			$profile = Invoice::UBL_PEPPOL;
+			$profile = Invoice::UBL_PEPOOL;
 			break;
 		case WOOEI_TYPES_UBL_CIUS_AT:
 			$profile = Invoice::UBL_CIUS_AT_NAT;
@@ -194,15 +195,14 @@ function get_e_invoice( string $pdf, WC_Abstract_Order $order, string $type = nu
 		$invoice->addEmbeddedAttachment( $order->get_id(), null, $name, $pdf, 'application/pdf', 'The pdf invoice' );
 		return $invoice->getXml();
 	}
-	if ($returnXml) {
+	if ( $return_xml ) {
 		return $invoice->getXml();
 	}
 	try {
 		$pdf_content = $invoice->getPdf( $pdf );
-	} catch(\Exception $e){
+	} catch ( \Exception $e ) {
 		return $pdf;
 	}
-	
 
 	return $pdf_content;
 }

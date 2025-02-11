@@ -19,6 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 function show_changesets_since( string $current ) {
 	// Let's define all the changesets, this way, we can easily translate them, and most importantly show what changed since the previous version.
 	$all = array(
+		__( '0.3.3 : Bug fix when no taxation is setup', 'einvoicing-for-woocommerce' ) => array(
+			__( 'Avoid deprecated error caused by translation loaded too early', 'einvoicing-for-woocommerce' ),
+			__( 'If invoice fails to generate for any reason, notify the admin by email', 'einvoicing-for-woocommerce' ),
+		),
 		__( '0.3.2 : Updated digital-invoice dependency', 'einvoicing-for-woocommerce' ) => null,
 		__( '0.3.1 : Updated digital-invoice dependency', 'einvoicing-for-woocommerce' ) => array(
 			__( 'Better german translation', 'einvoicing-for-woocommerce' ),

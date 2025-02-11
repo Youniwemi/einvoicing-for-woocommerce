@@ -231,9 +231,9 @@
             'dev_requirement' => true,
         ),
         'youniwemi/digital-invoice' => array(
-            'pretty_version' => 'v0.2.1',
-            'version' => '0.2.1.0',
-            'reference' => '0093266de90ce41c9389061fd17150cc88eeedd0',
+            'pretty_version' => 'v0.2.2',
+            'version' => '0.2.2.0',
+            'reference' => '738ac9119ebc02c508af92af132f8db83907ccd5',
             'type' => 'library',
             'install_path' => __DIR__ . '/../youniwemi/digital-invoice',
             'aliases' => array(),

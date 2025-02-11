@@ -259,6 +259,9 @@ class PdfInvoice {
 		if ( $is_final ) {
 			$head     = "<!doctype html>\n<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'/><style>* { font-family: DejaVu Sans, sans-serif; }</style></head><body>";
 			$pdf_safe = $this->output( $head . $html_safe . '</body></html>' );
+			if ( WOOEI_TYPES_PDF === $type ) {
+				return $pdf_safe;
+			}
 			return get_e_invoice( $pdf_safe, $this->order, $type );
 		}
 		return $html_safe;

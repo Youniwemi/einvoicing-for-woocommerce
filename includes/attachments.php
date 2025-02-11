@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WC_Abstract_Order;
 use WP_Filesystem;
+use Throwable;
 
 /**
  * Get invoice filemae
@@ -23,7 +24,7 @@ use WP_Filesystem;
  */
 function invoice_filename( WC_Abstract_Order $order ) {
 	$ext = is_xml() ? 'xml' : 'pdf';
-	return 'Invoice-' . $order->ID . '.' . $ext;
+	return 'Invoice-' . $order->get_id() . '.' . $ext;
 }
 
 
@@ -84,7 +85,6 @@ function save_invoice_temp( string $content, WC_Abstract_Order $order ) {
  * @return     array   The email attachments.
  */
 function attach_invoice_to_email( array $attachments, string $email_id, mixed $maybe_order ) {
-
 	// no order, or not in our declared types.
 	if ( ! ( $maybe_order instanceof WC_Abstract_Order ) || ! isset( WOOEI_EMAIL_TYPES[ $email_id ] ) ) {
 		return $attachments;
@@ -97,8 +97,23 @@ function attach_invoice_to_email( array $attachments, string $email_id, mixed $m
 	$send_for = get_option( 'wooei_invoice_attach', array() );
 
 	if ( isset( $send_for[ $email_id ] ) && 'yes' === $send_for[ $email_id ] ) {
-		$invoice_content = render_invoice( $maybe_order, false );
-		$attachments[]   = save_invoice_temp( $invoice_content, $maybe_order );
+		try {
+			$invoice_content = render_invoice( $maybe_order, false );
+			$attachments[]   = save_invoice_temp( $invoice_content, $maybe_order );
+		} catch ( Throwable $error ) {
+			// Failed to generate or save invoice, try to notify the admin.
+			/* translators: 1: Order Id. 2: Error */
+			$message     = sprintf( __( 'Failed to generate invoice for order: %1$s - %2$s', 'einvoicing-for-woocommerce' ), $maybe_order->get_id(), $error->getMessage() );
+			$admin_email = get_option( 'admin_email' );
+			// Register shutdown function only when error occurs.
+			add_action(
+				'shutdown',
+				function() use ( $admin_email, $message ) {
+					wp_mail( $admin_email, __( 'Invoice Generation Failed', 'einvoicing-for-woocommerce' ), $message );
+				}
+			);
+
+		}
 	}
 
 	return $attachments;
