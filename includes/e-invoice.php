@@ -23,12 +23,14 @@ use WC_Abstract_Order;
  * @return     Invoice   The e-invoice.
  */
 function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASIC ) {
+
 	$issue_date = $order->get_date_completed();
+	$date_paid  = $order->get_date_paid();
 	if ( null === $issue_date ) {
 		// not paid.
 		$issue_date = $order->get_date_created();
 	}
-	$invoice = new Invoice( $order->get_order_number(), $issue_date, $order->get_date_paid(), get_woocommerce_currency(), $profile );
+	$invoice = new Invoice( $order->get_order_number(), $issue_date, $date_paid, get_woocommerce_currency(), $profile );
 
 	// Setup Seller.
 	$invoice->setSeller(
@@ -53,14 +55,22 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 		$seller_country_code
 	);
 
-	if ( get_option( 'wooei_id_vat' ) ) {
-		$invoice->setSellerTaxRegistration( get_option( 'wooei_id_vat' ), 'VAT' );
+	if ( count($order->get_tax_totals())== 0 ){
+		$invoice->setTaxExemption( Invoice::EXEMPT_FROM_TAX, "Exempt From Tax");
+	}
+	// only if tax
+	if (  get_option( 'wooei_id_vat' ) ) {
+		$invoice->setSellerTaxRegistration( $seller_country_code . get_option( 'wooei_id_vat' ), 'VA' );
 	}
 
 	// Setup Buyer.
 	$buyer_country_code = $order->get_billing_country();
 
-	$invoice->setBuyer( '', '', $order->get_billing_first_name() . ' ' . $order->get_billing_last_name() );
+	$company_name = $order->get_billing_company();
+	$contact_name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
+	$buyer_name   = $company_name ? $company_name : $contact_name;
+	// we dont have at this point any identification, leave it empty.
+	$invoice->setBuyer( '', $buyer_name, '' );
 
 	$invoice->setBuyerAddress(
 		$order->get_billing_address_1(),
@@ -69,15 +79,18 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 		$buyer_country_code ? $buyer_country_code : $seller_country_code
 	);
 
+	if ($date_paid){
+		$invoice->setPaymentTerms($date_paid);
+	}
+
 	foreach ( $order->get_items() as $key => $item ) {
 		$total_line               = $item['line_total'];
 		$tax                      = $item['line_tax'];
 		$quantity                 = $item->get_quantity();
-		$line_price_without_tax   = $total_line - $tax;
+		$line_price_without_tax   = (float) $total_line;
 		$single_price_without_tax = $line_price_without_tax / max( 1, $quantity );
-		$tva_rate                 = $tax / max( 1, $line_price_without_tax );
-
-		$invoice->addItem( $item['name'], $single_price_without_tax, $quantity, $tva_rate, 'H87', $item['product_id'] );
+		$tax_rate                 = $line_price_without_tax == 0? 0 : ($tax /  $line_price_without_tax) * 100;
+		$invoice->addItem( $item['name'], $single_price_without_tax, $tax_rate, $quantity, 'H87', $item['product_id'] );
 	}
 
 	return $invoice;
@@ -139,7 +152,7 @@ function is_xml( string $profile = null ) {
  *
  * @return     string    The e invoice content.
  */
-function get_e_invoice( string $pdf, WC_Abstract_Order $order, string $type = null ) {
+function get_e_invoice( string $pdf, WC_Abstract_Order $order, string $type = null, $returnXml = false ) {
 	switch ( $type ) {
 		case WOOEI_TYPES_FACTURX:
 			$profile = Invoice::FACTURX_BASIC;
@@ -181,7 +194,15 @@ function get_e_invoice( string $pdf, WC_Abstract_Order $order, string $type = nu
 		$invoice->addEmbeddedAttachment( $order->get_id(), null, $name, $pdf, 'application/pdf', 'The pdf invoice' );
 		return $invoice->getXml();
 	}
-	$pdf_content = $invoice->getPdf( $pdf );
+	if ($returnXml) {
+		return $invoice->getXml();
+	}
+	try {
+		$pdf_content = $invoice->getPdf( $pdf );
+	} catch(\Exception $e){
+		return $pdf;
+	}
+	
 
 	return $pdf_content;
 }

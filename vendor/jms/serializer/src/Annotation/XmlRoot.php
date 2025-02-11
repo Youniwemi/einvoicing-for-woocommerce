@@ -9,7 +9,7 @@ namespace JMS\Serializer\Annotation;
  * @Target("CLASS")
  */
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class XmlRoot implements SerializerAttribute
+final class XmlRoot
 {
     use AnnotationUtilsTrait;
 

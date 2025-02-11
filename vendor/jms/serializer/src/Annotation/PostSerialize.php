@@ -9,6 +9,6 @@ namespace JMS\Serializer\Annotation;
  * @Target("METHOD")
  */
 #[\Attribute(\Attribute::TARGET_METHOD)]
-final class PostSerialize implements SerializerAttribute
+final class PostSerialize
 {
 }

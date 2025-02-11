@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-02-07 00:23+0100\n"
+"POT-Creation-Date: 2025-02-09 18:54+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Rahal <rahal.aboulfeth@gmail.com>\n"
 "Language-Team: \n"
@@ -185,18 +185,22 @@ msgid "Invoice #"
 msgstr "Rechnung Nr."
 
 #: includes/changesets.php:22
+msgid "0.3.2 : Updated digital-invoice dependency"
+msgstr "0.3.2 : Aktualisierte digital-invoice-Abhängigkeit"
+
+#: includes/changesets.php:23
 msgid "0.3.1 : Updated digital-invoice dependency"
 msgstr "0.3.1 : Aktualisierte digital-invoice-Abhängigkeit"
 
-#: includes/changesets.php:23
+#: includes/changesets.php:24
 msgid "Better german translation"
 msgstr "Bessere deutsche Übersetzung"
 
-#: includes/changesets.php:25
+#: includes/changesets.php:26
 msgid "0.3.0 : Added sequential invoice numbering"
 msgstr "0.3.0 : Fortlaufende Rechnungsnummerierung hinzugefügt"
 
-#: includes/changesets.php:26
+#: includes/changesets.php:27
 msgid ""
 "Added settings section to configure numbering strategy, format, override "
 "last number."
@@ -204,7 +208,7 @@ msgstr ""
 "Einstellungsbereich hinzugefügt, um Nummerierungsstrategie, Format und "
 "Überschreibung der letzten Nummer zu konfigurieren."
 
-#: includes/changesets.php:27
+#: includes/changesets.php:28
 msgid ""
 "On change status change to processing or completed, the invoice number is "
 "applied."
@@ -212,11 +216,11 @@ msgstr ""
 "Bei Statusänderung zu “In Bearbeitung” oder “Abgeschlossen” wird die "
 "Rechnungsnummer zugewiesen."
 
-#: includes/changesets.php:29
+#: includes/changesets.php:30
 msgid "0.2.9 : Better compatibility with different themes and plugins"
 msgstr "0.2.9 : Bessere Kompatibilität mit verschiedenen Themes und Plugins"
 
-#: includes/changesets.php:30
+#: includes/changesets.php:31
 msgid ""
 "Fixed a fatal error that occurred in some cases if the theme or installed "
 "plugins were interacting with the native customizer."
@@ -225,43 +229,43 @@ msgstr ""
 "wenn das Theme oder installierte Plugins mit dem nativen Customizer "
 "interagierten."
 
-#: includes/changesets.php:31
+#: includes/changesets.php:32
 msgid ""
 "Fixed the settings link to redirect to E-Invoice tab instead of WooCommerce."
 msgstr ""
 "Der Einstellungslink wurde korrigiert, um zum E-Invoice-Tab statt zu "
 "WooCommerce weiterzuleiten."
 
-#: includes/changesets.php:33
+#: includes/changesets.php:34
 msgid ""
 "0.2.8 : Fix Fatal error when order has no modified date, shows today's date."
 msgstr ""
 "0.2.8: Behebung eines schwerwiegenden Fehlers, bei dem bei einer Bestellung "
 "ohne Änderungsdatum das heutige Datum angezeigt wird."
 
-#: includes/changesets.php:34
+#: includes/changesets.php:35
 msgid "0.2.7 : Minor Improvements"
 msgstr "0.2.7 : Kleine Verbesserungen"
 
-#: includes/changesets.php:35
+#: includes/changesets.php:36
 msgid "Updated dependency digital-invoice dependency"
 msgstr "Abhängigkeit digital-invoice aktualisiert"
 
-#: includes/changesets.php:36
+#: includes/changesets.php:37
 msgid "Pdf Invoice : Show date_modified when order is not paid"
 msgstr ""
 "PDF-Rechnung: Änderungsdatum anzeigen, wenn Bestellung nicht bezahlt ist"
 
-#: includes/changesets.php:38
+#: includes/changesets.php:39
 msgid "0.2.6 : Fix bad escaping in delivery address."
 msgstr ""
 "0.2.6: Korrektur der fehlerhaften Escaping-Zeichen in der Lieferadresse."
 
-#: includes/changesets.php:39
+#: includes/changesets.php:40
 msgid "0.2.5 : PDF Invoice Enhancements and Compatibility Fixes"
 msgstr "0.2.5 : PDF-Rechnungsverbesserungen und Kompatibilitätskorrekturen"
 
-#: includes/changesets.php:40
+#: includes/changesets.php:41
 msgid ""
 "PDF Invoice now displays extensive billing and shipping information (company "
 "name, address line 1, address line 2, city, postal code, state, country)"
@@ -270,71 +274,71 @@ msgstr ""
 "(Firmenname, Adresszeile 1, Adresszeile 2, Stadt, Postleitzahl, Bundesland, "
 "Land)"
 
-#: includes/changesets.php:41
+#: includes/changesets.php:42
 msgid "Fixed compatibility with OceanWP theme"
 msgstr "Kompatibilität mit OceanWP-Theme wurde behoben"
 
-#: includes/changesets.php:42
+#: includes/changesets.php:43
 msgid "Updated WordPress and WooCommerce compatibility to latest versions"
 msgstr ""
 "WordPress- und WooCommerce-Kompatibilität auf die neuesten Versionen "
 "aktualisiert"
 
-#: includes/changesets.php:44
+#: includes/changesets.php:45
 msgid "0.2.4 : Welcome to the spanish translation"
 msgstr "0.2.4 : Willkommen zur spanischen Übersetzung"
 
-#: includes/changesets.php:45
+#: includes/changesets.php:46
 msgid ""
 "Added the possiblity to set a company name different than the shop name."
 msgstr ""
 "Möglichkeit hinzugefügt, einen Firmennamen festzulegen, der vom Shop-Namen "
 "abweicht."
 
-#: includes/changesets.php:46
+#: includes/changesets.php:47
 msgid "Added spanish translation"
 msgstr "Spanische Übersetzung hinzugefügt"
 
-#: includes/changesets.php:49
+#: includes/changesets.php:50
 msgid "0.2.3 : Fix fatal error after the plugin upgrade."
 msgstr "0.2.3: Behebung eines fatalen Fehlers nach dem Plugin-Upgrade."
 
-#: includes/changesets.php:50
+#: includes/changesets.php:51
 msgid "0.2.2 : Minor Improvements"
 msgstr "0.2.2 : Kleine Verbesserungen"
 
-#: includes/changesets.php:51
+#: includes/changesets.php:52
 msgid "Updated tested Wordpress up to version."
 msgstr "Getestete WordPress-Version aktualisiert bis Version."
 
-#: includes/changesets.php:52
+#: includes/changesets.php:53
 msgid "Added option to support adding phone number and email to the invoice"
 msgstr ""
 "Option hinzugefügt, um das Hinzufügen von Telefonnummer und E-Mail zur "
 "Rechnung zu unterstützen"
 
-#: includes/changesets.php:55
+#: includes/changesets.php:56
 msgid "0.2.1 : Important critical fixes"
 msgstr "0.2.1 : Wichtige kritische Korrekturen"
 
-#: includes/changesets.php:56
+#: includes/changesets.php:57
 msgid "This version adds the possibility to view the project changes."
 msgstr ""
 "Diese Version fügt die Möglichkeit hinzu, die Projektänderungen anzuzeigen."
 
-#: includes/changesets.php:57
+#: includes/changesets.php:58
 msgid "Fixed refresh preview."
 msgstr "Vorschau-Aktualisierung behoben."
 
-#: includes/changesets.php:58
+#: includes/changesets.php:59
 msgid "Fixed error while attaching invoice to email."
 msgstr "Fehler beim Anhängen der Rechnung an die E-Mail behoben."
 
-#: includes/changesets.php:60
+#: includes/changesets.php:61
 msgid "0.2.0 : Bulk invoices download"
 msgstr "0.2.0 : Massendownload von Rechnungen"
 
-#: includes/changesets.php:61
+#: includes/changesets.php:62
 msgid ""
 "This version adds the possibility to download multiple e-invoices in a Zip "
 "package from the WooCommerce orders list table."
@@ -342,7 +346,7 @@ msgstr ""
 "Diese Version fügt die Möglichkeit hinzu, mehrere E-Rechnungen in einem Zip-"
 "Paket aus der WooCommerce-Bestellliste herunterzuladen."
 
-#: includes/changesets.php:62
+#: includes/changesets.php:63
 msgid ""
 "After each upgrade, an admin notice will display the changes since the "
 "previously installed version."
@@ -350,11 +354,11 @@ msgstr ""
 "Nach jedem Upgrade wird eine Admin-Benachrichtigung die Änderungen seit der "
 "zuletzt installierten Version anzeigen."
 
-#: includes/changesets.php:64
+#: includes/changesets.php:65
 msgid "0.1.9 : Minor Improvements"
 msgstr "0.1.9 : Kleine Verbesserungen"
 
-#: includes/changesets.php:65
+#: includes/changesets.php:66
 msgid ""
 "Prices in the invoice table now utilize WooCommerce formatting for "
 "consistency."
@@ -362,7 +366,7 @@ msgstr ""
 "Die Preise in der Rechnungstabelle verwenden jetzt die WooCommerce-"
 "Formatierung für Konsistenz."
 
-#: includes/changesets.php:66
+#: includes/changesets.php:67
 msgid ""
 "Corrected an issue where the footer was not properly aligned in the Preview "
 "mode."
@@ -370,64 +374,64 @@ msgstr ""
 "Ein Problem wurde behoben, bei dem die Fußzeile im Vorschau-Modus nicht "
 "richtig ausgerichtet war."
 
-#: includes/changesets.php:68
+#: includes/changesets.php:69
 msgid ""
 "0.1.8 : Fix translation loading and added WooCommerce as a plugin dependency"
 msgstr ""
 "0.1.8 : Behebung des Ladeproblems von Übersetzungen und Hinzufügung von "
 "WooCommerce als Plugin-Abhängigkeit"
 
-#: includes/changesets.php:69
+#: includes/changesets.php:70
 msgid "0.1.7 : Fix arabic caracters in pdf invoice"
 msgstr "0.1.7 : Behebung von arabischen Zeichen in der PDF-Rechnung"
 
-#: includes/changesets.php:70
+#: includes/changesets.php:71
 msgid "0.1.6 : Fix adding invoice to emails as attachements"
 msgstr "0.1.6 : Behebung des Hinzufügens von Rechnungen als Anhänge zu E-Mails"
 
-#: includes/changesets.php:71
+#: includes/changesets.php:72
 msgid "Updated tested Wordpress up to version"
 msgstr "Getestete WordPress-Version aktualisiert bis Version"
 
-#: includes/changesets.php:72
+#: includes/changesets.php:73
 msgid "Fixed typos in readme"
 msgstr "Tippfehler in der README-Datei korrigiert"
 
-#: includes/changesets.php:74
+#: includes/changesets.php:75
 msgid "0.1.5 : Allow E-Invoices to be attached to more WooCommerce Emails"
 msgstr ""
 "0.1.5 : Ermöglicht das Anhängen von E-Rechnungen an weitere WooCommerce-E-"
 "Mails"
 
-#: includes/changesets.php:75
+#: includes/changesets.php:76
 msgid "Updated tested WooCommerce up to version"
 msgstr "Getestete WooCommerce-Version aktualisiert bis Version"
 
-#: includes/changesets.php:76
+#: includes/changesets.php:77
 msgid "Updated translations"
 msgstr "Übersetzungen aktualisiert"
 
-#: includes/changesets.php:78
+#: includes/changesets.php:79
 msgid "0.1.4 : Applying Wordpress Plugin review team feedback"
 msgstr "0.1.4 : Anwendung des Feedbacks des WordPress-Plugin-Überprüfungsteams"
 
-#: includes/changesets.php:79
+#: includes/changesets.php:80
 msgid "Multiple sanitization and escaping fixes."
 msgstr "Mehrere Bereinigungs- und Escape-Korrekturen."
 
-#: includes/changesets.php:80
+#: includes/changesets.php:81
 msgid "Use WOOEI as unique prefix."
 msgstr "Verwenden Sie WOOEI als eindeutiges Präfix."
 
-#: includes/changesets.php:82
+#: includes/changesets.php:83
 msgid "0.1.3 : Minor style adjustments."
 msgstr "0.1.3 : Kleine Stiländerungen."
 
-#: includes/changesets.php:83
+#: includes/changesets.php:84
 msgid "0.1.2 : Renamed slug to comply with the naming guidelines."
 msgstr "0.1.2 : Slug umbenannt, um den Namensrichtlinien zu entsprechen."
 
-#: includes/changesets.php:84
+#: includes/changesets.php:85
 msgid ""
 "0.1.1 : Added PHP extensions (gd, mbstring, iconv and dom) verification "
 "before loading the plugin."
@@ -435,7 +439,7 @@ msgstr ""
 "0.1.1 : Überprüfung der PHP-Erweiterungen (gd, mbstring, iconv und dom) vor "
 "dem Laden des Plugins hinzugefügt."
 
-#: includes/changesets.php:85
+#: includes/changesets.php:86
 msgid ""
 "0.1.0 : Introduced support for the UBL format, expanding e-invoicing "
 "capabilities."
@@ -443,7 +447,7 @@ msgstr ""
 "0.1.0 : Unterstützung für das UBL-Format eingeführt, wodurch die E-"
 "Rechnungsstellungskapazitäten erweitert werden."
 
-#: includes/changesets.php:86
+#: includes/changesets.php:87
 msgid ""
 "0.0.9 : Implemented role-based access control, allowing customization of "
 "minimum capabilities required for setting up the plugin."
@@ -452,36 +456,36 @@ msgstr ""
 "der minimalen Fähigkeiten ermöglicht, die zum Einrichten des Plugins "
 "erforderlich sind."
 
-#: includes/changesets.php:87
+#: includes/changesets.php:88
 msgid "0.0.8 : Resolved compatibility issues with the Astra WordPress theme."
 msgstr "0.0.8 : Kompatibilitätsprobleme mit dem Astra-WordPress-Thema behoben."
 
-#: includes/changesets.php:88
+#: includes/changesets.php:89
 msgid "0.0.7 : Minor fixes to improve the user experience."
 msgstr "0.0.7 : Kleine Korrekturen zur Verbesserung der Benutzererfahrung."
 
-#: includes/changesets.php:89
+#: includes/changesets.php:90
 msgid "0.0.6 : Confirmed compatibility with WooCommerce 8.4"
 msgstr "0.0.6 : Bestätigte Kompatibilität mit WooCommerce 8.4"
 
-#: includes/changesets.php:90
+#: includes/changesets.php:91
 msgid "Declare compatibility with **High performance order tables**"
 msgstr ""
 "Kompatibilität mit **Hochleistungstabellen für Bestellungen** deklarieren"
 
-#: includes/changesets.php:92
+#: includes/changesets.php:93
 msgid "0.0.5 : Improved the plugin onboarding experience"
 msgstr "0.0.5 : Verbesserung der Plugin-Onboarding-Erfahrung"
 
-#: includes/changesets.php:92
+#: includes/changesets.php:93
 msgid "Nice instructive notices, better captions and labels."
 msgstr "Schöne lehrreiche Hinweise, bessere Beschriftungen und Etiketten."
 
-#: includes/changesets.php:93
+#: includes/changesets.php:94
 msgid "0.0.1 : Initial release of E-Invoicing for WooCommerce"
 msgstr "0.0.1 : Erste Veröffentlichung von E-Invoicing für WooCommerce"
 
-#: includes/changesets.php:94
+#: includes/changesets.php:95
 msgid ""
 "Initial release, PDF Invoice Customizer supporting Factur-X and ZUGFeRD "
 "formats, ensuring compliance with French and German e-invoicing standards."
@@ -490,11 +494,11 @@ msgstr ""
 "Factur-X und ZUGFeRD und gewährleistet die Einhaltung der französischen und "
 "deutschen E-Rechnungsstandards."
 
-#: includes/changesets.php:110
+#: includes/changesets.php:111
 msgid "Thank you for upgrading E-Invoicing For WooCommerce"
 msgstr "Vielen Dank, dass Sie E-Invoicing For WooCommerce aktualisiert haben"
 
-#: includes/changesets.php:111
+#: includes/changesets.php:112
 msgid "Please take notice of what changed :"
 msgstr "Bitte beachten Sie, was sich geändert hat:"
 

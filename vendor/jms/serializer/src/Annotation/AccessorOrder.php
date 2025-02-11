@@ -13,7 +13,7 @@ namespace JMS\Serializer\Annotation;
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AccessorOrder implements SerializerAttribute
+final class AccessorOrder
 {
     use AnnotationUtilsTrait;
 

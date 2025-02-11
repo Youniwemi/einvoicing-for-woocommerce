@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function show_changesets_since( string $current ) {
 	// Let's define all the changesets, this way, we can easily translate them, and most importantly show what changed since the previous version.
 	$all = array(
+		__( '0.3.2 : Updated digital-invoice dependency', 'einvoicing-for-woocommerce' ) => null,
 		__( '0.3.1 : Updated digital-invoice dependency', 'einvoicing-for-woocommerce' ) => array(
 			__( 'Better german translation', 'einvoicing-for-woocommerce' ),
 		),

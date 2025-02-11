@@ -20,7 +20,6 @@ use JMS\Serializer\Annotation\PostSerialize;
 use JMS\Serializer\Annotation\PreSerialize;
 use JMS\Serializer\Annotation\ReadOnlyProperty;
 use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\SerializerAttribute;
 use JMS\Serializer\Annotation\Since;
 use JMS\Serializer\Annotation\SkipWhenEmpty;
 use JMS\Serializer\Annotation\Type;
@@ -299,7 +298,7 @@ class AnnotationOrAttributeDriver implements DriverInterface
     }
 
     /**
-     * @return list<SerializerAttribute>
+     * @return list<object>
      */
     protected function getClassAnnotations(\ReflectionClass $class): array
     {
@@ -310,7 +309,7 @@ class AnnotationOrAttributeDriver implements DriverInterface
                 static function (\ReflectionAttribute $attribute): object {
                     return $attribute->newInstance();
                 },
-                $class->getAttributes(SerializerAttribute::class, \ReflectionAttribute::IS_INSTANCEOF)
+                $class->getAttributes()
             );
         }
 
@@ -322,7 +321,7 @@ class AnnotationOrAttributeDriver implements DriverInterface
     }
 
     /**
-     * @return list<SerializerAttribute>
+     * @return list<object>
      */
     protected function getMethodAnnotations(\ReflectionMethod $method): array
     {
@@ -333,7 +332,7 @@ class AnnotationOrAttributeDriver implements DriverInterface
                 static function (\ReflectionAttribute $attribute): object {
                     return $attribute->newInstance();
                 },
-                $method->getAttributes(SerializerAttribute::class, \ReflectionAttribute::IS_INSTANCEOF)
+                $method->getAttributes()
             );
         }
 
@@ -345,7 +344,7 @@ class AnnotationOrAttributeDriver implements DriverInterface
     }
 
     /**
-     * @return list<SerializerAttribute>
+     * @return list<object>
      */
     protected function getPropertyAnnotations(\ReflectionProperty $property): array
     {
@@ -356,7 +355,7 @@ class AnnotationOrAttributeDriver implements DriverInterface
                 static function (\ReflectionAttribute $attribute): object {
                     return $attribute->newInstance();
                 },
-                $property->getAttributes(SerializerAttribute::class, \ReflectionAttribute::IS_INSTANCEOF)
+                $property->getAttributes()
             );
         }
 

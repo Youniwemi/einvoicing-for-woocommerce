@@ -9,7 +9,7 @@ namespace JMS\Serializer\Annotation;
  * @Target("CLASS")
  */
 #[\Attribute(\Attribute::TARGET_CLASS)]
-class Discriminator implements SerializerAttribute
+class Discriminator
 {
     use AnnotationUtilsTrait;
 

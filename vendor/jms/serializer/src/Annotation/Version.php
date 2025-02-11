@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace JMS\Serializer\Annotation;
 
-abstract class Version implements SerializerAttribute
+abstract class Version
 {
     use AnnotationUtilsTrait;
 

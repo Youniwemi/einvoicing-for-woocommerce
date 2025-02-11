@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace JMS\Serializer\Annotation;
 
-abstract class XmlCollection implements SerializerAttribute
+abstract class XmlCollection
 {
     use AnnotationUtilsTrait;
 

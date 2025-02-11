@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace JMS\Serializer\Metadata\Driver;
 
-use JMS\Serializer\Annotation\SerializerAttribute;
-
 class AttributeDriver extends AnnotationOrAttributeDriver
 {
     /**
-     * @return list<SerializerAttribute>
+     * @return list<object>
      */
     protected function getClassAnnotations(\ReflectionClass $class): array
     {
@@ -17,12 +15,12 @@ class AttributeDriver extends AnnotationOrAttributeDriver
             static function (\ReflectionAttribute $attribute): object {
                 return $attribute->newInstance();
             },
-            $class->getAttributes(SerializerAttribute::class, \ReflectionAttribute::IS_INSTANCEOF)
+            $class->getAttributes()
         );
     }
 
     /**
-     * @return list<SerializerAttribute>
+     * @return list<object>
      */
     protected function getMethodAnnotations(\ReflectionMethod $method): array
     {
@@ -30,12 +28,12 @@ class AttributeDriver extends AnnotationOrAttributeDriver
             static function (\ReflectionAttribute $attribute): object {
                 return $attribute->newInstance();
             },
-            $method->getAttributes(SerializerAttribute::class, \ReflectionAttribute::IS_INSTANCEOF)
+            $method->getAttributes()
         );
     }
 
     /**
-     * @return list<SerializerAttribute>
+     * @return list<object>
      */
     protected function getPropertyAnnotations(\ReflectionProperty $property): array
     {
@@ -43,7 +41,7 @@ class AttributeDriver extends AnnotationOrAttributeDriver
             static function (\ReflectionAttribute $attribute): object {
                 return $attribute->newInstance();
             },
-            $property->getAttributes(SerializerAttribute::class, \ReflectionAttribute::IS_INSTANCEOF)
+            $property->getAttributes()
         );
     }
 }

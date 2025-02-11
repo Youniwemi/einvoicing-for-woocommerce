@@ -148,10 +148,8 @@ class Invoice
         }
 
         $totalLineBasis = $this->xmlGenerator->addItem($name, $price, $taxRatePercent, $quantity, $unit, $globalID, $globalIDCode);
-        if ($totalLineBasis != 0) {
-            // To be able to calc easily the invoice totals
-            $this->xmlGenerator->addTaxLine($taxRatePercent, $totalLineBasis);
-        }
+        // To be able to calc easily the invoice totals
+        $this->xmlGenerator->addTaxLine($taxRatePercent, $totalLineBasis);
     }
 
     public function addPaymentMean(string $typeCode, ?string $ibanId = null, ?string $accountName = null, ?string $bicId = null)
@@ -159,7 +157,7 @@ class Invoice
         try {
             $typeCode = PaymentMeansCode::from($typeCode);
         } catch (\ValueError $e) {
-            throw new \Exception("$typeCode is not a valide Unit of Unit Of Measurement");
+            throw new \Exception("$typeCode is not a valid PaymentMeans Code");
         }
 
         $this->xmlGenerator->addPaymentMean($typeCode, $ibanId, $accountName, $bicId);

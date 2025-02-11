@@ -11,7 +11,7 @@ namespace JMS\Serializer\Annotation;
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
-final class Accessor implements SerializerAttribute
+final class Accessor
 {
     use AnnotationUtilsTrait;
 
