@@ -5,7 +5,7 @@ Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 8.1
 License: GPL
-Stable tag: 0.3.3
+Stable tag: 0.3.4
 
 Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and other e-invoicing standards.
 
@@ -59,6 +59,7 @@ Big Thanks to :
 - [Youniwemi](https://packagist.org/packages/youniwemi/digital-invoice) for Digital Invoice - Easy wrapper around easybill/zugferd-php, atgp/factur-x and josemmo/einvoicing  that will allow you generate Factur-x and UBL in a very easy way.
 
 == Changelog ==
+= 0.3.4 : Bug fix when changing invoice number
 = 0.3.3 : Bug fix when no taxation is setup
 * Avoid deprecated error caused by translation loaded too early
 * If invoice fails to generate for any reason, notify the admin by email
