@@ -400,7 +400,7 @@ function save_invoice_number_field( int $order_id ) {
 		return;
 	}
 	if ( isset( $_POST['_invoice_number'] ) ) {
-		update_post_meta( $order_id, '_invoice_number', sanitize_text_field(wp_unslash( $_POST['_invoice_number'] )) );
+		update_post_meta( $order_id, '_invoice_number', sanitize_text_field( wp_unslash( $_POST['_invoice_number'] ) ) );
 	}
 }
 

@@ -5,7 +5,7 @@ Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 8.1
 License: GPL
-Stable tag: 0.3.4
+Stable tag: 0.3.5
 
 Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and other e-invoicing standards.
 
@@ -14,6 +14,8 @@ Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and oth
 === WooCommerce E-Invoicing Customizer ===
 
 Customize your WooCommerce PDF invoices and enable FacturX, UBL, ZUGFeRD, and XRechnung formats to comply with electronic invoicing regulations while customizing your invoices to reflect your brand.
+
+https://www.youtube.com/watch?v=0SWRxHRXnEM
 
 == Features ==
 
@@ -46,6 +48,57 @@ Customize your WooCommerce PDF invoices and enable FacturX, UBL, ZUGFeRD, and XR
 E-Invoicing for WooCommerce Invoice Designer leverages the native WordPress Customizer, ensuring a user-friendly and familiar experience. We strive for extensive compatibility across installations, but understand that occasional issues may arise. Should you encounter any incompatibilities with your setup, please reach out without hesitation. Our team is committed to promptly addressing and resolving any concerns to enhance your overall experience.
 
 
+== Frequently Asked Questions ==
+
+
+= How do I customize my PDF invoice template? =
+
+Unlike other plugins that require code editing or premium add-ons, we use the native WordPress Customizer for complete visual editing. You'll be able to customize to design your invoice with real-time preview. 
+
+= Can I use my own company logo and details on invoices? =
+
+You can easily add your logo, company details, VAT number, registration information, phone, email, and customize the entire header and footer sections.
+
+= Can I view changes to my invoice design before saving? =
+
+Yes, our integration with the WordPress Customizer allows you to see live preview changes before saving them. This makes designing your perfect invoice fast and stress-free.
+
+= What is Factur-X and why do I need it? =
+
+Factur-X is a hybrid e-invoicing format that combines a PDF invoice with embedded XML data. It's required for B2B transactions in France and increasingly across Europe. Our plugin fully supports this format, making your store compliant with French e-invoicing regulations.
+
+= What is UBL format and why is it important? =
+
+Universal Business Language (UBL) is an open international standard for e-invoicing. UBL support makes your invoices compatible with public sector requirements in many European countries and growing adoption worldwide. It future-proofs your business against evolving e-invoicing mandates.
+
+= What is ZUGFeRD/XRechnung and do I need it for my business? =
+
+ZUGFeRD is the German standard for electronic invoices, while XRechnung is required for invoicing to German public authorities. If you do business in Germany or with German companies, these formats are essential. Our plugin supports both, ensuring full compliance with German e-invoicing regulations.
+
+
+= How does sequential invoice numbering work? =
+
+Our sequential numbering system automatically generates unique, sequential invoice numbers when orders change to "processing" or "completed" status. You can customize the format, prefix, suffix, and starting number. The system maintains consistent numbering and can reset every year.
+
+= Can I download multiple invoices at once? =
+
+Yes! We have a bulk invoice download functionality. From the WooCommerce orders list, select multiple orders and download all invoices in a single ZIP package - saving you significant time compared to downloading individually.
+
+= How do I attach invoices to WooCommerce emails? =
+
+Our plugin lets you choose exactly which WooCommerce emails should include invoice attachments (order confirmation, processing, completed, etc.). Configure this in WooCommerce > Settings > E-Invoicing > Email Settings.
+
+= What happens if invoice generation fails? =
+
+If an invoice fails to generate for any reason, an admin email notification is sent automatically. The plugin also logs detailed information using WooCommerce's logging system, making troubleshooting straightforward.
+
+This is not supposed to happen, but should you encounter any invoice generation issue, please reach out without hesitation.
+
+= Does this plugin support multilingual stores? =
+
+Yes! The plugin includes translations for multiple languages including French, German and Spanish.
+
+
 == Screenshots ==
 1. Select E-invoice Format ( FacturX, UBL versions)
 2. PDF Invoice Customizer - available sections
@@ -59,6 +112,9 @@ Big Thanks to :
 - [Youniwemi](https://packagist.org/packages/youniwemi/digital-invoice) for Digital Invoice - Easy wrapper around easybill/zugferd-php, atgp/factur-x and josemmo/einvoicing  that will allow you generate Factur-x and UBL in a very easy way.
 
 == Changelog ==
+= 0.3.5 : Invoice Sequential Numbering
+* Use WooCommerce Logger to log invoice generation errors
+* Invoice number should be generated when order status is processing or completed
 = 0.3.4 : Bug fix when changing invoice number
 = 0.3.3 : Bug fix when no taxation is setup
 * Avoid deprecated error caused by translation loaded too early
@@ -125,6 +181,8 @@ Big Thanks to :
 
 
 == Upgrade Notice ==
+= 0.3.5 =
+This version fixes a sequential invoice number generation and ensures invoice generation errors are properly logged, should be upgraded as soon as possible.
 = 0.2.1 =
 This version fixes a Fatal Error, should be upgraded as soon as possible.
 = 0.2 =

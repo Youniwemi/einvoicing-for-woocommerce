@@ -44,15 +44,15 @@ function get_invoice_number( WC_Abstract_Order $order ) {
 	return $number;
 }
 
+
+
 /**
  * Generates the invoice number
  *
- * @param      int               $order_id    The order identifier.
- * @param      string            $old_status  The old status.
- * @param      string            $new_status  The new status.
- * @param      WC_Abstract_Order $order       The order.
+ * @param      int    $order_id    The order identifier.
+ * @param      string $new_status  The new status.
  */
-function generate_invoice_number( $order_id, $old_status, $new_status, WC_Abstract_Order $order ) {
+function generate_invoice_number( $order_id, $new_status ) {
 
 	if ( ! has_invoice_numbering() ) {
 		return;
@@ -71,7 +71,7 @@ function generate_invoice_number( $order_id, $old_status, $new_status, WC_Abstra
 	$padding      = get_option( 'wooei_invoice_number_padding' ) ?? 4;
 	$format       = get_option( 'wooei_invoice_number_format' ) ?? 'INV/{YEAR}/{NUMBER}';
 
-	$last_number = get_option( 'wooei_last_invoice_number', 0 );
+	$last_number = (int) get_option( 'wooei_last_invoice_number', 0 );
 	$next_number = $last_number + 1;
 
 	$last_date = get_option( 'wooei_last_invoice_date' );
@@ -97,6 +97,37 @@ function generate_invoice_number( $order_id, $old_status, $new_status, WC_Abstra
 	update_option( 'wooei_last_invoice_date', time() );
 }
 
+// Generate invoice number on settings status to processing.
+add_action(
+	'woocommerce_order_status_processing',
+	function( $order_id, WC_Abstract_Order $order, $status_transition ) {
+		generate_invoice_number( $order_id, 'processing' );
+	},
+	10,
+	3
+);
+
+// Generate invoice number on settings status to complete.
+add_action(
+	'woocommerce_order_status_completed',
+	function( $order_id, WC_Abstract_Order $order, $status_transition ) {
+		generate_invoice_number( $order_id, 'completed' );
+	},
+	10,
+	3
+);
 
 // Generate invoice number on order status change.
-add_action( 'woocommerce_order_status_changed', __NAMESPACE__ . '\generate_invoice_number', 10, 4 );
+add_action(
+	'woocommerce_order_status_changed',
+	function( $order_id, $old_status, $new_status, WC_Abstract_Order $order ) {
+		generate_invoice_number( $order_id, $new_status );
+	},
+	10,
+	4
+);
+
+
+
+
+

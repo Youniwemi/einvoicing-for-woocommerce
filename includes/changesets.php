@@ -19,6 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 function show_changesets_since( string $current ) {
 	// Let's define all the changesets, this way, we can easily translate them, and most importantly show what changed since the previous version.
 	$all = array(
+		__( '0.3.5 : Invoice Sequential Numbering', 'einvoicing-for-woocommerce' ) => array(
+			__( 'Use WooCommerce Logger to log invoice generation errors', 'einvoicing-for-woocommerce' ),
+			__( 'Invoice number should be generated when order status is processing or completed', 'einvoicing-for-woocommerce' ),
+		),
+		__( '0.3.4 : Bug fix when changing invoice number', 'einvoicing-for-woocommerce' ) => null,
 		__( '0.3.3 : Bug fix when no taxation is setup', 'einvoicing-for-woocommerce' ) => array(
 			__( 'Avoid deprecated error caused by translation loaded too early', 'einvoicing-for-woocommerce' ),
 			__( 'If invoice fails to generate for any reason, notify the admin by email', 'einvoicing-for-woocommerce' ),

@@ -103,7 +103,21 @@ function attach_invoice_to_email( array $attachments, string $email_id, mixed $m
 		} catch ( Throwable $error ) {
 			// Failed to generate or save invoice, try to notify the admin.
 			/* translators: 1: Order Id. 2: Error */
-			$message     = sprintf( __( 'Failed to generate invoice for order: %1$s - %2$s', 'einvoicing-for-woocommerce' ), $maybe_order->get_id(), $error->getMessage() );
+			$message = sprintf( __( 'Failed to generate invoice for order: %1$s - %2$s', 'einvoicing-for-woocommerce' ), $maybe_order->get_id(), $error->getMessage() );
+
+			// This is a WooCommerce Plugin, let's use WooCommerce Logger.
+			$logger = wc_get_logger();
+			$logger->error(
+				$message,
+				array(
+					'order' => $maybe_order,
+					'error' => $error,
+				)
+			);
+
+			// And add a note.
+			$maybe_order->add_order_note( $message );
+
 			$admin_email = get_option( 'admin_email' );
 			// Register shutdown function only when error occurs.
 			add_action(
