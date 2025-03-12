@@ -50,6 +50,21 @@ class Invoice_Customizer extends Customizer_Helper {
 	 */
 	protected $main_panel = false;
 
+	/**
+	 * Preview Mode
+	 *
+	 * @var bool
+	 */
+	protected $is_previewing = false;
+
+
+	/**
+	 * Customization Mode
+	 *
+	 * @var bool
+	 */
+	protected $is_customizing = false;
+
 
 	/**
 	 * Constructs a new instance.
@@ -117,11 +132,11 @@ class Invoice_Customizer extends Customizer_Helper {
 	 * Prepares for the customizer initialization
 	 */
 	protected function prepare_customizer() {
-		if ( isset( $_REQUEST['wooei_customizer_nonce'] ) ) {
-			$this->is_customizing = wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wooei_customizer_nonce'] ) ), 'wooei_customizer_nonce' );
+		if ( isset( $_REQUEST['wooei_customizer_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wooei_customizer_nonce'] ) ), 'wooei_customizer_nonce' ) ) {
+			$this->is_customizing = true;
 		}
-		if ( isset( $_REQUEST['wooei_preview_nonce'] ) ) {
-			$this->is_previewing = wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wooei_preview_nonce'] ) ), 'wooei_preview_nonce' );
+		if ( isset( $_REQUEST['wooei_preview_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wooei_preview_nonce'] ) ), 'wooei_preview_nonce' ) ) {
+			$this->is_previewing = true;
 		}
 
 		if ( $this->is_customizing || $this->is_previewing ) {

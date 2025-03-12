@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-03-01 21:20+0200\n"
+"POT-Creation-Date: 2025-03-12 23:13+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Rahal <rahal.aboulfeth@gmail.com>\n"
 "Language-Team: \n"
@@ -166,274 +166,282 @@ msgid "Invoice Generation Failed"
 msgstr ""
 
 #: includes/changesets.php:22
-msgid "0.3.5 : Invoice Sequential Numbering"
+msgid "0.3.7 : Fixed - Bug while generating e-invoice if the order contains a free product."
 msgstr ""
 
 #: includes/changesets.php:23
-msgid "Use WooCommerce Logger to log invoice generation errors"
+msgid "0.3.6 : Submission to WooCommerce Marketplace : Passing Qit Tests"
 msgstr ""
 
 #: includes/changesets.php:24
-msgid "Invoice number should be generated when order status is processing or completed"
+msgid "0.3.5 : Invoice Sequential Numbering"
+msgstr ""
+
+#: includes/changesets.php:25
+msgid "Use WooCommerce Logger to log invoice generation errors"
 msgstr ""
 
 #: includes/changesets.php:26
-msgid "0.3.4 : Bug fix when changing invoice number"
-msgstr ""
-
-#: includes/changesets.php:27
-msgid "0.3.3 : Bug fix when no taxation is setup"
+msgid "Invoice number should be generated when order status is processing or completed"
 msgstr ""
 
 #: includes/changesets.php:28
-msgid "Avoid deprecated error caused by translation loaded too early"
+msgid "0.3.4 : Bug fix when changing invoice number"
 msgstr ""
 
 #: includes/changesets.php:29
-msgid "If invoice fails to generate for any reason, notify the admin by email"
+msgid "0.3.3 : Bug fix when no taxation is setup"
+msgstr ""
+
+#: includes/changesets.php:30
+msgid "Avoid deprecated error caused by translation loaded too early"
 msgstr ""
 
 #: includes/changesets.php:31
-msgid "0.3.2 : Updated digital-invoice dependency"
-msgstr ""
-
-#: includes/changesets.php:32
-msgid "0.3.1 : Updated digital-invoice dependency"
+msgid "If invoice fails to generate for any reason, notify the admin by email"
 msgstr ""
 
 #: includes/changesets.php:33
-msgid "Better german translation"
+msgid "0.3.2 : Updated digital-invoice dependency"
+msgstr ""
+
+#: includes/changesets.php:34
+msgid "0.3.1 : Updated digital-invoice dependency"
 msgstr ""
 
 #: includes/changesets.php:35
-msgid "0.3.0 : Added sequential invoice numbering"
-msgstr ""
-
-#: includes/changesets.php:36
-msgid "Added settings section to configure numbering strategy, format, override last number."
+msgid "Better german translation"
 msgstr ""
 
 #: includes/changesets.php:37
-msgid "On change status change to processing or completed, the invoice number is applied."
+msgid "0.3.0 : Added sequential invoice numbering"
+msgstr ""
+
+#: includes/changesets.php:38
+msgid "Added settings section to configure numbering strategy, format, override last number."
 msgstr ""
 
 #: includes/changesets.php:39
-msgid "0.2.9 : Better compatibility with different themes and plugins"
-msgstr ""
-
-#: includes/changesets.php:40
-msgid "Fixed a fatal error that occurred in some cases if the theme or installed plugins were interacting with the native customizer."
+msgid "On change status change to processing or completed, the invoice number is applied."
 msgstr ""
 
 #: includes/changesets.php:41
-msgid "Fixed the settings link to redirect to E-Invoice tab instead of WooCommerce."
+msgid "0.2.9 : Better compatibility with different themes and plugins"
+msgstr ""
+
+#: includes/changesets.php:42
+msgid "Fixed a fatal error that occurred in some cases if the theme or installed plugins were interacting with the native customizer."
 msgstr ""
 
 #: includes/changesets.php:43
-msgid "0.2.8 : Fix Fatal error when order has no modified date, shows today's date."
-msgstr ""
-
-#: includes/changesets.php:44
-msgid "0.2.7 : Minor Improvements"
+msgid "Fixed the settings link to redirect to E-Invoice tab instead of WooCommerce."
 msgstr ""
 
 #: includes/changesets.php:45
-msgid "Updated dependency digital-invoice dependency"
+msgid "0.2.8 : Fix Fatal error when order has no modified date, shows today's date."
 msgstr ""
 
 #: includes/changesets.php:46
-msgid "Pdf Invoice : Show date_modified when order is not paid"
+msgid "0.2.7 : Minor Improvements"
+msgstr ""
+
+#: includes/changesets.php:47
+msgid "Updated dependency digital-invoice dependency"
 msgstr ""
 
 #: includes/changesets.php:48
-msgid "0.2.6 : Fix bad escaping in delivery address."
-msgstr ""
-
-#: includes/changesets.php:49
-msgid "0.2.5 : PDF Invoice Enhancements and Compatibility Fixes"
+msgid "Pdf Invoice : Show date_modified when order is not paid"
 msgstr ""
 
 #: includes/changesets.php:50
-msgid "PDF Invoice now displays extensive billing and shipping information (company name, address line 1, address line 2, city, postal code, state, country)"
+msgid "0.2.6 : Fix bad escaping in delivery address."
 msgstr ""
 
 #: includes/changesets.php:51
-msgid "Fixed compatibility with OceanWP theme"
+msgid "0.2.5 : PDF Invoice Enhancements and Compatibility Fixes"
 msgstr ""
 
 #: includes/changesets.php:52
-msgid "Updated WordPress and WooCommerce compatibility to latest versions"
+msgid "PDF Invoice now displays extensive billing and shipping information (company name, address line 1, address line 2, city, postal code, state, country)"
+msgstr ""
+
+#: includes/changesets.php:53
+msgid "Fixed compatibility with OceanWP theme"
 msgstr ""
 
 #: includes/changesets.php:54
-msgid "0.2.4 : Welcome to the spanish translation"
-msgstr ""
-
-#: includes/changesets.php:55
-msgid "Added the possiblity to set a company name different than the shop name."
+msgid "Updated WordPress and WooCommerce compatibility to latest versions"
 msgstr ""
 
 #: includes/changesets.php:56
+msgid "0.2.4 : Welcome to the spanish translation"
+msgstr ""
+
+#: includes/changesets.php:57
+msgid "Added the possiblity to set a company name different than the shop name."
+msgstr ""
+
+#: includes/changesets.php:58
 msgid "Added spanish translation"
 msgstr ""
 
-#: includes/changesets.php:59
+#: includes/changesets.php:61
 msgid "0.2.3 : Fix fatal error after the plugin upgrade."
 msgstr ""
 
-#: includes/changesets.php:60
+#: includes/changesets.php:62
 msgid "0.2.2 : Minor Improvements"
 msgstr ""
 
-#: includes/changesets.php:61
+#: includes/changesets.php:63
 msgid "Updated tested Wordpress up to version."
 msgstr ""
 
-#: includes/changesets.php:62
+#: includes/changesets.php:64
 msgid "Added option to support adding phone number and email to the invoice"
 msgstr ""
 
-#: includes/changesets.php:65
+#: includes/changesets.php:67
 msgid "0.2.1 : Important critical fixes"
 msgstr ""
 
-#: includes/changesets.php:66
+#: includes/changesets.php:68
 msgid "This version adds the possibility to view the project changes."
 msgstr ""
 
-#: includes/changesets.php:67
+#: includes/changesets.php:69
 msgid "Fixed refresh preview."
 msgstr ""
 
-#: includes/changesets.php:68
+#: includes/changesets.php:70
 msgid "Fixed error while attaching invoice to email."
 msgstr ""
 
-#: includes/changesets.php:70
+#: includes/changesets.php:72
 msgid "0.2.0 : Bulk invoices download"
 msgstr ""
 
-#: includes/changesets.php:71
+#: includes/changesets.php:73
 msgid "This version adds the possibility to download multiple e-invoices in a Zip package from the WooCommerce orders list table."
 msgstr ""
 
-#: includes/changesets.php:72
+#: includes/changesets.php:74
 msgid "After each upgrade, an admin notice will display the changes since the previously installed version."
 msgstr ""
 
-#: includes/changesets.php:74
+#: includes/changesets.php:76
 msgid "0.1.9 : Minor Improvements"
 msgstr ""
 
-#: includes/changesets.php:75
+#: includes/changesets.php:77
 msgid "Prices in the invoice table now utilize WooCommerce formatting for consistency."
 msgstr ""
 
-#: includes/changesets.php:76
+#: includes/changesets.php:78
 msgid "Corrected an issue where the footer was not properly aligned in the Preview mode."
 msgstr ""
 
-#: includes/changesets.php:78
+#: includes/changesets.php:80
 msgid "0.1.8 : Fix translation loading and added WooCommerce as a plugin dependency"
 msgstr ""
 
-#: includes/changesets.php:79
+#: includes/changesets.php:81
 msgid "0.1.7 : Fix arabic caracters in pdf invoice"
 msgstr ""
 
-#: includes/changesets.php:80
+#: includes/changesets.php:82
 msgid "0.1.6 : Fix adding invoice to emails as attachements"
 msgstr ""
 
-#: includes/changesets.php:81
+#: includes/changesets.php:83
 msgid "Updated tested Wordpress up to version"
 msgstr ""
 
-#: includes/changesets.php:82
+#: includes/changesets.php:84
 msgid "Fixed typos in readme"
 msgstr ""
 
-#: includes/changesets.php:84
+#: includes/changesets.php:86
 msgid "0.1.5 : Allow E-Invoices to be attached to more WooCommerce Emails"
 msgstr ""
 
-#: includes/changesets.php:85
+#: includes/changesets.php:87
 msgid "Updated tested WooCommerce up to version"
 msgstr ""
 
-#: includes/changesets.php:86
+#: includes/changesets.php:88
 msgid "Updated translations"
 msgstr ""
 
-#: includes/changesets.php:88
+#: includes/changesets.php:90
 msgid "0.1.4 : Applying Wordpress Plugin review team feedback"
 msgstr ""
 
-#: includes/changesets.php:89
+#: includes/changesets.php:91
 msgid "Multiple sanitization and escaping fixes."
 msgstr ""
 
-#: includes/changesets.php:90
+#: includes/changesets.php:92
 msgid "Use WOOEI as unique prefix."
 msgstr ""
 
-#: includes/changesets.php:92
+#: includes/changesets.php:94
 msgid "0.1.3 : Minor style adjustments."
 msgstr ""
 
-#: includes/changesets.php:93
+#: includes/changesets.php:95
 msgid "0.1.2 : Renamed slug to comply with the naming guidelines."
 msgstr ""
 
-#: includes/changesets.php:94
+#: includes/changesets.php:96
 msgid "0.1.1 : Added PHP extensions (gd, mbstring, iconv and dom) verification before loading the plugin."
 msgstr ""
 
-#: includes/changesets.php:95
+#: includes/changesets.php:97
 msgid "0.1.0 : Introduced support for the UBL format, expanding e-invoicing capabilities."
 msgstr ""
 
-#: includes/changesets.php:96
+#: includes/changesets.php:98
 msgid "0.0.9 : Implemented role-based access control, allowing customization of minimum capabilities required for setting up the plugin."
 msgstr ""
 
-#: includes/changesets.php:97
+#: includes/changesets.php:99
 msgid "0.0.8 : Resolved compatibility issues with the Astra WordPress theme."
 msgstr ""
 
-#: includes/changesets.php:98
+#: includes/changesets.php:100
 msgid "0.0.7 : Minor fixes to improve the user experience."
 msgstr ""
 
-#: includes/changesets.php:99
+#: includes/changesets.php:101
 msgid "0.0.6 : Confirmed compatibility with WooCommerce 8.4"
 msgstr ""
 
-#: includes/changesets.php:100
+#: includes/changesets.php:102
 msgid "Declare compatibility with **High performance order tables**"
 msgstr ""
 
-#: includes/changesets.php:102
+#: includes/changesets.php:104
 msgid "0.0.5 : Improved the plugin onboarding experience"
 msgstr ""
 
-#: includes/changesets.php:102
+#: includes/changesets.php:104
 msgid "Nice instructive notices, better captions and labels."
 msgstr ""
 
-#: includes/changesets.php:103
+#: includes/changesets.php:105
 msgid "0.0.1 : Initial release of E-Invoicing for WooCommerce"
 msgstr ""
 
-#: includes/changesets.php:104
+#: includes/changesets.php:106
 msgid "Initial release, PDF Invoice Customizer supporting Factur-X and ZUGFeRD formats, ensuring compliance with French and German e-invoicing standards."
 msgstr ""
 
-#: includes/changesets.php:120
+#: includes/changesets.php:122
 msgid "Thank you for upgrading E-Invoicing For WooCommerce"
 msgstr ""
 
-#: includes/changesets.php:121
+#: includes/changesets.php:123
 msgid "Please take notice of what changed :"
 msgstr ""
 
@@ -469,324 +477,324 @@ msgstr ""
 msgid "Justify"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:59
+#: includes/class-invoice-customizer.php:74
 msgid "We truly appreciate your business and look forward to helping you again soon."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:150
+#: includes/class-invoice-customizer.php:165
 msgid "Please create an order to be able to customize the invoice"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:187
-#: includes/class-invoice-customizer.php:188
+#: includes/class-invoice-customizer.php:202
+#: includes/class-invoice-customizer.php:203
 msgid "Invoice Customizer"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:294
+#: includes/class-invoice-customizer.php:309
 msgid "Ready-to-Use designs"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:297
+#: includes/class-invoice-customizer.php:312
 msgid "Fields visibility"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:300
+#: includes/class-invoice-customizer.php:315
 msgid "Global style options"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:303
+#: includes/class-invoice-customizer.php:318
 msgid "Invoice header design"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:306
+#: includes/class-invoice-customizer.php:321
 msgid "Invoice details design"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:309
+#: includes/class-invoice-customizer.php:324
 msgid "Invoice table design"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:312
+#: includes/class-invoice-customizer.php:327
 msgid "Customer notes section"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:315
+#: includes/class-invoice-customizer.php:330
 msgid "Invoice footer design"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:325
+#: includes/class-invoice-customizer.php:340
 msgid "Choose a prebuilt template"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:326
+#: includes/class-invoice-customizer.php:341
 msgid "You will loose your customizations"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:336
+#: includes/class-invoice-customizer.php:351
 msgid "Setup fields visibility"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:342
+#: includes/class-invoice-customizer.php:357
 msgid "Display client phone number"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:343
+#: includes/class-invoice-customizer.php:358
 msgid "Hide or displays the customer phone number"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:351
+#: includes/class-invoice-customizer.php:366
 msgid "Display client email number"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:352
+#: includes/class-invoice-customizer.php:367
 msgid "Hide or displays the customer email number"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:363
+#: includes/class-invoice-customizer.php:378
 msgid "Select main background color"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:364
+#: includes/class-invoice-customizer.php:379
 msgid "Choose a color that forms the backdrop of your invoice for a cohesive brand look."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:372
+#: includes/class-invoice-customizer.php:387
 msgid "Select the main font family"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:373
+#: includes/class-invoice-customizer.php:388
 msgid "Pick a font that reflects your brand's style and ensures legibility for all readers."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:382
+#: includes/class-invoice-customizer.php:397
 msgid "Adjust main font size"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:383
+#: includes/class-invoice-customizer.php:398
 msgid "Set the size of your text to balance readability with the efficient use of space."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:396
+#: includes/class-invoice-customizer.php:411
 msgid "Select main text color"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:397
+#: includes/class-invoice-customizer.php:412
 msgid "Choose the primary color for your invoice text to ensure good visibility and a professional look."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:405
-#: includes/class-invoice-customizer.php:604
-#: includes/class-invoice-customizer.php:624
+#: includes/class-invoice-customizer.php:420
+#: includes/class-invoice-customizer.php:619
+#: includes/class-invoice-customizer.php:639
 msgid "Select title color"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:406
+#: includes/class-invoice-customizer.php:421
 msgid "Set a distinct color for titles to draw attention to section headings and organize content."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:415
+#: includes/class-invoice-customizer.php:430
 msgid "Adjust left & right padding"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:416
+#: includes/class-invoice-customizer.php:431
 msgid "Modify the left and right padding to control the whitespace around your invoice content, creating a more readable and aesthetically pleasing layout."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:424
+#: includes/class-invoice-customizer.php:439
 msgid "Choose your logo"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:425
+#: includes/class-invoice-customizer.php:440
 msgid "Upload your company logo for brand recognition."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:433
+#: includes/class-invoice-customizer.php:448
 msgid "Set logo width (px)"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:434
+#: includes/class-invoice-customizer.php:449
 msgid "Adjust the width of your logo to ensure it's clearly visible without overpowering the header content."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:446
+#: includes/class-invoice-customizer.php:461
 msgid "Select header background color"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:447
+#: includes/class-invoice-customizer.php:462
 msgid "Select a color for the header that complements your logo and enhances the header text."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:455
+#: includes/class-invoice-customizer.php:470
 msgid "Select header text color"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:456
+#: includes/class-invoice-customizer.php:471
 msgid "Choose a text color that provides sufficient contrast against the header background for easy reading."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:465
-#: includes/class-invoice-customizer.php:614
+#: includes/class-invoice-customizer.php:480
+#: includes/class-invoice-customizer.php:629
 msgid "Adjust top & bottom padding"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:466
+#: includes/class-invoice-customizer.php:481
 msgid "Modify the vertical spacing within the header to fit your design and content needs."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:475
+#: includes/class-invoice-customizer.php:490
 msgid "Setup order detail"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:481
+#: includes/class-invoice-customizer.php:496
 msgid "Select border color"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:482
+#: includes/class-invoice-customizer.php:497
 msgid "Choose a border color that complements your invoice's color scheme for a cohesive look."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:488
+#: includes/class-invoice-customizer.php:503
 msgid "Adjust border size"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:489
+#: includes/class-invoice-customizer.php:504
 msgid "Control the thickness of the table's borders to enhance or soften the grid lines."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:500
+#: includes/class-invoice-customizer.php:515
 msgid "Adjust table top & bottom margins"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:501
+#: includes/class-invoice-customizer.php:516
 msgid "Increase or decrease the space above and below your table to fit the content into your page layout optimally."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:512
+#: includes/class-invoice-customizer.php:527
 msgid "Select table header background"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:513
+#: includes/class-invoice-customizer.php:528
 msgid "Select a background color for the table headers to distinguish them from the data rows."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:520
+#: includes/class-invoice-customizer.php:535
 msgid "Select table header text color"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:521
+#: includes/class-invoice-customizer.php:536
 msgid "Pick a text color for the header that ensures clear readability and stands out against the background."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:526
+#: includes/class-invoice-customizer.php:541
 msgid "Adjust header padding"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:527
+#: includes/class-invoice-customizer.php:542
 msgid "Modify the space within the header cells to make your titles more prominent or to fit more text."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:538
+#: includes/class-invoice-customizer.php:553
 msgid "Set header alignment"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:539
+#: includes/class-invoice-customizer.php:554
 msgid "Align your header text to the left, right, or center to match your table's formatting style."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:546
+#: includes/class-invoice-customizer.php:561
 msgid "Adjust cell padding"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:547
+#: includes/class-invoice-customizer.php:562
 msgid "Fine-tune the space within each cell to improve content readability and focus."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:558
+#: includes/class-invoice-customizer.php:573
 msgid "Set cell alignment"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:559
+#: includes/class-invoice-customizer.php:574
 msgid "Align the content within your cells to the left, right, center, or justify to ensure a neat and organized appearance."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:566
+#: includes/class-invoice-customizer.php:581
 msgid "Select Zebra-striped row (Odd)"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:567
+#: includes/class-invoice-customizer.php:582
 msgid "Choose color for odd rows to increase readability."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:573
+#: includes/class-invoice-customizer.php:588
 msgid "Select Zebra-striped row (Even)"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:574
+#: includes/class-invoice-customizer.php:589
 msgid "Choose color for even rows to increase readability."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:585
+#: includes/class-invoice-customizer.php:600
 msgid "Select background color"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:586
+#: includes/class-invoice-customizer.php:601
 msgid "Choose a background color for the invoice details area to create visual distinction from other sections."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:594
-#: includes/class-invoice-customizer.php:632
+#: includes/class-invoice-customizer.php:609
+#: includes/class-invoice-customizer.php:647
 msgid "Select text color"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:595
+#: includes/class-invoice-customizer.php:610
 msgid "Pick a color for the main body of text that ensures easy reading against the background."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:605
+#: includes/class-invoice-customizer.php:620
 msgid "Set a distinct color for the detail section titles to separate them from other text and enhance hierarchy."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:615
+#: includes/class-invoice-customizer.php:630
 msgid "Tweak the vertical space above and below your invoice details to improve layout and readability."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:625
+#: includes/class-invoice-customizer.php:640
 msgid "Pick a color for the note section's title to highlight it or to match your brand's theme."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:633
+#: includes/class-invoice-customizer.php:648
 msgid "Choose a color for the note's body text that is readable on the chosen background for customer clarity."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:643
+#: includes/class-invoice-customizer.php:658
 msgid "Type your footer message"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:644
+#: includes/class-invoice-customizer.php:659
 msgid "Enter any legal information, notes of thanks, or company details here."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:651
+#: includes/class-invoice-customizer.php:666
 msgid "Select footer background color"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:652
+#: includes/class-invoice-customizer.php:667
 msgid "Choose a background color that complements the header and provides a visual anchor for your invoice."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:661
+#: includes/class-invoice-customizer.php:676
 msgid "Select footer text color"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:662
+#: includes/class-invoice-customizer.php:677
 msgid "Select a text color that ensures readability against the footer background."
 msgstr ""
 
-#: includes/class-invoice-customizer.php:670
+#: includes/class-invoice-customizer.php:685
 msgid "Select font size"
 msgstr ""
 
-#: includes/class-invoice-customizer.php:671
+#: includes/class-invoice-customizer.php:686
 msgid "Set the size of your footer text to balance readability. (Default size is 12px)"
 msgstr ""
 
@@ -991,38 +999,38 @@ msgstr ""
 msgid "Shipping address:"
 msgstr ""
 
-#: templates/invoice.php:346
+#: templates/invoice.php:340
 msgid "Order Number:"
 msgstr ""
 
-#: templates/invoice.php:350
+#: templates/invoice.php:344
 msgid "Order Date:"
 msgstr ""
 
-#: templates/invoice.php:379
+#: templates/invoice.php:373
 msgid "Product"
 msgstr ""
 
-#: templates/invoice.php:380
+#: templates/invoice.php:374
 msgid "Quantity"
 msgstr ""
 
-#: templates/invoice.php:381
+#: templates/invoice.php:375
 msgid "Price"
 msgstr ""
 
-#: templates/invoice.php:382
+#: templates/invoice.php:376
 msgid "Total"
 msgstr ""
 
-#: templates/invoice.php:399
+#: templates/invoice.php:393
 msgid "SKU:"
 msgstr ""
 
-#: templates/invoice.php:404
+#: templates/invoice.php:398
 msgid "Weight:"
 msgstr ""
 
-#: templates/invoice.php:420
+#: templates/invoice.php:414
 msgid "Customer Notes"
 msgstr ""

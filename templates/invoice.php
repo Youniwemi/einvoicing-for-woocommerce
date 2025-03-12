@@ -336,12 +336,6 @@ do_action( 'wooei_before_document', $this->order );
 						 */
 						do_action( 'wooei_before_order_data', $this->order );
 						?>
-						<?php if ( isset( $fields['display_invoice_number'] ) && $fields['display_invoice_number'] ) : ?>
-							<div class="invoice-number">
-							<?php echo esc_html( $this->get_number_title() ); ?>
-							<?php echo esc_html( $this->get_invoice_number() ); ?>
-							</div>
-						<?php endif; ?>
 						<div class="order-number">
 							<?php esc_html_e( 'Order Number:', 'einvoicing-for-woocommerce' ); ?>
 							<?php echo esc_html( $this->get_order_number() ); ?>

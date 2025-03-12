@@ -105,7 +105,7 @@ abstract class Customizer_Helper {
 	 *
 	 * @return     mixed  The defaults.
 	 */
-	public function get_defaults( string $key = null ) {
+	public function get_defaults( ?string $key = null ) {
 		return isset( $key ) ? $this->defaults[ $key ] : $this->defaults;
 	}
 
@@ -117,7 +117,7 @@ abstract class Customizer_Helper {
 	 *
 	 * @return     mixed  The settings.
 	 */
-	public function get_settings( string $key = null ) {
+	public function get_settings( ?string $key = null ) {
 		static $settings;
 		if ( null === $settings ) {
 			$settings = wp_parse_args( get_option( static::$settings_option, array() ), $this->get_defaults() );
@@ -385,7 +385,7 @@ abstract class Customizer_Helper {
 	 *
 	 * @return     string|array  The font family.
 	 */
-	public static function get_font_family( string $key = null ) {
+	public static function get_font_family( ?string $key = null ) {
 		static $font_families;
 		if ( null === $font_families ) {
 			/**

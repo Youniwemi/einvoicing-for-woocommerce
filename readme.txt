@@ -1,11 +1,11 @@
 === E-Invoicing For WooCommerce ===
 Contributors: rahal.aboulfeth
-Tags: e-invoicing, factur-x, UBL, invoice, WooCommerce
+Tags: e-invoicing, factur-x, UBL, invoice, WooCommerce, pdf
 Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 8.1
 License: GPL
-Stable tag: 0.3.5
+Stable tag: 0.3.7
 
 Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and other e-invoicing standards.
 
@@ -112,71 +112,135 @@ Big Thanks to :
 - [Youniwemi](https://packagist.org/packages/youniwemi/digital-invoice) for Digital Invoice - Easy wrapper around easybill/zugferd-php, atgp/factur-x and josemmo/einvoicing  that will allow you generate Factur-x and UBL in a very easy way.
 
 == Changelog ==
-= 0.3.5 : Invoice Sequential Numbering
+
+2025-03-12 - version 0.3.7
+* Fixed - Bug while generating e-invoice if the order contains a free product.
+
+2025-03-05 - version 0.3.6
+* Submission to WooCommerce Marketplace : Passing Qit Tests
+
+2025-03-01 - version 0.3.5
 * Use WooCommerce Logger to log invoice generation errors
 * Invoice number should be generated when order status is processing or completed
-= 0.3.4 : Bug fix when changing invoice number
-= 0.3.3 : Bug fix when no taxation is setup
+
+2025-02-28 - version 0.3.4
+* Bug fix when changing invoice number
+
+2025-02-12 - version 0.3.3
+* Bug fix when no taxation is setup
 * Avoid deprecated error caused by translation loaded too early
 * If invoice fails to generate for any reason, notify the admin by email
-= 0.3.2 : Updated digital-invoice dependency
-= 0.3.1 : Updated digital-invoice dependency
+
+2025-02-11 - version 0.3.2
+* Updated digital-invoice dependency
+
+2025-02-08 - version 0.3.1
+* Updated digital-invoice dependency
 * Better german translation
-= 0.3.0 : Added sequential invoice numbering
+
+2025-01-29 - version 0.3.0
+* Added sequential invoice numbering
 * Added settings section to configure numbering strategy, format, override last number.
 * On change status change to processing or completed, the invoice number is applied.
-= 0.2.9 : Better compatibility with different themes and plugins
+
+2025-01-08 - version 0.2.9
+* Better compatibility with different themes and plugins
 * Fixed a fatal error that occurred in some cases if the theme or installed plugins were interacting with the native customizer.
 * Fixed the settings link to redirect to E-Invoice tab instead of WooCommerce.
-= 0.2.8 : Fix Fatal error when order has no modified date, shows today's date.
-= 0.2.7 : Happy new year and Thank you all for your support. 
+
+2025-01-06 - version 0.2.8
+Fix Fatal error when order has no modified date, shows today's date.
+
+2024-12-31 - version 0.2.7
+* Happy new year and Thank you all for your support. 
 * Updated dependency digital-invoice dependency
 * Pdf Invoice : Show date_modified when order is not paid
-= 0.2.6 : Fix bad escaping in delivery address. 
-= 0.2.5 : PDF Invoice Enhancements and Compatibility Fixes
+
+2024-12-25 - version 0.2.6
+* Fix bad escaping in delivery address. 
+
+2024-12-22 - version 0.2.5
 * PDF Invoice now displays extensive billing and shipping information (company name, address line 1, address line 2, city, postal code, state, country)
 * Fixed compatibility with OceanWP theme
 * Updated WordPress and WooCommerce compatibility to latest versions
-= 0.2.4 : Welcome to the spanish translation
+
+2024-11-06 - version 0.2.4
 * Added the possiblity to set a company name different than the shop name.
 * Added spanish translation
-= 0.2.3 : Fix fatal error after the plugin upgrade.
-= 0.2.2 : Minor improvements
+
+2024-10-15 - version 0.2.3
+* Fix fatal error after the plugin upgrade.
+
+2024-10-14 - version 0.2.2
 * Updated tested Wordpress up to version.
 * Added option to support adding phone number and email to the invoice.
-= 0.2.1 : Important critical fixes
+
+
+2024-05-26 - version 0.2.1
 * Fixed Fatal error while attaching invoice to email.
 * Fixed refresh preview.
 * This version adds the possibility to view the project changes.
-= 0.2.0 : Bulk invoices download
+
+2024-05-17 - version 0.2.0
 * This version adds the possibility to download multiple e-invoices in a Zip package from the WooCommerce orders list table.
 * After each upgrade, an admin notice will display the changes since the previously installed version.
-= 0.1.9 : Minor Improvements
+
+2024-04-27 - version 0.1.9
 * Prices in the invoice table now utilize WooCommerce formatting for consistency.
 * Corrected an issue where the footer was not properly aligned in the Preview mode.
-= 0.1.8 : Fix translation loading and added WooCommerce as a plugin dependency
-= 0.1.7 : Fix arabic caracters in pdf invoice
-= 0.1.6 : Fix adding invoice to emails as attachements
+
+2024-04-24 - version 0.1.8
+* Fix translation loading and added WooCommerce as a plugin dependency
+
+2024-04-04 - version 0.1.7
+Fix arabic caracters in pdf invoice
+
+2024-04-03 - version 0.1.6
+* Fix adding invoice to emails as attachements
 * Updated tested Wordpress up to version
 * Fixed typos in readme
-= 0.1.5 : Allow E-Invoices to be attached to more WooCommerce Emails
+
+2024-04-03 - version 0.1.5
+* Published to WordPress Plugins repository
+* Allow E-Invoices to be attached to more WooCommerce Emails
 * Updated tested WooCommerce up to version
 * Updated translations
-= 0.1.4 : Applying Wordpress Plugin review team feedback
+
+2024-04-02 - version 0.1.4
+* Applying Wordpress Plugin review team feedback
 * Multiple sanitization and escaping fixes.
 * Use WOOEI as unique prefix
-= 0.1.3 : Minor style adjustments.
-= 0.1.2 : Renamed slug to comply with the naming guidelines.
-= 0.1.1 : Added PHP extensions (gd, mbstring, iconv and dom) verification before loading the plugin.
-= 0.1.0 : Introduced support for the UBL format, expanding e-invoicing capabilities.
-= 0.0.9 : Implemented role-based access control, allowing customization of minimum capabilities required for setting up the plugin.
-= 0.0.8 : Resolved compatibility issues with the Astra WordPress theme.
-= 0.0.7 : Minor fixes to improve the user experience.
-= 0.0.6 : Confirmed compatibility with WooCommerce 8.4 =
+
+2024-04-01 - version 0.1.3
+* Minor style adjustments.
+
+2024-04-01 - version 0.1.2
+* Renamed slug to comply with the naming guidelines.
+2024-03-15 - version 0.1.1
+* Added PHP extensions (gd, mbstring, iconv and dom) verification before loading the plugin.
+
+2024-03-14 - version 0.1.0
+* Introduced support for the UBL format, expanding e-invoicing capabilities.
+
+2024-03-14 - version 0.0.9
+* Implemented role-based access control, allowing customization of minimum capabilities required for setting up the plugin.
+
+
+2024-03-13 - version 0.0.8
+* Resolved compatibility issues with the Astra WordPress theme.
+
+2024-03-12 - version 0.0.7
+* Minor fixes to improve the user experience.
+
+2024-03-11 - version 0.0.6
+* Confirmed compatibility with WooCommerce 8.4 =
 * Declare compatibility with **High performance order tables**
-= 0.0.5 : Improved the plugin onboarding experience =
+
+2024-03-11 - version 0.0.5
+* Improved the plugin onboarding experience =
 * Nice instructive notices, better captions and labels.
-= 0.0.1 : Initial release of E-Invoicing for WooCommerce =
+
+2024-03-11 - version 0.0.1
 * Initial release, PDF Invoice Customizer supporting Factur-X and ZUGFeRD formats, ensuring compliance with French and German e-invoicing standards.
 
 

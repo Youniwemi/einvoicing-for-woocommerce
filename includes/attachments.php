@@ -84,7 +84,7 @@ function save_invoice_temp( string $content, WC_Abstract_Order $order ) {
  *
  * @return     array   The email attachments.
  */
-function attach_invoice_to_email( array $attachments, string $email_id, mixed $maybe_order ) {
+function attach_invoice_to_email( array $attachments, string $email_id, $maybe_order ) {
 	// no order, or not in our declared types.
 	if ( ! ( $maybe_order instanceof WC_Abstract_Order ) || ! isset( WOOEI_EMAIL_TYPES[ $email_id ] ) ) {
 		return $attachments;

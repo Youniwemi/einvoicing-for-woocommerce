@@ -89,7 +89,7 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 		$quantity                 = $item->get_quantity();
 		$line_price_without_tax   = (float) $total_line;
 		$single_price_without_tax = $line_price_without_tax / max( 1, $quantity );
-		$tax_rate                 = 0 === $line_price_without_tax ? 0 : ( $tax / $line_price_without_tax ) * 100;
+		$tax_rate                 = ( 0.0 === $line_price_without_tax ) ? 0 : ( $tax / $line_price_without_tax ) * 100;
 		$invoice->addItem( $item['name'], $single_price_without_tax, $tax_rate, $quantity, 'H87', $item['product_id'] );
 	}
 
@@ -136,7 +136,7 @@ function get_invoice_profile() {
  *
  * @return     bool    True if the specified profile is xml, False otherwise.
  */
-function is_xml( string $profile = null ) {
+function is_xml( ?string $profile = null ) {
 	if ( null === $profile ) {
 		$profile = get_invoice_profile();
 	}
@@ -153,7 +153,7 @@ function is_xml( string $profile = null ) {
  *
  * @return     string    The e invoice content.
  */
-function get_e_invoice( string $pdf, WC_Abstract_Order $order, string $type = null, $return_xml = false ) {
+function get_e_invoice( string $pdf, WC_Abstract_Order $order, ?string $type = null, $return_xml = false ) {
 	switch ( $type ) {
 		case WOOEI_TYPES_FACTURX:
 			$profile = Invoice::FACTURX_BASIC;
