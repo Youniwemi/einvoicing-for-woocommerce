@@ -63,29 +63,31 @@ if ( class_exists( '\WP_Customize_Control' ) ) {
 
 			<script>
 				jQuery(document).ready(function($) {
+					const templateSelector = $('#prebuilt-template');
+					const currentTemplate = templateSelector.val();
 					$('#wooei-load-template').click(function(){
-						if (confirm(<?php echo wp_json_encode( __( 'Are you sure you want to load this template, you will lose all your settings', 'einvoicing-for-woocommerce' ) ); ?> ) == false){
+						if (confirm(<?php echo wp_json_encode( __( 'Are you sure you want to load this template, you will lose all your settings', 'einvoicing-for-woocommerce' ) ); ?> ) == false) {
+							templateSelector.val(currentTemplate);
 							return;
 						}
-						var me = $(this);
-						var template = $('#prebuilt-template').val();
+						const me = $(this);
+						me.prop('disabled', true);
+						const template = $('#prebuilt-template').val();
 
-						var data = {
+						const data = {
 							action: 'wooei_load_template',
-							template:     template,
+							template: template,
 							wooei_load_template_nonce : <?php echo wp_json_encode( $nonce ); ?>
 						};
 
-						me.prop('disabled', true);
-						// Send request to server
+						// Send request to server.
 						$.post( ajaxurl, data, function( result ) {
-							if ( result == 0 ) {
-								location.reload();
-							} else {
-								alert( result );
-							}
+							location.reload();
+						}).fail(function(xhr) {
+							alert(xhr.responseText);
+						}).always(function() {
+							me.prop('disabled', false);
 						});
-
 					});
 
 				});                

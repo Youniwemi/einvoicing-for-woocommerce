@@ -16,7 +16,6 @@ class Invoice
     public const ZUGFERD_CONFORT = Zugferd::ZUGFERD_CONFORT;
     public const ZUGFERD_EXTENDED = Zugferd::ZUGFERD_EXTENDED;
     public const UBL_PEPOOL = Ubl::PEPPOL;
-    public const UBL_PEPPOL = Ubl::PEPPOL;
     public const UBL_NLCIUS = Ubl::NLCIUS;
     public const UBL_CIUS_RO = Ubl::CIUS_RO;
     public const UBL_CIUS_IT = Ubl::CIUS_IT;
@@ -27,7 +26,7 @@ class Invoice
 
     public const EXEMPT_FROM_TAX = VatCategory::EXEMPT_FROM_TAX;
     public const SERVICE_OUTSIDE_SCOPE_OF_TAX = VatCategory::SERVICE_OUTSIDE_SCOPE_OF_TAX;
-    public const FREE_EXPORT_ITEM_TAX_NOT_CHARGED = VatCategory::FREE_EXPORT_ITEM_TAX_NOT_CHARGED; 
+    public const FREE_EXPORT_ITEM_TAX_NOT_CHARGED = VatCategory::FREE_EXPORT_ITEM_TAX_NOT_CHARGED;
     public const STANDARD_TAX = VatCategory::STANDARD;
 
 
@@ -45,7 +44,7 @@ class Invoice
     protected $invoiceInformations = [];
 
     protected $noTaxCategory = VatCategory::SERVICE_OUTSIDE_SCOPE_OF_TAX;
-    protected $noTaxReason =  null;  
+    protected $noTaxReason =  null;
 
     public function __construct(
         string $invoiceId,
@@ -135,6 +134,16 @@ class Invoice
         }
         $this->invoiceInformations['seller'] = $name;
         $this->xmlGenerator->setSeller($id, $idType, $name, $tradingName);
+    }
+
+    public function addSellerIdentifier(string $identifier, string $idType)
+    {
+        try {
+            $idType = InternationalCodeDesignator::from($idType);
+        } catch (\ValueError $e) {
+            throw new \Exception("$idType is an Invalide InternationalCodeDesignator");
+        }
+        $this->xmlGenerator->addSellerIdentifier($idType, $identifier);
     }
 
 
@@ -237,7 +246,8 @@ class Invoice
         $this->xmlGenerator->addEmbeddedAttachment($id, $scheme, $filename, $contents, $mimeCode, $description);
     }
 
-    public function isUbl(){
+    public function isUbl()
+    {
         return in_array($this->profile, [self::UBL_NLCIUS, self::UBL_PEPOOL, self::UBL_CIUS_IT, self::UBL_CIUS_RO, self::UBL_CIUS_AT_GOV, self::UBL_CIUS_AT_NAT, self::UBL_CIUS_ES_FACE]);
     }
 }

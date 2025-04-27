@@ -85,6 +85,16 @@ class Settings extends WC_Settings_Page {
 	 */
 	public function get_settings() {
 
+		// We allow only pdf if Identification System is not correctly setup.
+		$id_type = (string) get_option( 'wooei_id_type', null );
+		if ( $id_type ) {
+			$invoice_types = WOOEI_TYPES;
+			$einvoice_help = __( 'Select the invoice format as per your country\'s regulations.', 'einvoicing-for-woocommerce' ) . '<br/>' . __( 'If your country has not implemented e-invoicing yet, you should choose PDF.', 'einvoicing-for-woocommerce' );
+		} else {
+			$invoice_types = array( 'pdf' => 'Pdf' );
+			$einvoice_help = __( 'To be able to activate e-invoice formats, you should first setup the Official Business Identification.', 'einvoicing-for-woocommerce' );
+		}
+
 		$settings = array(
 			'section_title'           => array(
 				'name' => __( 'Official Business Identification', 'einvoicing-for-woocommerce' ),
@@ -107,8 +117,12 @@ class Settings extends WC_Settings_Page {
 			'id_company_type'         => array(
 				'name'    => __( 'Identification System', 'einvoicing-for-woocommerce' ),
 				'type'    => 'select',
-				'desc'    => __( 'Select the system associated with your company identification number.', 'einvoicing-for-woocommerce' ),
-				'options' => Types::getInternationalCodes(),
+				'desc'    => __( 'This setting is mandatory for e-invoices.', 'einvoicing-for-woocommerce' ) . '<br/>' . __( 'The type of business identification depends on your country. For example, France uses SIREN and SIRET.', 'einvoicing-for-woocommerce' ) . '<br/>' .
+				__( 'If your country has implemented e-invoicing, don\'t hesitate to contact us if you don\'t find your identification system.', 'einvoicing-for-woocommerce' ),
+				'options' => array_merge(
+					array( '' => __( 'Choose identification format based on your country', 'my-textdomain' ) ),
+					Types::getInternationalCodes()
+				),
 				'id'      => $this->id . '_id_type',
 			),
 			'id_vat'                  => array(
@@ -204,8 +218,8 @@ class Settings extends WC_Settings_Page {
 			'invoice_type'            => array(
 				'name'    => __( 'Invoice Format', 'einvoicing-for-woocommerce' ),
 				'type'    => 'select',
-				'desc'    => __( 'Select the invoice format as per your country\'s regulations.', 'einvoicing-for-woocommerce' ),
-				'options' => WOOEI_TYPES,
+				'desc'    => $einvoice_help,
+				'options' => $invoice_types,
 				'id'      => $this->id . '_invoice_type',
 			),
 		);

@@ -19,6 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 function show_changesets_since( string $current ) {
 	// Let's define all the changesets, this way, we can easily translate them, and most importantly show what changed since the previous version.
 	$all = array(
+		__( '0.3.8 : Removed some warning and updated digital-invoice dependency', 'einvoicing-for-woocommerce' ) => array(
+			__( 'Fixed - Removed some warning and notices that appear in the customizer.', 'einvoicing-for-woocommerce' ),
+			__( 'Improvement - Better Identification System labels.', 'einvoicing-for-woocommerce' ),
+		),
 		__( '0.3.7 : Fixed - Bug while generating e-invoice if the order contains a free product.', 'einvoicing-for-woocommerce' ) => null,
 		__( '0.3.6 : Submission to WooCommerce Marketplace : Passing Qit Tests', 'einvoicing-for-woocommerce' ) => null,
 		__( '0.3.5 : Invoice Sequential Numbering', 'einvoicing-for-woocommerce' ) => array(

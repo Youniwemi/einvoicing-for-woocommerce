@@ -6,6 +6,7 @@
 	<exclude-pattern>/.github/*</exclude-pattern>
 	<exclude-pattern>/.git/*</exclude-pattern>
 	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/e2e/*</exclude-pattern>
 	<exclude-pattern>/node_modules/*</exclude-pattern>
 	<exclude-pattern>/languages/*</exclude-pattern>
 	<exclude-pattern>/assets/*</exclude-pattern>

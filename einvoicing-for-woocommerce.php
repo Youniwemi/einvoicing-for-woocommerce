@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: E-Invoicing For WooCommerce
- * Plugin URI: https://www.woo-einvoicing.com
- * Version: 0.3.7
+ * Plugin URI: https://www.einvoicing-pro.com
+ * Version: 0.3.8
  * Author: Instareza
  * Author URI: https://www.instareza.com
  * Description: Setup your WooCommerce PDF invoices effortlessly and ensure compliance with the latest electronic invoicing regulations! Enable Factur-X, UBL, ZUGFeRD and Xrechnung standards while customizing your invoices to reflect your brand.
@@ -10,10 +10,10 @@
  * Domain Path: /languages
  * Requires PHP: 8.1
  * Requires Plugins: woocommerce
- * Stable tag: 0.3.7
+ * Stable tag: 0.3.8
  *
  * WC requires at least: 7.0
- * WC tested up to: 9.7.1
+ * WC tested up to: 9.8.2
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,10 +24,10 @@
 namespace WOOEI;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit(); // Exit if accessed directly.
 }
 
-define( 'WOOEI_VERSION', '0.3.7' );
+define( 'WOOEI_VERSION', '0.3.8' );
 define( 'WOOEI_PLUGIN_DIR', __DIR__ );
 define( 'WOOEI_PLUGIN_FILE', __FILE__ );
 define( 'WOOEI_VENDOR', WOOEI_PLUGIN_DIR . '/vendor/' );
@@ -35,16 +35,7 @@ define( 'WOOEI_INCLUDES', WOOEI_PLUGIN_DIR . '/includes/' );
 define( 'WOOEI_ASSETS', WOOEI_PLUGIN_DIR . '/assets/' );
 define( 'WOOEI_MIN_PHP_VER', '8.1' );
 define( 'WOOEI_MIN_WC_VER', '7.0' );
-define(
-	'WOOEI_REQUIRED_EXTENSIONS',
-	array(
-		'gd',
-		'mbstring',
-		'iconv',
-		'dom',
-	)
-);
-
+define( 'WOOEI_REQUIRED_EXTENSIONS', array( 'gd', 'mbstring', 'iconv', 'dom' ) );
 
 require WOOEI_PLUGIN_DIR . '/init-freemius.php';
 
@@ -80,25 +71,50 @@ function get_environment_warning() {
  */
 function init() {
 	define( 'WOOEI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-	load_plugin_textdomain( 'einvoicing-for-woocommerce', false, dirname( WOOEI_PLUGIN_BASENAME ) . '/languages' );
+	load_plugin_textdomain(
+		'einvoicing-for-woocommerce',
+		false,
+		dirname( WOOEI_PLUGIN_BASENAME ) . '/languages'
+	);
 
-	define( 'WOOEI_PLUGIN_ASSETS', untrailingslashit( plugins_url( '/', __FILE__ ) ) . '/assets/' );
+	define(
+		'WOOEI_PLUGIN_ASSETS',
+		untrailingslashit( plugins_url( '/', __FILE__ ) ) . '/assets/'
+	);
 	define( 'WOOEI_TEMPLATE', WOOEI_PLUGIN_DIR . '/templates/' );
 	define(
 		'WOOEI_EMAIL_TYPES',
 		array(
-			'new_order'                 => __( 'New order (Admin email)', 'einvoicing-for-woocommerce' ),
-			'customer_completed_order'  => __( 'Completed order', 'einvoicing-for-woocommerce' ),
-			'customer_processing_order' => __( 'Processing order', 'einvoicing-for-woocommerce' ),
-			'customer_invoice'          => __( 'Customer invoice / Order details', 'einvoicing-for-woocommerce' ),
+			'new_order'                 => __(
+				'New order (Admin email)',
+				'einvoicing-for-woocommerce'
+			),
+			'customer_completed_order'  => __(
+				'Completed order',
+				'einvoicing-for-woocommerce'
+			),
+			'customer_processing_order' => __(
+				'Processing order',
+				'einvoicing-for-woocommerce'
+			),
+			'customer_invoice'          => __(
+				'Customer invoice / Order details',
+				'einvoicing-for-woocommerce'
+			),
 		)
 	);
 
 	define(
 		'WOOEI_NUMBERING_STRATEGY',
 		array(
-			WOOEI_NUMBERING_ORDER   => __( 'Use Order Number', 'einvoicing-for-woocommerce' ),
-			WOOEI_NUMBERING_INVOICE => __( 'Use sequential invoice number', 'einvoicing-for-woocommerce' ),
+			WOOEI_NUMBERING_ORDER   => __(
+				'Use Order Number',
+				'einvoicing-for-woocommerce'
+			),
+			WOOEI_NUMBERING_INVOICE => __(
+				'Use sequential invoice number',
+				'einvoicing-for-woocommerce'
+			),
 		)
 	);
 
@@ -106,17 +122,18 @@ function init() {
 		'WOOEI_INVOICE_NUMBER_RESET',
 		array(
 			WOOEI_NUMBERING_NO_RESET   => __( 'Never', 'einvoicing-for-woocommerce' ),
-			WOOEI_NUMBERING_RESET_YEAR => __( 'Yearly', 'einvoicing-for-woocommerce' ),
+			WOOEI_NUMBERING_RESET_YEAR => __(
+				'Yearly',
+				'einvoicing-for-woocommerce'
+			),
 		)
 	);
 }
-
 
 /**
  * Loads the plugins files if no environment warning
  */
 function load() {
-
 	add_action( 'init', __NAMESPACE__ . '\init', 1 );
 
 	$warning_code = get_environment_warning();
@@ -130,23 +147,48 @@ function load() {
 					}
 					switch ( $warning_string ) {
 						case 'min_php_version':
-							/* translators: 1: minimun php version number. 2: current php version number */
-							$warning = sprintf( __( 'E-Invoicing For Woocommerce - The minimum PHP version required for this plugin is %1$s. You are running %2$s.', 'einvoicing-for-woocommerce' ), WOOEI_MIN_PHP_VER, phpversion() );
+							$warning = sprintf(
+								/* translators: 1: minimun php version number. 2: current php version number */
+								__(
+									'E-Invoicing For Woocommerce - The minimum PHP version required for this plugin is %1$s. You are running %2$s.',
+									'einvoicing-for-woocommerce'
+								),
+								WOOEI_MIN_PHP_VER,
+								phpversion()
+							);
 							break;
 						case 'missing_extensions':
-							/* translators: 1: the required extension name */
-							$warning = sprintf( __( 'E-Invoicing For Woocommerce requires the php extension "%s" to be loaded to work.', 'einvoicing-for-woocommerce' ), strtoupper( $warning_code[1] ) );
+							$warning = sprintf(
+								/* translators: 1: the required extension name */
+								__(
+									'E-Invoicing For Woocommerce requires the php extension "%s" to be loaded to work.',
+									'einvoicing-for-woocommerce'
+								),
+								strtoupper( $warning_code[1] )
+							);
 							break;
 						case 'woo_inactive':
-							$warning = __( 'E-Invoicing For Woocommerce requires WooCommerce to be activated to work.', 'einvoicing-for-woocommerce' );
+							$warning = __(
+								'E-Invoicing For Woocommerce requires WooCommerce to be activated to work.',
+								'einvoicing-for-woocommerce'
+							);
 							break;
 						case 'wc_version':
-							/* translators: 1: minimun WooCommerce version number. 2: current WooCommerce version number */
-							$warning = sprintf( __( 'E-Invoicing For Woocommerce - The minimum WooCommerce version required for this plugin is %1$s. You are running %2$s.', 'einvoicing-for-woocommerce' ), WOOEI_MIN_WC_VER, WC_VERSION );
+							$warning = sprintf(
+								/* translators: 1: minimun WooCommerce version number. 2: current WooCommerce version number */
+								__(
+									'E-Invoicing For Woocommerce - The minimum WooCommerce version required for this plugin is %1$s. You are running %2$s.',
+									'einvoicing-for-woocommerce'
+								),
+								WOOEI_MIN_WC_VER,
+								WC_VERSION
+							);
 							break;
-
 					}
-					printf( '<div class="notice notice-error"><p>%s</p></div>', esc_html( $warning ) );
+					printf(
+						'<div class="notice notice-error"><p>%s</p></div>',
+						esc_html( $warning )
+					);
 				}
 			);
 		}

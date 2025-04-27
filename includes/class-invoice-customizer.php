@@ -108,7 +108,8 @@ class Invoice_Customizer extends Customizer_Helper {
 
 		check_ajax_referer( 'wooei_load_template_nonce', 'wooei_load_template_nonce' );
 		if ( empty( $_POST['template'] ) ) {
-			die( 1 );
+			status_header( 400 );
+			die( 'No template selected' );
 		}
 		$template = sanitize_text_field( wp_unslash( $_POST['template'] ) );
 
@@ -122,9 +123,10 @@ class Invoice_Customizer extends Customizer_Helper {
 			}
 
 			update_option( static::$settings_option, $saved, false );
-			exit;
+			wp_send_json( array( 'success' => 1 ) );
 		} else {
-			wp_send_json( array( 'error' => 'Not existing Template' ) );
+			status_header( 500 );
+			die( 'Not existing Template' );
 		}
 	}
 

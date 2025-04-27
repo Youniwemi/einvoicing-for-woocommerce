@@ -5,8 +5,8 @@
     "ext-gd": "*",
     "ext-dom": "*",
     "ext-iconv": "*",
-    "dompdf/dompdf": "^2.0",
-    "freemius/wordpress-sdk": "^2.10",
+    "dompdf/dompdf": "2.0.8",
+    "freemius/wordpress-sdk": "^2.11",
     "youniwemi/digital-invoice": "^0.2.2"
   },
   "repositories": [
@@ -18,12 +18,12 @@
   "scripts": {
     "cs": "phpcs -s --standard=phpcs.xml .",
     "cbf": "phpcbf --standard=phpcs.xml .",
-    "qit": "qit run:phpstan --zip ../../WORDPRESS_PLUGINS/woocommerce-einvoicing.woocommerce.zip woocommerce-einvoicing"
+    "qit": "qit run:e2e einvoicing-pro-for-woocommerce"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require-dev": {
-    "woocommerce/qit-cli": "^0.3.4"
+    "woocommerce/qit-cli": "^0.8.6"
   },
   "config": {
     "allow-plugins": {

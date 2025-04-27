@@ -243,7 +243,7 @@ add_filter(
 		}
 
 		$row_meta = array(
-			'docs' => '<a href="https://www.woo-einvoicing.com/docs/" aria-label="' . esc_attr__( 'View E-Invoicing for WooCommerce documentation', 'einvoicing-for-woocommerce' ) . '">' . esc_html__( 'E-Invoicing Documentation', 'einvoicing-for-woocommerce' ) . '</a>',
+			'docs' => '<a href="https://www.einvoicing-pro.com/docs/" aria-label="' . esc_attr__( 'View E-Invoicing for WooCommerce documentation', 'einvoicing-for-woocommerce' ) . '">' . esc_html__( 'E-Invoicing Documentation', 'einvoicing-for-woocommerce' ) . '</a>',
 		);
 		return array_merge( $links, $row_meta );
 	},

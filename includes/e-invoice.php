@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use DigitalInvoice\Invoice;
 use WC_Abstract_Order;
+use Exception;
 
 /**
  * Creates the E-Invoice from WC_Abstract_Order
@@ -21,8 +22,14 @@ use WC_Abstract_Order;
  * @param      string            $profile  The E-Invoicing profile.
  *
  * @return     Invoice   The e-invoice.
+ * @throws     Exception Setup Needed.
  */
 function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASIC ) {
+	// If there is no id type, no point in trying to do einvoice.
+	$id_type = (string) get_option( 'wooei_id_type' );
+	if ( '' === $id_type ) {
+		throw new Exception( 'Setup Needed' );
+	}
 
 	$issue_date = $order->get_date_completed();
 	$date_paid  = $order->get_date_paid();
@@ -35,7 +42,7 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 	// Setup Seller.
 	$invoice->setSeller(
 		get_option( 'wooei_id_company' ),
-		(string) get_option( 'wooei_id_type' ),
+		$id_type,
 		get_option( 'wooei_company_name', get_bloginfo( 'name' ) )
 	);
 
@@ -152,6 +159,7 @@ function is_xml( ?string $profile = null ) {
  * @param      bool              $return_xml   Return the xml only.
  *
  * @return     string    The e invoice content.
+ * @throws     Exception Setup Needed.
  */
 function get_e_invoice( string $pdf, WC_Abstract_Order $order, ?string $type = null, $return_xml = false ) {
 	switch ( $type ) {
@@ -185,7 +193,15 @@ function get_e_invoice( string $pdf, WC_Abstract_Order $order, ?string $type = n
 		default:
 			$profile = Invoice::FACTURX_BASIC;
 	}
-	$invoice = get_invoice( $order, $profile );
+	try {
+		$invoice = get_invoice( $order, $profile );
+	} catch ( Exception $e ) {
+		if ( $e->getMessage() === 'Setup Needed' ) {
+			return $pdf;
+		}
+		throw $e;
+	}
+
 	if ( WOOEI_TYPES_XRECHNUNG === $type ) {
 		return $invoice->getXml();
 	}

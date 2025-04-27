@@ -85,6 +85,18 @@ abstract class Customizer_Helper {
 	}
 
 	/**
+	 * Hides the site editor notice.
+	 */
+	private function hide_site_editor_notice() {
+		add_action(
+			'customize_controls_print_styles',
+			function() {
+				echo '<style>#customize-notifications-area:has([data-code=site_editor_block_theme_notice]){display:none !important;}</style>';
+			}
+		);
+	}
+
+	/**
 	 * Gets the instance.
 	 *
 	 * @return     Customizer_Helper  The instance.
@@ -245,6 +257,7 @@ abstract class Customizer_Helper {
 
 		$this->init_controls();
 
+		// We remove all the registered hooks.
 		self::remove_hooks_except(
 			'customize_register',
 			array(
@@ -349,6 +362,30 @@ abstract class Customizer_Helper {
 				}
 			}
 		}
+
+		// We remove all the registered hooks (except default WP mandatory ones).
+		self::remove_hooks_except(
+			'customize_controls_print_styles',
+			array( 'wp_resource_hints' )
+		);
+
+		self::remove_hooks_except(
+			'customize_controls_print_scripts',
+			array()
+		);
+
+		self::remove_hooks_except(
+			'customize_controls_enqueue_scripts',
+			array(
+				'wp_plupload_default_settings',
+				// all hooks added by WP_Customize_Manager.
+				'WP_Customize_Manager',
+			)
+		);
+
+		if ( $this->is_customizing ) {
+			$this->hide_site_editor_notice();
+		}
 	}
 
 
@@ -360,12 +397,18 @@ abstract class Customizer_Helper {
 	 */
 	protected function remove_hooks_except( string $action, array $except ) {
 		global $wp_filter;
+
 		foreach ( $wp_filter[ $action ]->callbacks as $priority => $callbacks ) {
 			foreach ( $callbacks as $order => $callback ) {
 				if ( is_array( $callback['function'] ) && is_object( $callback['function'][0] ) ) {
 					$object = get_class( $callback['function'][0] );
 					$method = $callback['function'][1];
+					// check first for the method.
 					if ( in_array( array( $object, $method ), $except, true ) ) {
+						continue;
+					}
+					// check for the class alone.
+					if ( in_array( $object, $except, true ) ) {
 						continue;
 					}
 				} elseif ( is_callable( $callback['function'] ) ) {
