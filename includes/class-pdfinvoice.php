@@ -192,6 +192,9 @@ class PdfInvoice {
 			case 'get_billing_to':
 				return $this->order->get_billing_first_name() . ' ' . $this->order->get_billing_last_name();
 
+			case 'is_invoiced':
+				return should_be_invoiced( $this->order );
+
 			case 'title':
 				$order_id = $this->order->get_id();
 				if ( has_invoice_numbering() ) {

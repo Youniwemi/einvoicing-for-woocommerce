@@ -354,8 +354,7 @@ class Invoice_Customizer extends Customizer_Helper {
 					'section'    => 'fields',
 					'default'    => array(),
 					'components' => array(
-						'display_phone' => array(
-
+						'display_phone'        => array(
 							'label'       => __( 'Display client phone number', 'einvoicing-for-woocommerce' ),
 							'description' => __( 'Hide or displays the customer phone number', 'einvoicing-for-woocommerce' ),
 							'section'     => 'fields',
@@ -363,10 +362,17 @@ class Invoice_Customizer extends Customizer_Helper {
 							'default'     => false,
 						),
 
-						'display_email' => array(
-
+						'display_email'        => array(
 							'label'       => __( 'Display client email number', 'einvoicing-for-woocommerce' ),
 							'description' => __( 'Hide or displays the customer email number', 'einvoicing-for-woocommerce' ),
+							'section'     => 'fields',
+							'type'        => 'checkbox',
+							'default'     => false,
+						),
+
+						'display_invoice_date' => array(
+							'label'       => __( 'Display invoice date', 'einvoicing-for-woocommerce' ),
+							'description' => __( 'Show invoice date instead of order date', 'einvoicing-for-woocommerce' ),
 							'section'     => 'fields',
 							'type'        => 'checkbox',
 							'default'     => false,

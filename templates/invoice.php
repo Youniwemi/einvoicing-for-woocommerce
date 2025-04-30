@@ -341,7 +341,11 @@ do_action( 'wooei_before_document', $this->order );
 							<?php echo esc_html( $this->get_order_number() ); ?>
 						</div>
 						<div class="order-date">
-							<?php esc_html_e( 'Order Date:', 'einvoicing-for-woocommerce' ); ?>
+							<?php if ( $this->is_invoiced() && isset( $fields['display_invoice_date'] ) && $fields['display_invoice_date'] ) : ?>
+								<?php esc_html_e( 'Invoice Date:', 'einvoicing-for-woocommerce' ); ?>
+							<?php else : ?>
+								<?php esc_html_e( 'Order Date:', 'einvoicing-for-woocommerce' ); ?>
+							<?php endif; ?>
 							<?php echo esc_html( $this->get_date_paid() ? $this->get_date_paid()->format( 'd-m-Y' ) : $this->get_safe_date()->format( 'd-m-Y' ) ); ?>
 						</div>
 						<?php

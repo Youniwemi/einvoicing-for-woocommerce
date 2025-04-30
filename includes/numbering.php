@@ -14,6 +14,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 use WC_Abstract_Order;
 use WP_Filesystem;
 
+
+/**
+ * Determines whether the specified order should be invoiced.
+ *
+ * @param      WC_Abstract_Order $order  The order.
+ *
+ * @return     bool               True if the specified order should be invoiced, False otherwise.
+ */
+function should_be_invoiced( WC_Abstract_Order $order ) {
+	return in_array( $order->get_status(), array( 'completed', 'processing', 'refunded' ), true );
+}
+
 /**
  * Determines if invoices should be numbered.
  *
@@ -35,7 +47,7 @@ function get_invoice_number( WC_Abstract_Order $order ) {
 
 	if ( empty( $number ) ) {
 		// processing or completed or refunded, but no number, maybe just switched to invoice numbering.
-		if ( in_array( $order->get_status(), array( 'completed', 'processing', 'refunded' ), true ) ) {
+		if ( should_be_invoiced( $order ) ) {
 			$number = $order->get_id();
 		} else {
 			$number = null;
