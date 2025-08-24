@@ -7,15 +7,19 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'setasign\\Fpdi\\' => array($vendorDir . '/setasign/fpdi/src'),
+    'Youniwemi\\TranslationChecker\\' => array($vendorDir . '/youniwemi/translation-checker/src'),
     'UXML\\' => array($vendorDir . '/josemmo/uxml/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Svg\\' => array($vendorDir . '/phenx/php-svg-lib/src/Svg'),
     'Sabberworm\\CSS\\' => array($vendorDir . '/sabberworm/php-css-parser/src'),
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'PHPStan\\PhpDocParser\\' => array($vendorDir . '/phpstan/phpdoc-parser/src'),
+    'Orhanerday\\OpenAi\\' => array($vendorDir . '/orhanerday/open-ai/src'),
     'Metadata\\' => array($vendorDir . '/jms/metadata/src'),
     'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
     'JMS\\Serializer\\' => array($vendorDir . '/jms/serializer/src'),
+    'Gettext\\Languages\\' => array($vendorDir . '/gettext/languages/src'),
+    'Gettext\\' => array($vendorDir . '/gettext/gettext/src'),
     'FontLib\\' => array($vendorDir . '/phenx/php-font-lib/src/FontLib'),
     'Einvoicing\\' => array($vendorDir . '/josemmo/einvoicing/src'),
     'Easybill\\ZUGFeRD\\' => array($vendorDir . '/easybill/zugferd-php/src/zugferd10'),
@@ -25,5 +29,6 @@ return array(
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/src'),
     'Doctrine\\Common\\Annotations\\' => array($vendorDir . '/doctrine/annotations/lib/Doctrine/Common/Annotations'),
     'DigitalInvoice\\' => array($vendorDir . '/youniwemi/digital-invoice/src'),
+    'Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => array($vendorDir . '/dealerdirect/phpcodesniffer-composer-installer/src'),
     'Atgp\\FacturX\\' => array($vendorDir . '/atgp/factur-x/src'),
 );

@@ -99,7 +99,7 @@ class InvoiceTotals {
 
         // Process all invoice lines
         foreach ($inv->getLines() as $line) {
-            $lineNetAmount = $inv->round($line->getNetAmount() ?? 0.0, 'line/netAmount');
+            $lineNetAmount = $line->getNetAmount() ?? 0.0;
             $totals->netAmount += $lineNetAmount;
             self::updateVatMap($vatMap, $line, $lineNetAmount);
         }
@@ -157,12 +157,10 @@ class InvoiceTotals {
         return $totals;
     }
 
-
     /**
      * Update VAT map
-     * @param array<string,VatBreakdown> &$vatMap          VAT map reference
+     * @param array<string,VatBreakdown> $vatMap           VAT map reference
      * @param VatTrait                   $item             Item instance
-     * @param float|null                 $rate             VAT rate
      * @param float                      $addTaxableAmount Taxable amount to add
      */
     static private function updateVatMap(array &$vatMap, $item, float $addTaxableAmount) {

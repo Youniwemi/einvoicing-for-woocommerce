@@ -70,21 +70,7 @@ class Invoice_Customizer extends Customizer_Helper {
 	 * Constructs a new instance.
 	 */
 	protected function __construct() {
-
-		$this->defaults['footer'] = __( 'We truly appreciate your business and look forward to helping you again soon.', 'einvoicing-for-woocommerce' );
-
-		// If there is already a logo for this blog, we use it as a default.
-		if ( function_exists( 'has_custom_logo' ) && has_custom_logo() ) {
-			$custom_logo_id     = get_theme_mod( 'custom_logo' );
-			list($logo, $width) = wp_get_attachment_image_src( $custom_logo_id, 'full' );
-
-			$this->defaults['logo'] = $logo;
-			// Avoid ugly default.
-			$this->defaults['logo_width'] = max( $width, 300 );
-		}
-
-		$this->defaults = array_merge( $this->defaults, static::get_template_defaults( 'black' ) );
-
+		
 		$this->min_capability = WOOEI_PERMISSION_MANAGER;
 
 		$this->prepare_customizer();
@@ -99,6 +85,22 @@ class Invoice_Customizer extends Customizer_Helper {
 		if ( $this->is_previewing ) {
 			add_action( 'template_redirect', array( $this, 'preview_invoice' ), 1 );
 		}
+	}
+
+	protected function init_defaults() {
+		$this->defaults['footer'] = 'We truly appreciate your business and look forward to helping you again soon.';
+
+		// If there is already a logo for this blog, we use it as a default.
+		if ( function_exists( 'has_custom_logo' ) && has_custom_logo() ) {
+			$custom_logo_id     = get_theme_mod( 'custom_logo' );
+			list($logo, $width) = wp_get_attachment_image_src( $custom_logo_id, 'full' );
+
+			$this->defaults['logo'] = $logo;
+			// Avoid ugly default.
+			$this->defaults['logo_width'] = max( $width, 300 );
+		}
+
+		$this->defaults = array_merge( $this->defaults, static::get_template_defaults( 'black' ) );
 	}
 
 	/**
@@ -116,7 +118,7 @@ class Invoice_Customizer extends Customizer_Helper {
 		$settings = static::get_template_defaults( $template );
 
 		if ( $settings ) {
-			$saved             = get_option( static::$settings_option );
+			$saved             = get_option( static::$settings_option, array() );
 			$saved['template'] = $template;
 			foreach ( $settings as $key => $value ) {
 				$saved[ $key ] = $settings[ $key ];
@@ -306,6 +308,7 @@ class Invoice_Customizer extends Customizer_Helper {
 	public function get_customizer_settings() {
 		static $settings, $sections;
 		if ( null === $settings ) {
+			$this->init_defaults();
 			$sections = array(
 				// Prebuit templates.
 				'template'               => __( 'Ready-to-Use designs', 'einvoicing-for-woocommerce' ),
@@ -363,8 +366,8 @@ class Invoice_Customizer extends Customizer_Helper {
 						),
 
 						'display_email'        => array(
-							'label'       => __( 'Display client email number', 'einvoicing-for-woocommerce' ),
-							'description' => __( 'Hide or displays the customer email number', 'einvoicing-for-woocommerce' ),
+							'label'       => __( 'Display client email', 'einvoicing-for-woocommerce' ),
+							'description' => __( 'Hide or displays the customer email', 'einvoicing-for-woocommerce' ),
 							'section'     => 'fields',
 							'type'        => 'checkbox',
 							'default'     => false,

@@ -48,9 +48,10 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 
 	$invoice->setSellerContact(
 		null,
-		null,
 		get_option( 'wooei_shop_phone' ),
-		get_option( 'wooei_shop_email' )
+		get_option( 'wooei_shop_email' ),
+		null,
+		
 	);
 
 	$seller_country_code = WC()->countries->get_base_country();
@@ -59,8 +60,10 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 		WC()->countries->get_base_address(),
 		WC()->countries->get_base_postcode(),
 		WC()->countries->get_base_city(),
-		$seller_country_code
+		$seller_country_code,
+		WC()->countries->get_base_address_2(), 	null, $stateCode=null
 	);
+	
 
 	if ( count( $order->get_tax_totals() ) === 0 ) {
 		$invoice->setTaxExemption( Invoice::EXEMPT_FROM_TAX, 'Exempt From Tax' );
@@ -83,7 +86,10 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 		$order->get_billing_address_1(),
 		$order->get_billing_postcode(),
 		$order->get_billing_city(),
-		$buyer_country_code ? $buyer_country_code : $seller_country_code
+		$buyer_country_code ? $buyer_country_code : $seller_country_code,
+		$order->get_billing_address_2(),
+		null,
+		null
 	);
 
 	if ( $date_paid ) {
@@ -97,8 +103,31 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 		$line_price_without_tax   = (float) $total_line;
 		$single_price_without_tax = $line_price_without_tax / max( 1, $quantity );
 		$tax_rate                 = ( 0.0 === $line_price_without_tax ) ? 0 : ( $tax / $line_price_without_tax ) * 100;
-		$invoice->addItem( $item['name'], $single_price_without_tax, $tax_rate, $quantity, 'H87', $item['product_id'] );
+		$invoice_item = $invoice->addItem( $item['name'], $single_price_without_tax, $tax_rate, $quantity, 'H87', $item['product_id'] );
+
+		// Allow modifications per item after it's added.
+		/**
+		 * Filter to modify each invoice item after it's added.
+		 *
+		 * @param object            $invoice_item The created invoice item.
+		 * @param DigitalInvoice\Invoice $invoice The invoice object.
+		 * @param \WC_Order_Item    $item    The WooCommerce order item.
+		 * @param string            $profile The invoice profile/type.
+		 * @since 0.4.0
+		 */
+		do_action( 'wooei_invoice_item_added', $invoice_item, $invoice, $item, $profile );
 	}
+
+	// Allow modifications for specific UBL flavors.
+	/**
+	 * Filter to modify invoice before returning from get_invoice function.
+	 *
+	 * @param DigitalInvoice\Invoice $invoice The invoice object.
+	 * @param WC_Abstract_Order      $order   The WooCommerce order.
+	 * @param string                 $profile The invoice profile/type.
+	 * @since 0.3.9
+	 */
+	$invoice = apply_filters( 'wooei_invoice_before_return', $invoice, $order, (string) get_option( 'wooei_invoice_type' ) );
 
 	return $invoice;
 }
@@ -121,6 +150,7 @@ function is_ubl( string $profile ) {
 			WOOEI_TYPES_UBL_CIUS_NL,
 			WOOEI_TYPES_UBL_CIUS_ES,
 			WOOEI_TYPES_UBL_CIUS_RO,
+			WOOEI_TYPES_UBL_CIUS_MY,
 		),
 		true
 	);
@@ -189,6 +219,9 @@ function get_e_invoice( string $pdf, WC_Abstract_Order $order, ?string $type = n
 			break;
 		case WOOEI_TYPES_UBL_CIUS_RO:
 			$profile = Invoice::UBL_CIUS_RO;
+			break;
+		case WOOEI_TYPES_UBL_CIUS_MY:
+			$profile = Invoice::UBL_MALAYSIA; // Using Peppol as base for Malaysian UBL.
 			break;
 		default:
 			$profile = Invoice::FACTURX_BASIC;

@@ -299,6 +299,14 @@ class Invoice {
         $this->preset->setupInvoice($this);
     }
 
+    /**
+     * Get the invoice preset
+     * @return AbstractPreset           The invoice preset
+     */
+    public function getPreset(): AbstractPreset|null {
+        return $this->preset;
+    }
+
 
     /**
      * Get number of decimal places for a given field
@@ -398,19 +406,19 @@ class Invoice {
 
     /**
      * Get invoice type code
-     * @return int Invoice type code
+     * @return int|string Invoice type code
      */
-    public function getType(): int {
+    public function getType(): int|string {
         return $this->type;
     }
 
 
     /**
      * Set invoice type code
-     * @param  int  $typeCode Invoice type code
+     * @param  int|string  $typeCode Invoice type code
      * @return self           Invoice instance
      */
-    public function setType(int $typeCode): self {
+    public function setType(int|string $typeCode): self {
         $this->type = $typeCode;
         return $this;
     }

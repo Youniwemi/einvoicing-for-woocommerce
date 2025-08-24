@@ -19,7 +19,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 function show_changesets_since( string $current ) {
 	// Let's define all the changesets, this way, we can easily translate them, and most importantly show what changed since the previous version.
 	$all = array(
-		__( '0.3.9 : Improvement - Added the possibility to show Invoice Date instead of Order Date, head to the customizer in the "Setup fields visibility" section to activate it', 'einvoicing-for-woocommerce' ) => null,
+		__( '0.4.0 : New - Malaysian UBL (Malaysia) e-invoice format support - Beta', 'einvoicing-for-woocommerce' ) => array(
+			__( 'New - Malaysian UBL (Malaysia) e-invoice format support', 'einvoicing-for-woocommerce' ),
+			__( 'New - Added option to generate invoice numbers for pending orders', 'einvoicing-for-woocommerce' ),
+			__( 'Enhancement - Updated WooCommerce compatibility to 10.1.1', 'einvoicing-for-woocommerce' ),
+			__( 'Update - Digital invoice library to v0.2.8', 'einvoicing-for-woocommerce' ),
+		),
+		__( '0.3.9 : Improvement - Added the possibility to show Invoice Date instead of Order Date, head to the customizer in the "Setup fields visibility" section to activate it', 'einvoicing-for-woocommerce' ) => array(
+			__( 'New - Invoice Filename Format customization with placeholders {ORDER_ID}, {INVOICE_NUMBER}, {DATE}', 'einvoicing-for-woocommerce' ),
+		),
 		__( '0.3.8 : Removed some warning and updated digital-invoice dependency', 'einvoicing-for-woocommerce' ) => array(
 			__( 'Fixed - Removed some warning and notices that appear in the customizer.', 'einvoicing-for-woocommerce' ),
 			__( 'Improvement - Better Identification System labels.', 'einvoicing-for-woocommerce' ),
@@ -185,14 +193,15 @@ add_action(
 	'admin_menu',
 	function () {
 		add_submenu_page(
-			null,
-			'E-Invoicing For Woo changesets',
-			'E-Invoicing For Woo changesets',
+			'einvoicing-for-woocommerce',
+			__( 'Changelog', 'einvoicing-for-woocommerce' ),
+			__( 'Changelog', 'einvoicing-for-woocommerce' ),
 			'manage_options',
 			'einvoicing-changes',
-			__NAMESPACE__ . '\all_changesets'
+			 __NAMESPACE__ . '\all_changesets'
 		);
-	}
+	},
+	10000
 );
 
 /**

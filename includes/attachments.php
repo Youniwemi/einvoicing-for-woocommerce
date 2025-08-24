@@ -23,8 +23,24 @@ use Throwable;
  * @return     string             the filename.
  */
 function invoice_filename( WC_Abstract_Order $order ) {
-	$ext = is_xml() ? 'xml' : 'pdf';
-	return 'Invoice-' . $order->get_id() . '.' . $ext;
+	$ext    = is_xml() ? 'xml' : 'pdf';
+	$format = get_option( 'wooei_invoice_filename_format', 'Invoice-{ORDER_ID}' );
+
+	// Replace placeholders with actual values.
+	$client_name = $order->get_billing_company() ? $order->get_billing_company() : $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
+
+	$filename = str_replace(
+		array( '{ORDER_ID}', '{INVOICE_NUMBER}', '{DATE}', '{CLIENT}' ),
+		array(
+			$order->get_id(),
+			get_invoice_number( $order ) ? get_invoice_number( $order ) : $order->get_id(),
+			$order->get_date_created()->format( 'Y-m-d' ),
+			$client_name,
+		),
+		$format
+	);
+
+	return $filename . '.' . $ext;
 }
 
 

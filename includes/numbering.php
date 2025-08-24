@@ -69,8 +69,16 @@ function generate_invoice_number( $order_id, $new_status ) {
 	if ( ! has_invoice_numbering() ) {
 		return;
 	}
-	// Only proceed for processing/completed status.
-	if ( ! in_array( $new_status, array( 'processing', 'completed' ), true ) ) {
+	// Default allowed statuses.
+	$allowed_statuses = array( 'processing', 'completed' );
+
+	// Add pending if checkbox is enabled.
+	$generate_pending = get_option( 'wooei_generate_pending_invoices', 'no' );
+	if ( 'yes' === $generate_pending ) {
+		$allowed_statuses[] = 'pending';
+	}
+
+	if ( ! in_array( $new_status, $allowed_statuses, true ) ) {
 		return;
 	}
 
@@ -80,8 +88,8 @@ function generate_invoice_number( $order_id, $new_status ) {
 	}
 
 	$reset_yearly = get_option( 'wooei_invoice_reset_number', 'no' ) === WOOEI_NUMBERING_RESET_YEAR;
-	$padding      = get_option( 'wooei_invoice_number_padding' ) ?? 4;
-	$format       = get_option( 'wooei_invoice_number_format' ) ?? 'INV/{YEAR}/{NUMBER}';
+	$padding      = get_option( 'wooei_invoice_number_padding', 4 );
+	$format       = get_option( 'wooei_invoice_number_format', 'INV/{YEAR}/{NUMBER}' );
 
 	$last_number = (int) get_option( 'wooei_last_invoice_number', 0 );
 	$next_number = $last_number + 1;
@@ -108,6 +116,16 @@ function generate_invoice_number( $order_id, $new_status ) {
 	update_option( 'wooei_last_invoice_number', $next_number );
 	update_option( 'wooei_last_invoice_date', time() );
 }
+
+// Generate invoice number on settings status to pending.
+add_action(
+	'woocommerce_order_status_pending',
+	function( $order_id, WC_Abstract_Order $order, $status_transition ) {
+		generate_invoice_number( $order_id, 'pending' );
+	},
+	10,
+	3
+);
 
 // Generate invoice number on settings status to processing.
 add_action(

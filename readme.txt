@@ -2,10 +2,10 @@
 Contributors: rahal.aboulfeth
 Tags: e-invoicing, factur-x, UBL, invoice, WooCommerce, pdf
 Requires at least: 5.0
-Tested up to: 6.8
+Tested up to: 6.8.2
 Requires PHP: 8.1
 License: GPL
-Stable tag: 0.3.9
+Stable tag: 0.4.0
 
 Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and other e-invoicing standards.
 
@@ -19,9 +19,12 @@ https://www.youtube.com/watch?v=0SWRxHRXnEM
 
 == Features ==
 
-- **PDF Invoice Customization:** Elevate your PDF invoices to match your brand identity with our native Invoice Designer, using the official wordpress customizer.
-- **Factur-X, UBL, ZUGFeRD and Xrechnung Formats:** Enable compliance with the latest e-invoicing regulations.
+- **PDF Invoice Customization:** Elevate your PDF invoices to match your brand identity with our native Invoice Designer, using the official WordPress customizer - no code editing required.
+- **Factur-X, UBL, ZUGFeRD and Xrechnung Formats:** Enable compliance with the latest e-invoicing regulations, including Malaysian UBL support.
+- **Sequential Invoice Numbering:** Control when invoice numbers are generated (pending, processing, or completed orders) with customizable formats and automatic yearly reset options.
+- **Invoice Filename Customization:** Personalize invoice filenames using placeholders like {ORDER_ID}, {INVOICE_NUMBER}, {DATE}, and {CLIENT}.
 - **Automatically attach invoice** PDF or Factur-X to WooCommerce emails of your choice.
+- **Bulk Invoice Downloads:** Download multiple invoices at once in a convenient ZIP package from the WooCommerce orders list.
 - **Effortless Integration:** Integrates with your existing WooCommerce setup.
 - **Simple Invoicing:** Simplify invoicing processes for a more efficient store management.
 
@@ -53,7 +56,7 @@ E-Invoicing for WooCommerce Invoice Designer leverages the native WordPress Cust
 
 = How do I customize my PDF invoice template? =
 
-Unlike other plugins that require code editing or premium add-ons, we use the native WordPress Customizer for complete visual editing. You'll be able to customize to design your invoice with real-time preview. 
+Unlike other plugins that require code editing or premium add-ons, we use the native WordPress Customizer for complete visual editing. You'll be able to customize to design your invoice with real-time preview.
 
 = Can I use my own company logo and details on invoices? =
 
@@ -75,6 +78,10 @@ Universal Business Language (UBL) is an open international standard for e-invoic
 
 ZUGFeRD is the German standard for electronic invoices, while XRechnung is required for invoicing to German public authorities. If you do business in Germany or with German companies, these formats are essential. Our plugin supports both, ensuring full compliance with German e-invoicing regulations.
 
+
+= Is this plugin compliant with Malaysian e-invoicing? =
+
+Our plugin is in the process of adding Malaysian UBL support, for now, it is in beta phase. Your feedback is highly appreciated. Please let us know if you have any issues or suggestions.
 
 = How does sequential invoice numbering work? =
 
@@ -108,18 +115,27 @@ Yes! The plugin includes translations for multiple languages including French, G
 
 
 == Credits ==
-Big Thanks to : 
+Big Thanks to :
 - [Youniwemi](https://packagist.org/packages/youniwemi/digital-invoice) for Digital Invoice - Easy wrapper around easybill/zugferd-php, atgp/factur-x and josemmo/einvoicing  that will allow you generate Factur-x and UBL in a very easy way.
 
 == Changelog ==
 
-2025-04-30 - version 0.3.9
+2025-08-24 - version 0.4.0
+* New - Malaysian UBL (Malaysia) e-invoice format support - Beta
+* New - Added option to generate invoice numbers for pending orders
+* Enhancement - Updated WooCommerce compatibility to 10.1.1
 * Improvement - Added the possibility to show Invoice Date instead of Order Date
+* Update - Digital invoice library to v0.2.8
+
+
+2025-08-01 - version 0.3.9
+* Improvement - Added the possibility to show Invoice Date instead of Order Date, head to the customizer in the "Setup fields visibility" section to activate it
+* New - Invoice Filename Format customization with placeholders {ORDER_ID}, {INVOICE_NUMBER}, {DATE}
 
 2025-04-24 - version 0.3.8
 * Fixed - Removed some warning and notices that appear in the customizer
 * Improvement - Better Identification System labels
-* Submission to WooCommerce Marketplace : implementing UX feedback 
+* Submission to WooCommerce Marketplace : implementing UX feedback
 
 2025-03-12 - version 0.3.7
 * Fixed - Bug while generating e-invoice if the order contains a free product.
@@ -160,12 +176,12 @@ Big Thanks to :
 Fix Fatal error when order has no modified date, shows today's date.
 
 2024-12-31 - version 0.2.7
-* Happy new year and Thank you all for your support. 
+* Happy new year and Thank you all for your support.
 * Updated dependency digital-invoice dependency
 * Pdf Invoice : Show date_modified when order is not paid
 
 2024-12-25 - version 0.2.6
-* Fix bad escaping in delivery address. 
+* Fix bad escaping in delivery address.
 
 2024-12-22 - version 0.2.5
 * PDF Invoice now displays extensive billing and shipping information (company name, address line 1, address line 2, city, postal code, state, country)

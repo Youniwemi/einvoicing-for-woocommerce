@@ -68,8 +68,8 @@ function admin_menu() {
     // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode, WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, Generic.PHP.ForbiddenFunctions.Found -- Passing a base64-encoded SVG using a data URI.
     $svg_icon = base64_encode( file_get_contents( WOOEI_ASSETS . 'images/icon.svg' ) );
     add_menu_page(
-        'E-Invoicing For Woo',
-        'E-Invoicing For Woo',
+        'E-Invoicing For WooCommerce',
+        'E-Invoicing For WooCommerce',
         'manage_options',
         'einvoicing-for-woocommerce',
         __NAMESPACE__ . '\\plugin_page',

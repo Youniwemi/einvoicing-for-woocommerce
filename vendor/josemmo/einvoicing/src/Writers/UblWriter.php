@@ -209,6 +209,11 @@ class UblWriter extends AbstractWriter {
             $this->addLineNode($xml, $line, $invoice, $isCreditNoteProfile, $lastGenId, $usedIds);
         }
 
+        // Let the preset do its thing
+        if ($preset = $invoice->getPreset()){
+            $preset->finalizeXml($xml,$invoice, $this);
+        }
+
         return $xml->asXML();
     }
 
@@ -421,6 +426,17 @@ class UblWriter extends AbstractWriter {
         $electronicAddress = $party->getElectronicAddress();
         if ($electronicAddress !== null) {
             $this->addIdentifierNode($xml, 'cbc:EndpointID', $electronicAddress);
+        }
+
+        // Industry classification code
+        $industryCode = $party->getIndustryClassificationCode();
+        if ($industryCode !== null) {
+            $attributes = [];
+            $industryName = $party->getIndustryClassificationName();
+            if ($industryName !== null) {
+                $attributes['name'] = $industryName;
+            }
+            $xml->add('cbc:IndustryClassificationCode', $industryCode, $attributes);
         }
 
         // Additional identifiers

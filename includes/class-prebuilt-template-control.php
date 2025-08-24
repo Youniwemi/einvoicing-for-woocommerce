@@ -88,6 +88,8 @@ if ( class_exists( '\WP_Customize_Control' ) ) {
 						}).always(function() {
 							me.prop('disabled', false);
 						});
+
+						return false;
 					});
 
 				});                

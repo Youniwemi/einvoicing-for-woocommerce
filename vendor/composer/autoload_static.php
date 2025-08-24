@@ -16,6 +16,10 @@ class ComposerStaticInit6f9f55a45afba2ff1ce65348a1931c0e
         array (
             'setasign\\Fpdi\\' => 14,
         ),
+        'Y' => 
+        array (
+            'Youniwemi\\TranslationChecker\\' => 29,
+        ),
         'U' => 
         array (
             'UXML\\' => 5,
@@ -31,6 +35,10 @@ class ComposerStaticInit6f9f55a45afba2ff1ce65348a1931c0e
             'Psr\\Cache\\' => 10,
             'PHPStan\\PhpDocParser\\' => 21,
         ),
+        'O' => 
+        array (
+            'Orhanerday\\OpenAi\\' => 18,
+        ),
         'M' => 
         array (
             'Metadata\\' => 9,
@@ -39,6 +47,11 @@ class ComposerStaticInit6f9f55a45afba2ff1ce65348a1931c0e
         'J' => 
         array (
             'JMS\\Serializer\\' => 15,
+        ),
+        'G' => 
+        array (
+            'Gettext\\Languages\\' => 18,
+            'Gettext\\' => 8,
         ),
         'F' => 
         array (
@@ -57,6 +70,7 @@ class ComposerStaticInit6f9f55a45afba2ff1ce65348a1931c0e
             'Doctrine\\Common\\Lexer\\' => 22,
             'Doctrine\\Common\\Annotations\\' => 28,
             'DigitalInvoice\\' => 15,
+            'Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => 55,
         ),
         'A' => 
         array (
@@ -68,6 +82,10 @@ class ComposerStaticInit6f9f55a45afba2ff1ce65348a1931c0e
         'setasign\\Fpdi\\' => 
         array (
             0 => __DIR__ . '/..' . '/setasign/fpdi/src',
+        ),
+        'Youniwemi\\TranslationChecker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/youniwemi/translation-checker/src',
         ),
         'UXML\\' => 
         array (
@@ -93,6 +111,10 @@ class ComposerStaticInit6f9f55a45afba2ff1ce65348a1931c0e
         array (
             0 => __DIR__ . '/..' . '/phpstan/phpdoc-parser/src',
         ),
+        'Orhanerday\\OpenAi\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/orhanerday/open-ai/src',
+        ),
         'Metadata\\' => 
         array (
             0 => __DIR__ . '/..' . '/jms/metadata/src',
@@ -104,6 +126,14 @@ class ComposerStaticInit6f9f55a45afba2ff1ce65348a1931c0e
         'JMS\\Serializer\\' => 
         array (
             0 => __DIR__ . '/..' . '/jms/serializer/src',
+        ),
+        'Gettext\\Languages\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gettext/languages/src',
+        ),
+        'Gettext\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gettext/gettext/src',
         ),
         'FontLib\\' => 
         array (
@@ -140,6 +170,10 @@ class ComposerStaticInit6f9f55a45afba2ff1ce65348a1931c0e
         'DigitalInvoice\\' => 
         array (
             0 => __DIR__ . '/..' . '/youniwemi/digital-invoice/src',
+        ),
+        'Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dealerdirect/phpcodesniffer-composer-installer/src',
         ),
         'Atgp\\FacturX\\' => 
         array (

@@ -2,6 +2,7 @@
 namespace Einvoicing;
 
 use Einvoicing\Traits\IdentifiersTrait;
+use Einvoicing\Traits\IndustryClassificationTrait;
 use Einvoicing\Traits\PostalAddressTrait;
 
 class Party {
@@ -17,6 +18,7 @@ class Party {
     protected $contactEmail = null;
 
     use IdentifiersTrait;
+    use IndustryClassificationTrait;
     use PostalAddressTrait;
 
     /**

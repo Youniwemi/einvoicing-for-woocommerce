@@ -22,6 +22,7 @@ class Invoice
     public const UBL_CIUS_ES_FACE = Ubl::CIUS_ES_FACE;
     public const UBL_CIUS_AT_GOV = Ubl::CIUS_AT_GOV;
     public const UBL_CIUS_AT_NAT = Ubl::CIUS_AT_NAT;
+    public const UBL_MALAYSIA = Ubl::MALAYSIA;
 
 
     public const EXEMPT_FROM_TAX = VatCategory::EXEMPT_FROM_TAX;
@@ -69,7 +70,7 @@ class Invoice
             }
         }
         $this->profile = $profile;
-        if (in_array($profile, [Ubl::PEPPOL, Ubl::NLCIUS, Ubl::CIUS_RO, Ubl::CIUS_IT, Ubl::CIUS_ES_FACE, Ubl::CIUS_AT_GOV, Ubl::CIUS_AT_NAT])) {
+        if ( $this->isUbl()) {
             $this->xmlGenerator = new Ubl($profile, $currency);
             $this->profile = (new $profile())->getSpecification();
         } elseif (in_array($profile, [FacturX::MINIMUM ,  FacturX::BASIC_WL,  FacturX::BASIC, FacturX::EN16931,  FacturX::EXTENDED, FacturX::XRECHNUNG])) {
@@ -114,15 +115,31 @@ class Invoice
         $this->xmlGenerator->setBuyer($buyerReference, $name, $id);
     }
 
+    public function setBuyerIdentifier(string $id, ?string $idDesignator, string $type = 'Legal')
+    {
+        try {
+            $idType = InternationalCodeDesignator::from($idDesignator);
+        } catch (\ValueError $e) {
+            throw new \Exception("$idDesignator is an Invalide InternationalCodeDesignator");
+        }
+
+        try {
+            $type = IdentificationType::from($type);
+        } catch (\ValueError $e) {
+            throw new \Exception("$type is an Invalide IdentificationType");
+        }
+        $this->xmlGenerator->setBuyerIdentifier($id, $idType, $type);
+    }
+
     public function createAddress(string $postCode, string $city, string $countryCode, string $lineOne, ?string $lineTwo = null, ?string $lineThree = null)
     {
 
         return $this->xmlGenerator->createAddress($postCode, $city, $countryCode, $lineOne, $lineTwo, $lineThree);
     }
 
-    public function setBuyerAddress(string $lineOne, string $postCode, string $city, string $countryCode, ?string $lineTwo = null, ?string $lineThree = null)
+    public function setBuyerAddress(string $lineOne, string $postCode, string $city, string $countryCode, ?string $lineTwo = null, ?string $lineThree = null, ?string $stateCode = null)
     {
-        $this->xmlGenerator->setBuyerAddress($lineOne, $postCode, $city, $countryCode, $lineTwo, $lineThree);
+        $this->xmlGenerator->setBuyerAddress($lineOne, $postCode, $city, $countryCode, $lineTwo, $lineThree, $stateCode);
     }
 
     public function setSeller(string $id, string $idType, string $name, $tradingName = null)
@@ -153,19 +170,24 @@ class Invoice
         $this->xmlGenerator->setSellerContact($personName, $telephone, $email, $departmentName);
     }
 
+    public function setBuyerContact(?string $personName = null, ?string $telephone = null, ?string $email = null, ?string $departmentName = null)
+    {
+        $this->xmlGenerator->setBuyerContact($personName, $telephone, $email, $departmentName);
+    }
+
     public function setSellerTaxRegistration(string $id, string $schemeID)
     {
         $this->xmlGenerator->setSellerTaxRegistration($id, $schemeID);
     }
 
-    public function setSellerAddress(string $lineOne, string $postCode, string $city, string $countryCode, ?string $lineTwo = null, ?string $lineThree = null)
+    public function setSellerAddress(string $lineOne, string $postCode, string $city, string $countryCode, ?string $lineTwo = null, ?string $lineThree = null, ?string $stateCode = null)
     {
-        $this->xmlGenerator->setSellerAddress($lineOne, $postCode, $city, $countryCode, $lineTwo, $lineThree);
+        $this->xmlGenerator->setSellerAddress($lineOne, $postCode, $city, $countryCode, $lineTwo, $lineThree, $stateCode);
 
         return $this;
     }
 
-    public function addItem(string $name, float $price, float $taxRatePercent, float  $quantity = 1, string $unit = 'H87', ?string $globalID = null, string $globalIDCode = '0160')
+    public function addItem(string $name, float $price, float $taxRatePercent, float  $quantity = 1, string $unit = 'H87', ?string $globalID = null, string $globalIDCode = '0160', ?string $description = null)
     {
         try {
             $unit = UnitOfMeasurement::from($unit);
@@ -173,9 +195,11 @@ class Invoice
             throw new \Exception("$unit is not a valide Unit of Unit Of Measurement");
         }
 
-        $totalLineBasis = $this->xmlGenerator->addItem($name, $price, $taxRatePercent, $quantity, $unit, $globalID, $globalIDCode);
+        [$item, $totalLineBasis] = $this->xmlGenerator->addItem($name, $price, $taxRatePercent, $quantity, $unit, $globalID, $globalIDCode, $description);
         // To be able to calc easily the invoice totals
         $this->xmlGenerator->addTaxLine($taxRatePercent, $totalLineBasis);
+        
+        return $item;
     }
 
     public function addPaymentMean(string $typeCode, ?string $ibanId = null, ?string $accountName = null, ?string $bicId = null)
@@ -246,8 +270,18 @@ class Invoice
         $this->xmlGenerator->addEmbeddedAttachment($id, $scheme, $filename, $contents, $mimeCode, $description);
     }
 
+    public function addItemClassification($item, string $code, string $scheme = 'CLASS')
+    {
+        $this->xmlGenerator->addItemClassification($item, $code, $scheme);
+    }
+
+    public function setSellerIndustryClassification(string $code, string $name)
+    {
+        $this->xmlGenerator->setSellerIndustryClassification($code, $name);
+    }
+
     public function isUbl()
     {
-        return in_array($this->profile, [self::UBL_NLCIUS, self::UBL_PEPOOL, self::UBL_CIUS_IT, self::UBL_CIUS_RO, self::UBL_CIUS_AT_GOV, self::UBL_CIUS_AT_NAT, self::UBL_CIUS_ES_FACE]);
+        return in_array($this->profile, [self::UBL_NLCIUS, self::UBL_PEPOOL, self::UBL_CIUS_IT, self::UBL_CIUS_RO, self::UBL_CIUS_AT_GOV, self::UBL_CIUS_AT_NAT, self::UBL_CIUS_ES_FACE, self::UBL_MALAYSIA]);
     }
 }

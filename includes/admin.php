@@ -151,7 +151,7 @@ function add_invoice_download_links( string $column, $the_order ) {
 			);
 			$title    = $the_order->get_order_number();
 			echo '<a class="thickbox" href="' . esc_url( $preview ) . '" title="' . esc_attr__( 'Preview the invoice', 'einvoicing-for-woocommerce' ) . ' ' . esc_attr( $title ) . '"><span class="dashicons dashicons-visibility icon-preview-file fx-icon "></span></a>';
-			echo ' <a href="' . esc_url( $download ) . '" title="' . esc_attr__( 'Download the invoice', 'einvoicing-for-woocommerce' ) . '"><span class="dashicons dashicons-download"></span></a>';
+			echo ' <a href="' . esc_url( $download ) . '" title="' . esc_attr__( 'Download the invoice', 'einvoicing-for-woocommerce' ) . '" data-testid="invoice-download-' . esc_attr( $the_order->get_id() ) . '"><span class="dashicons dashicons-download"></span></a>';
 		}
 	}
 }
@@ -221,7 +221,7 @@ add_action(
 		} else {
 			$profile    = get_invoice_profile();
 			$xml_or_pdf = is_xml( $profile ) ? 'xml' : 'pdf';
-			PdfInvoice::send_headers( $order->get_id() . '.' . $xml_or_pdf, $xml_or_pdf );
+			PdfInvoice::send_headers( invoice_filename( $order ), $xml_or_pdf );
 
 			$xml_or_pdf_content_safe = render_invoice( $order, false );
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- safe binary pdf content or xml.

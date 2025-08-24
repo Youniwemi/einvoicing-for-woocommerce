@@ -2849,6 +2849,10 @@ enum InternationalCodeDesignator: string
     #[Label("Iceland - Icelandic Identifier (Íslensk Kennitala)")]
     case ICELANDIC_IDENTIFIER_ISLENSK_KENNITALA = "0196";
     
+    // === ISRAEL ===
+    #[Label("Israel - Chamber of Commerce Tel Aviv-Jaffa")]
+    case CHAMBER_OF_COMMERCE_TEL_AVIV_JAFFA_SCHEME = "0098";
+    
     // === ITALY ===
     #[Label("Italy - Codice Fiscale")]
     case CODICE_FISCALE_ITALIA = "0210";
@@ -2898,6 +2902,9 @@ enum InternationalCodeDesignator: string
     
     #[Label("Malaysia - Business Registration Number (BRN/SSM)")]
     case BRN_SSM_MALAYSIA = "BRN";
+    
+    #[Label("Malaysia - NRIC")]
+    case NRIC_MALAYSIA = "NRIC";
     
     // === MONACO ===
     #[Label("Monaco - Registre du Commerce et de l'Industrie (RCI)")]
@@ -2985,3 +2992,14 @@ enum InternationalCodeDesignator: string
     
 
 }
+
+
+enum IdentificationType: string
+{
+    case TAX = 'Tax';
+    case VAT = 'Vat';
+    case LEGAL = 'Legal';
+    case ELECTRONIC = 'Electronic';
+    case OTHER = 'Other';
+}
+
