@@ -198,7 +198,7 @@ add_action(
 			__( 'Changelog', 'einvoicing-for-woocommerce' ),
 			'manage_options',
 			'einvoicing-changes',
-			 __NAMESPACE__ . '\all_changesets'
+			__NAMESPACE__ . '\all_changesets'
 		);
 	},
 	10000

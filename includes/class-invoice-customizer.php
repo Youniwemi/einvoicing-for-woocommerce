@@ -70,7 +70,7 @@ class Invoice_Customizer extends Customizer_Helper {
 	 * Constructs a new instance.
 	 */
 	protected function __construct() {
-		
+
 		$this->min_capability = WOOEI_PERMISSION_MANAGER;
 
 		$this->prepare_customizer();
@@ -87,6 +87,9 @@ class Invoice_Customizer extends Customizer_Helper {
 		}
 	}
 
+	/**
+	 * Initialize default values for customizer options.
+	 */
 	protected function init_defaults() {
 		$this->defaults['footer'] = 'We truly appreciate your business and look forward to helping you again soon.';
 

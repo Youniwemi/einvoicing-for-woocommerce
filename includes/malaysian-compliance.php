@@ -88,18 +88,18 @@ function save_malaysian_tin_to_order( WC_Order $order, $request ) {
  */
 function ensure_malaysian_einvoice_compliance( $invoice, $order, $profile ) {
 	// Only process for Malaysian UBL.
-	if ( !is_malaysian_ubl_active() ) {
+	if ( ! is_malaysian_ubl_active() ) {
 		return $invoice;
 	}
-	$invoice->addSellerIdentifier(get_option('wooei_id_company'), get_option('wooei_id_type'));
+	$invoice->addSellerIdentifier( get_option( 'wooei_id_company' ), get_option( 'wooei_id_type' ) );
 
-	// Add buyer TIN if available
+	// Add buyer TIN if available.
 	$tin = $order->get_meta( '_billing_tin' );
 	if ( ! empty( $tin ) ) {
 		$invoice->setBuyerIdentifier( $tin, 'TIN', 'Other' );
 	}
 
-	// Add MSIC code from seller settings
+	// Add MSIC code from seller settings.
 	$msic_code = get_option( 'wooei_msic_code' );
 	$msic_name = get_option( 'wooei_msic_name' );
 	if ( ! empty( $msic_code ) && ! empty( $msic_name ) ) {
@@ -118,19 +118,16 @@ function ensure_malaysian_einvoice_compliance( $invoice, $order, $profile ) {
  * @param string $profile      The invoice profile/type.
  */
 function add_commodity_classification_to_invoice_item( $invoice_item, $invoice, $item, $profile ) {
-	// Debug logging
-	error_log( 'Item classification function called - Profile: ' . $profile . ', Is Malaysian UBL active: ' . ( is_malaysian_ubl_active() ? 'yes' : 'no' ) );
-	
-	// Only process for Malaysian UBL
-	if ( !is_malaysian_ubl_active() ) {
+	// Only process for Malaysian UBL.
+	if ( ! is_malaysian_ubl_active() ) {
 		return;
 	}
 
 	$product = $item->get_product();
 	if ( $product ) {
 		$commodity_classification = $product->get_meta( 'wooei_commodity_classification' );
-		
-		// If product doesn't have classification, try to get from category
+
+		// If product doesn't have classification, try to get from category.
 		if ( empty( $commodity_classification ) ) {
 			$product_categories = wp_get_post_terms( $product->get_id(), 'product_cat' );
 			if ( ! empty( $product_categories ) ) {
@@ -138,18 +135,14 @@ function add_commodity_classification_to_invoice_item( $invoice_item, $invoice, 
 					$category_classification = get_term_meta( $category->term_id, 'wooei_commodity_classification', true );
 					if ( ! empty( $category_classification ) ) {
 						$commodity_classification = $category_classification;
-						break; // Use the first category with classification
+						break; // Use the first category with classification.
 					}
 				}
 			}
 		}
-		
-		// Debug logging
-		error_log( 'Product ID: ' . $product->get_id() . ', Classification: ' . $commodity_classification );
-		
+
 		if ( ! empty( $commodity_classification ) ) {
 			$invoice->addItemClassification( $invoice_item, $commodity_classification, 'CLASS' );
-			error_log( 'Added classification: ' . $commodity_classification );
 		}
 	}
 }
@@ -158,14 +151,13 @@ function add_commodity_classification_to_invoice_item( $invoice_item, $invoice, 
  * Add commodity classification field to product data
  */
 function add_product_commodity_classification_field() {
-	// Only add field if Malaysian UBL is active
+	// Only add field if Malaysian UBL is active.
 	if ( ! is_malaysian_ubl_active() ) {
 		return;
 	}
 
-	
-	$classification_codes = Malaysia::getItemClassificationCodes() ;
-	// prepend empty option
+	$classification_codes = Malaysia::getItemClassificationCodes();
+	// Prepend empty option.
 	$classification_codes = array( '' => __( 'Select Classification Code', 'einvoicing-for-woocommerce' ) ) + $classification_codes;
 
 	echo '<div class="options_group">';
@@ -187,12 +179,12 @@ function add_product_commodity_classification_field() {
  * @param int $post_id Product ID.
  */
 function save_product_commodity_classification_field( $post_id ) {
-	// Only save if Malaysian UBL is active
+	// Only save if Malaysian UBL is active.
 	if ( ! is_malaysian_ubl_active() ) {
 		return;
 	}
 
-	$commodity_classification = isset( $_POST['wooei_commodity_classification'] ) ? sanitize_text_field( $_POST['wooei_commodity_classification'] ) : '';
+	$commodity_classification = isset( $_POST['wooei_commodity_classification'] ) ? sanitize_text_field( wp_unslash( $_POST['wooei_commodity_classification'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 	update_post_meta( $post_id, 'wooei_commodity_classification', $commodity_classification );
 }
 
@@ -202,16 +194,15 @@ function save_product_commodity_classification_field( $post_id ) {
  * @param object $term The category term object.
  */
 function add_category_commodity_classification_field( $term ) {
-	// Only add field if Malaysian UBL is active
+	// Only add field if Malaysian UBL is active.
 	if ( ! is_malaysian_ubl_active() ) {
 		return;
 	}
-	
 
 	$classification_codes = array( '' => __( 'Select Classification Code', 'einvoicing-for-woocommerce' ) );
 	$classification_codes = array_merge( $classification_codes, Malaysia::getItemClassificationCodes() );
 
-	$term_id = $term->term_id;
+	$term_id              = $term->term_id;
 	$saved_classification = get_term_meta( $term_id, 'wooei_commodity_classification', true );
 	?>
 	<tr class="form-field">
@@ -238,13 +229,13 @@ function add_category_commodity_classification_field( $term ) {
  * @param int $term_id Term ID.
  */
 function save_category_commodity_classification_field( $term_id ) {
-	// Only save if Malaysian UBL is active
+	// Only save if Malaysian UBL is active.
 	if ( ! is_malaysian_ubl_active() ) {
 		return;
 	}
 
-	if ( isset( $_POST['wooei_commodity_classification'] ) ) {
-		$commodity_classification = sanitize_text_field( $_POST['wooei_commodity_classification'] );
+	if ( isset( $_POST['wooei_commodity_classification'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$commodity_classification = sanitize_text_field( wp_unslash( $_POST['wooei_commodity_classification'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		update_term_meta( $term_id, 'wooei_commodity_classification', $commodity_classification );
 	}
 }
@@ -258,22 +249,20 @@ function save_category_commodity_classification_field( $term_id ) {
  * @return array Modified settings array.
  */
 function add_msic_setting_to_company_identification( $settings ) {
-	// Only add MSIC setting if Malaysian UBL is active
+	// Only add MSIC setting if Malaysian UBL is active.
 	if ( ! is_malaysian_ubl_active() ) {
 		return $settings;
 	}
 
-	// Get MSIC codes from the digital invoice library
-	$msic_codes = Malaysia::getMsicCodes() ;
-	// prepend empty option
+	// Get MSIC codes from the digital invoice library.
+	$msic_codes = Malaysia::getMsicCodes();
+	// Prepend empty option.
 	$msic_codes = array( '' => __( 'Select MSIC Code', 'einvoicing-for-woocommerce' ) ) + $msic_codes;
 
-	
-
-	// Add MSIC setting before the section end
+	// Add MSIC setting before the section end.
 	$section_end = $settings['section_end'];
 	unset( $settings['section_end'] );
-	
+
 	$settings['msic_code'] = array(
 		'name'    => __( 'MSIC Code', 'einvoicing-for-woocommerce' ),
 		'type'    => 'select',
@@ -293,12 +282,12 @@ function add_msic_setting_to_company_identification( $settings ) {
  * Save MSIC name when WooCommerce settings are saved
  */
 function save_msic_name_on_settings_update() {
-	// Check if we're saving the wooei tab settings
-	if ( isset( $_POST['wooei_msic_code'] ) ) {
-		$msic_code = sanitize_text_field( $_POST['wooei_msic_code'] );
+	// Check if we're saving the wooei tab settings.
+	if ( isset( $_POST['wooei_msic_code'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$msic_code = sanitize_text_field( wp_unslash( $_POST['wooei_msic_code'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( ! empty( $msic_code ) ) {
 			$msic_codes = Malaysia::getMsicCodes();
-			$msic_name = $msic_codes[ $msic_code ] ?? '';
+			$msic_name  = $msic_codes[ $msic_code ] ?? '';
 			update_option( 'wooei_msic_name', $msic_name );
 		}
 	}
@@ -321,21 +310,21 @@ function init_malaysian_compliance() {
 		// Hook into invoice generation to add Malaysian compliance - this one already checks the profile parameter.
 		add_filter( 'wooei_invoice_before_return', __NAMESPACE__ . '\ensure_malaysian_einvoice_compliance', 10, 3 );
 
-		// Add MSIC setting to company identification section
+		// Add MSIC setting to company identification section.
 		add_filter( 'wooei_settings_company_identification', __NAMESPACE__ . '\add_msic_setting_to_company_identification' );
 
-		// Save MSIC name when settings are updated
+		// Save MSIC name when settings are updated.
 		add_action( 'woocommerce_update_options_wooei', __NAMESPACE__ . '\save_msic_name_on_settings_update' );
 
-		// Add commodity classification field to products
+		// Add commodity classification field to products.
 		add_action( 'woocommerce_product_options_general_product_data', __NAMESPACE__ . '\add_product_commodity_classification_field' );
 		add_action( 'woocommerce_process_product_meta', __NAMESPACE__ . '\save_product_commodity_classification_field' );
 
-		// Add commodity classification field to product categories
+		// Add commodity classification field to product categories.
 		add_action( 'product_cat_edit_form_fields', __NAMESPACE__ . '\add_category_commodity_classification_field' );
 		add_action( 'edited_product_cat', __NAMESPACE__ . '\save_category_commodity_classification_field' );
 
-		// Add commodity classification to invoice items
+		// Add commodity classification to invoice items.
 		add_action( 'wooei_invoice_item_added', __NAMESPACE__ . '\add_commodity_classification_to_invoice_item', 10, 4 );
 	}
 }

@@ -51,7 +51,6 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 		get_option( 'wooei_shop_phone' ),
 		get_option( 'wooei_shop_email' ),
 		null,
-		
 	);
 
 	$seller_country_code = WC()->countries->get_base_country();
@@ -61,9 +60,10 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 		WC()->countries->get_base_postcode(),
 		WC()->countries->get_base_city(),
 		$seller_country_code,
-		WC()->countries->get_base_address_2(), 	null, $stateCode=null
+		WC()->countries->get_base_address_2(),
+		null,
+		null
 	);
-	
 
 	if ( count( $order->get_tax_totals() ) === 0 ) {
 		$invoice->setTaxExemption( Invoice::EXEMPT_FROM_TAX, 'Exempt From Tax' );
@@ -103,7 +103,7 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 		$line_price_without_tax   = (float) $total_line;
 		$single_price_without_tax = $line_price_without_tax / max( 1, $quantity );
 		$tax_rate                 = ( 0.0 === $line_price_without_tax ) ? 0 : ( $tax / $line_price_without_tax ) * 100;
-		$invoice_item = $invoice->addItem( $item['name'], $single_price_without_tax, $tax_rate, $quantity, 'H87', $item['product_id'] );
+		$invoice_item             = $invoice->addItem( $item['name'], $single_price_without_tax, $tax_rate, $quantity, 'H87', $item['product_id'] );
 
 		// Allow modifications per item after it's added.
 		/**

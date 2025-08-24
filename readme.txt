@@ -5,7 +5,7 @@ Requires at least: 5.0
 Tested up to: 6.8.2
 Requires PHP: 8.1
 License: GPL
-Stable tag: 0.4.0
+Stable tag: 0.4.1
 
 Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and other e-invoicing standards.
 
@@ -112,6 +112,7 @@ Yes! The plugin includes translations for multiple languages including French, G
 3. PDF Invoice Designer - Header
 4. PDF Invoice Designer - Footer
 5. Invoice numbering setup
+6. Invoice fields visibility setup
 
 
 == Credits ==
@@ -120,7 +121,11 @@ Big Thanks to :
 
 == Changelog ==
 
-2025-08-24 - version 0.4.0
+2025-08-24 - version 0.4.1
+* Clean up error_log
+* Added screenshots
+
+2025-08-23 - version 0.4.0
 * New - Malaysian UBL (Malaysia) e-invoice format support - Beta
 * New - Added option to generate invoice numbers for pending orders
 * Enhancement - Updated WooCommerce compatibility to 10.1.1
