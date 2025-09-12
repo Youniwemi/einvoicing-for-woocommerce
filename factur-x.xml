@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rsm:CrossIndustryDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rsm="urn:ferd:CrossIndustryDocument:invoice:1p0" xmlns:ram="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12" xmlns:udt="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:15">
+  <rsm:SpecifiedExchangedDocumentContext>
+    <ram:GuidelineSpecifiedDocumentContextParameter>
+      <ram:ID>urn:ferd:CrossIndustryDocument:invoice:1p0:comfort</ram:ID>
+    </ram:GuidelineSpecifiedDocumentContextParameter>
+  </rsm:SpecifiedExchangedDocumentContext>
+  <rsm:HeaderExchangedDocument>
+    <ram:ID>594</ram:ID>
+    <ram:Name></ram:Name>
+    <ram:TypeCode>380</ram:TypeCode>
+    <ram:IssueDateTime>
+      <udt:DateTimeString format="102">20250904</udt:DateTimeString>
+    </ram:IssueDateTime>
+  </rsm:HeaderExchangedDocument>
+  <rsm:SpecifiedSupplyChainTradeTransaction>
+    <ram:ApplicableSupplyChainTradeAgreement>
+      <ram:BuyerReference></ram:BuyerReference>
+      <ram:SellerTradeParty>
+        <ram:ID>HRB123456</ram:ID>
+        <ram:GlobalID schemeID="0094">HRB123456</ram:GlobalID>
+        <ram:Name>Test Company GmbH</ram:Name>
+        <ram:DefinedTradeContact>
+          <ram:TelephoneUniversalCommunication>
+            <ram:CompleteNumber>212666754140</ram:CompleteNumber>
+          </ram:TelephoneUniversalCommunication>
+          <ram:EmailURIUniversalCommunication>
+            <ram:URIID>test@company.de</ram:URIID>
+          </ram:EmailURIUniversalCommunication>
+        </ram:DefinedTradeContact>
+        <ram:PostalTradeAddress>
+          <ram:PostcodeCode>12355</ram:PostcodeCode>
+          <ram:LineOne>line1</ram:LineOne>
+          <ram:LineTwo>line2</ram:LineTwo>
+          <ram:CityName>Citio</ram:CityName>
+          <ram:CountryID>US</ram:CountryID>
+        </ram:PostalTradeAddress>
+        <ram:SpecifiedTaxRegistration>
+          <ram:ID schemeID="VA">USDE123456789</ram:ID>
+        </ram:SpecifiedTaxRegistration>
+      </ram:SellerTradeParty>
+      <ram:BuyerTradeParty>
+        <ram:Name>Max Mustermann</ram:Name>
+        <ram:PostalTradeAddress>
+          <ram:PostcodeCode>10115</ram:PostcodeCode>
+          <ram:LineOne>Teststraße 1</ram:LineOne>
+          <ram:LineTwo></ram:LineTwo>
+          <ram:CityName>Berlin</ram:CityName>
+          <ram:CountryID>DE</ram:CountryID>
+        </ram:PostalTradeAddress>
+      </ram:BuyerTradeParty>
+    </ram:ApplicableSupplyChainTradeAgreement>
+    <ram:ApplicableSupplyChainTradeDelivery>
+      <ram:ActualDeliverySupplyChainEvent>
+        <ram:OccurrenceDateTime>
+          <udt:DateTimeString format="102">20250904</udt:DateTimeString>
+        </ram:OccurrenceDateTime>
+      </ram:ActualDeliverySupplyChainEvent>
+    </ram:ApplicableSupplyChainTradeDelivery>
+    <ram:ApplicableSupplyChainTradeSettlement>
+      <ram:PaymentReference></ram:PaymentReference>
+      <ram:InvoiceCurrencyCode>USD</ram:InvoiceCurrencyCode>
+      <ram:SpecifiedTradeSettlementPaymentMeans/>
+      <ram:SpecifiedTradePaymentTerms>
+        <ram:Description></ram:Description>
+        <ram:DueDateDateTime>
+          <udt:DateTimeString format="102">20250904</udt:DateTimeString>
+        </ram:DueDateDateTime>
+      </ram:SpecifiedTradePaymentTerms>
+      <ram:SpecifiedTradeSettlementMonetarySummation>
+        <ram:LineTotalAmount currencyID="USD">0.00</ram:LineTotalAmount>
+        <ram:ChargeTotalAmount currencyID="USD">0.00</ram:ChargeTotalAmount>
+        <ram:AllowanceTotalAmount currencyID="USD">0.00</ram:AllowanceTotalAmount>
+        <ram:TaxBasisTotalAmount currencyID="USD">0.00</ram:TaxBasisTotalAmount>
+        <ram:TaxTotalAmount currencyID="USD">0.00</ram:TaxTotalAmount>
+        <ram:GrandTotalAmount currencyID="USD">0.00</ram:GrandTotalAmount>
+        <ram:DuePayableAmount currencyID="USD">0.00</ram:DuePayableAmount>
+      </ram:SpecifiedTradeSettlementMonetarySummation>
+    </ram:ApplicableSupplyChainTradeSettlement>
+    <ram:IncludedSupplyChainTradeLineItem>
+      <ram:AssociatedDocumentLineDocument>
+        <ram:LineID>1</ram:LineID>
+      </ram:AssociatedDocumentLineDocument>
+      <ram:SpecifiedSupplyChainTradeAgreement>
+        <ram:GrossPriceProductTradePrice>
+          <ram:ChargeAmount currencyID="USD">0.0000</ram:ChargeAmount>
+          <ram:BasisQuantity unitCode="H87">1.0000</ram:BasisQuantity>
+        </ram:GrossPriceProductTradePrice>
+        <ram:NetPriceProductTradePrice>
+          <ram:ChargeAmount currencyID="USD">0.0000</ram:ChargeAmount>
+          <ram:BasisQuantity unitCode="H87">1.0000</ram:BasisQuantity>
+        </ram:NetPriceProductTradePrice>
+      </ram:SpecifiedSupplyChainTradeAgreement>
+      <ram:SpecifiedSupplyChainTradeDelivery>
+        <ram:BilledQuantity unitCode="H87">2.0000</ram:BilledQuantity>
+      </ram:SpecifiedSupplyChainTradeDelivery>
+      <ram:SpecifiedSupplyChainTradeSettlement>
+        <ram:ApplicableTradeTax>
+          <ram:TypeCode>VAT</ram:TypeCode>
+          <ram:CategoryCode>S</ram:CategoryCode>
+          <ram:ApplicablePercent>0.00</ram:ApplicablePercent>
+        </ram:ApplicableTradeTax>
+        <ram:SpecifiedTradeSettlementMonetarySummation>
+          <ram:LineTotalAmount currencyID="EUR">0.00</ram:LineTotalAmount>
+        </ram:SpecifiedTradeSettlementMonetarySummation>
+      </ram:SpecifiedSupplyChainTradeSettlement>
+      <ram:SpecifiedTradeProduct>
+        <ram:SellerAssignedID>0</ram:SellerAssignedID>
+        <ram:Name></ram:Name>
+      </ram:SpecifiedTradeProduct>
+    </ram:IncludedSupplyChainTradeLineItem>
+  </rsm:SpecifiedSupplyChainTradeTransaction>
+</rsm:CrossIndustryDocument>

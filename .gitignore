@@ -94,4 +94,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# phpactor
+.phpactor.json
+
 # End of https://www.gitignore.io/api/wordpress,node,composer,php,jetbrains,vscode,windows,linux,macos

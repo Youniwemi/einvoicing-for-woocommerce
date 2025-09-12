@@ -70,7 +70,7 @@ class Invoice_Customizer extends Customizer_Helper {
 	 * Constructs a new instance.
 	 */
 	protected function __construct() {
-
+		$this->init_defaults();
 		$this->min_capability = WOOEI_PERMISSION_MANAGER;
 
 		$this->prepare_customizer();
@@ -310,8 +310,8 @@ class Invoice_Customizer extends Customizer_Helper {
 	 */
 	public function get_customizer_settings() {
 		static $settings, $sections;
+
 		if ( null === $settings ) {
-			$this->init_defaults();
 			$sections = array(
 				// Prebuit templates.
 				'template'               => __( 'Ready-to-Use designs', 'einvoicing-for-woocommerce' ),
