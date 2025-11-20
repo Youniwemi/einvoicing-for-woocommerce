@@ -70,12 +70,13 @@ function generate_invoice_number( $order_id, $new_status ) {
 		return;
 	}
 	// Default allowed statuses.
-	$allowed_statuses = array( 'processing', 'completed' );
+	$allowed_statuses = array( 'processing', 'completed', 'wc-processing', 'wc-completed' );
 
 	// Add pending if checkbox is enabled.
 	$generate_pending = get_option( 'wooei_generate_pending_invoices', 'no' );
 	if ( 'yes' === $generate_pending ) {
 		$allowed_statuses[] = 'pending';
+		$allowed_statuses[] = 'wc-pending';
 	}
 
 	if ( ! in_array( $new_status, $allowed_statuses, true ) ) {
@@ -156,8 +157,3 @@ add_action(
 	10,
 	4
 );
-
-
-
-
-

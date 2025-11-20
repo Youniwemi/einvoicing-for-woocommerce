@@ -19,6 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 function show_changesets_since( string $current ) {
 	// Let's define all the changesets, this way, we can easily translate them, and most importantly show what changed since the previous version.
 	$all = array(
+		__( '0.4.3 : Added Blocksy theme compatibility', 'einvoicing-for-woocommerce' ) => array(
+			__( 'Added Blocksy theme compatibility', 'einvoicing-for-woocommerce' ),
+			__( 'Fixed invoice number generation with WooCommerce status prefixes', 'einvoicing-for-woocommerce' ),
+		),
+		__( '0.4.2 : Fixed – Bug causing Zugferd invoices to be blank', 'einvoicing-for-woocommerce' ) => null,
+		__( '0.4.1 : Clean up error_log and added screenshots', 'einvoicing-for-woocommerce' ) => null,
 		__( '0.4.0 : New - Malaysian UBL (Malaysia) e-invoice format support - Beta', 'einvoicing-for-woocommerce' ) => array(
 			__( 'New - Malaysian UBL (Malaysia) e-invoice format support', 'einvoicing-for-woocommerce' ),
 			__( 'New - Added option to generate invoice numbers for pending orders', 'einvoicing-for-woocommerce' ),

@@ -132,10 +132,10 @@ abstract class Customizer_Helper {
 	public function get_settings( ?string $key = null ) {
 		static $settings;
 		if ( null === $settings ) {
-			$saved_settings = get_option( static::$settings_option, array() );
+			$saved_settings   = get_option( static::$settings_option, array() );
 			$default_settings = $this->get_defaults();
 
-			// Deep merge arrays to handle nested settings like 'order_detail'
+			// Deep merge arrays to handle nested settings like 'order_detail'.
 			$settings = array_replace_recursive( $default_settings, $saved_settings );
 		}
 		if ( isset( $key ) ) {
