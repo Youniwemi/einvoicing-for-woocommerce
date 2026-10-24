@@ -2,7 +2,7 @@
 
 namespace DigitalInvoice;
 
-use Easybill\ZUGFeRD211\Model\DateTime;
+use Easybill\ZUGFeRD2\Model\DateTime;
 
 class Invoice
 {
@@ -43,6 +43,9 @@ class Invoice
 
 
     protected $invoiceInformations = [];
+    // Supporting documents also embedded in the PDF, to be visible in PDF readers
+    protected $attachments = [];
+    protected InvoiceTypeCode $invoiceType;
 
     protected $noTaxCategory = VatCategory::SERVICE_OUTSIDE_SCOPE_OF_TAX;
     protected $noTaxReason =  null;
@@ -50,7 +53,7 @@ class Invoice
     public function __construct(
         string $invoiceId,
         \DateTime $issueDate,
-        \DateTime $deliveryDate = null,
+        ?\DateTime $deliveryDate = null,
         string|CurrencyCode $currency = CurrencyCode::EURO,
         $profile = self::FACTURX_MINIMUM,
         string|InvoiceTypeCode $invoiceType = InvoiceTypeCode::COMMERCIAL_INVOICE
@@ -69,6 +72,9 @@ class Invoice
                 throw new \Exception("$invoiceType is not a valid Invoice Type");
             }
         }
+        if ($profile === FacturX::EXTENDED_LEGACY) {
+            $profile = FacturX::EXTENDED;
+        }
         $this->profile = $profile;
         if ( $this->isUbl()) {
             $this->xmlGenerator = new Ubl($profile, $currency);
@@ -81,8 +87,23 @@ class Invoice
         $this->invoiceInformations['profile'] = $profile;
         $this->invoiceInformations['invoiceId'] = $invoiceId;
         $this->invoiceInformations['date'] = $issueDate->format('Y-m-d');
-        $this->invoiceInformations['docTypeName'] = $invoiceType->value;
+        $this->invoiceInformations['docTypeName'] = $invoiceType->isCreditNote() ? 'Credit Note' : 'Invoice';
+        $this->invoiceType = $invoiceType;
         $this->xmlGenerator->initDocument($invoiceId, $issueDate, $invoiceType, $deliveryDate);
+    }
+
+    public function isCreditNote(): bool
+    {
+        return $this->invoiceType->isCreditNote();
+    }
+
+    /**
+     * Preceding invoice reference (BG-3: BT-25, BT-26), the invoice corrected or credited.
+     * Required by the French CTC for credit notes (BR-FR-CO-05).
+     */
+    public function addPrecedingInvoiceReference(string $invoiceId, ?\DateTime $issueDate = null)
+    {
+        $this->xmlGenerator->addPrecedingInvoiceReference($invoiceId, $issueDate);
     }
 
     public function setTaxExemption(VatCategory $vatCategory, ?string $reason = null)
@@ -110,9 +131,49 @@ class Invoice
         return DateTime::create(102, $date->format('Ymd'));
     }
 
-    public function setBuyer(string $buyerReference, string $name, string $id = null)
+    public function setBuyer(string $buyerReference, string $name, ?string $id = null)
     {
         $this->xmlGenerator->setBuyer($buyerReference, $name, $id);
+    }
+
+    /**
+     * Purchase order reference (BT-13), distinct from the buyer reference (BT-10)
+     */
+    public function setBuyerOrderReference(string $reference)
+    {
+        $this->xmlGenerator->setBuyerOrderReference($reference);
+    }
+
+    /**
+     * Business process / billing mode (BT-23), required by the French CTC: B1, S1, M1...
+     */
+    public function setBillingMode(string $mode)
+    {
+        $this->xmlGenerator->setBillingMode($mode);
+    }
+
+    /**
+     * Value added tax point date code (BT-8). France: "Option pour le paiement de la taxe d'après les débits"
+     */
+    public function setVatDueDateTypeCode(string|VatDueDateTypeCode $code)
+    {
+        $this->xmlGenerator->setVatDueDateTypeCode(is_string($code) ? VatDueDateTypeCode::from($code) : $code);
+    }
+
+    /**
+     * Seller electronic address (BT-34), e.g. ('123456789', '0225') or ('a@b.fr', 'EM'). Call after setSeller.
+     */
+    public function setSellerElectronicAddress(string $id, string $scheme)
+    {
+        $this->xmlGenerator->setSellerElectronicAddress($id, $scheme);
+    }
+
+    /**
+     * Buyer electronic address (BT-49), e.g. ('123456789', '0225') or ('a@b.fr', 'EM'). Call after setBuyer.
+     */
+    public function setBuyerElectronicAddress(string $id, string $scheme)
+    {
+        $this->xmlGenerator->setBuyerElectronicAddress($id, $scheme);
     }
 
     public function setBuyerIdentifier(string $id, ?string $idDesignator, string $type = 'Legal')
@@ -202,6 +263,18 @@ class Invoice
         return $item;
     }
 
+    /**
+     * Document level allowance (BG-20), e.g. a discount, deducted from the VAT basis of the given rate.
+     * Reason code from UNTDID 5189, 95 = Discount (BT-97, BT-98).
+     */
+    public function addAllowance(float $amount, float $taxRatePercent, ?string $reason = 'Remise', ?string $reasonCode = '95')
+    {
+        if ($amount <= 0) {
+            throw new \Exception('The allowance amount should be positive');
+        }
+        $this->xmlGenerator->addAllowance($amount, $taxRatePercent, $reason, $reasonCode);
+    }
+
     public function addPaymentMean(string $typeCode, ?string $ibanId = null, ?string $accountName = null, ?string $bicId = null)
     {
         try {
@@ -241,9 +314,10 @@ class Invoice
      * @param string $pdf
      * @param bool $addFacturxLogo
      * @param array $fpdiParams
+     * @param bool $appendAttachments Also append the PDF attachments as pages, for readers that hide attachments
      * @return string
      */
-    public function getPdf($pdf, $addFacturxLogo = false, $fpdiParams = [])
+    public function getPdf($pdf, $addFacturxLogo = false, $fpdiParams = [], $appendAttachments = false)
     {
         if (in_array($this->profile, [static::ZUGFERD_BASIC, static::ZUGFERD_CONFORT, static::ZUGFERD_EXTENDED])) {
             // Ensure false, there is no logo for those profiles
@@ -258,16 +332,32 @@ class Invoice
             null,
             true,
             '',
-            [],
+            array_map(fn ($attachment) => $attachment + ['append' => $appendAttachments], $this->attachments),
             $addFacturxLogo,
             'Data',
             $fpdiParams
         );
     }
 
+    /**
+     * Adds a supporting document (BG-24), embedded in the XML and attached to the PDF
+     *
+     * @param string|null $id          BT-122 document reference
+     * @param string|null $scheme      Reference scheme, UBL only
+     * @param string|null $filename    Attached file name
+     * @param string|null $contents    Raw file contents, null to only reference the document
+     * @param string|null $mimeCode    one of AttachmentMimeCode
+     * @param string|null $description BT-123, one of AttachmentDescription in France
+     */
     public function addEmbeddedAttachment(?string $id, ?string $scheme, ?string $filename, ?string $contents, ?string $mimeCode, ?string $description)
     {
+        if ($mimeCode !== null && AttachmentMimeCode::tryFrom($mimeCode) === null) {
+            throw new \Exception('Attachment mime code must be one of '.implode(', ', array_column(AttachmentMimeCode::cases(), 'value')));
+        }
         $this->xmlGenerator->addEmbeddedAttachment($id, $scheme, $filename, $contents, $mimeCode, $description);
+        if ($contents !== null) {
+            $this->attachments[] = ['contents' => $contents, 'name' => $filename, 'desc' => (string) $description, 'mime' => (string) $mimeCode];
+        }
     }
 
     public function addItemClassification($item, string $code, string $scheme = 'CLASS')

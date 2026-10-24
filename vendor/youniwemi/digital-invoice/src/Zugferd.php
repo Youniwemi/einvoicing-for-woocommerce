@@ -26,6 +26,7 @@ use Easybill\ZUGFeRD\Model\Trade\Item\SpecifiedTradeSettlement;
 use Easybill\ZUGFeRD\Model\Trade\MonetarySummation;
 use Easybill\ZUGFeRD\Model\Trade\PaymentMeans;
 use Easybill\ZUGFeRD\Model\Trade\PaymentTerms;
+use Easybill\ZUGFeRD\Model\Trade\ReferencedDocument;
 use Easybill\ZUGFeRD\Model\Trade\Settlement;
 use Easybill\ZUGFeRD\Model\Trade\Tax\TaxRegistration;
 use Easybill\ZUGFeRD\Model\Trade\Tax\TradeTax;
@@ -98,7 +99,7 @@ class Zugferd extends XmlGenerator
 
     protected function getAmount(float $amount): Amount
     {
-        return new Amount(self::decimalFormat($amount), $this->currency->value);
+        return new Amount($amount, $this->currency->value);
     }
 
     protected $calculated = false;
@@ -124,7 +125,7 @@ class Zugferd extends XmlGenerator
                     $tradeTax->setCategory(VatCategory::STANDARD->value);
                     $totalBasis += $sum;
                     $tradeTax->setBasisAmount($this->getAmount($sum));
-                    $tradeTax->setPercent(self::decimalFormat($rate))  ;
+                    $tradeTax->setPercent((float) $rate)  ;
                     $tax += $calculated = $sum * $rate / 100;
                     $tradeTax->setCalculatedAmount($this->getAmount($calculated));
 
@@ -204,7 +205,7 @@ class Zugferd extends XmlGenerator
         $this->seller->addTaxRegistration(new TaxRegistration($schemeID, $id));
     }
 
-    public function setBuyer(string $buyerReference, string $name, string $id = null)
+    public function setBuyer(string $buyerReference, string $name, ?string $id = null)
     {
         $this->buyer = new TradeParty(
             $name,
@@ -219,8 +220,17 @@ class Zugferd extends XmlGenerator
             ->setBuyerReference($buyerReference);
 
         if ($this->hasDelivery) {
-            $this->delivery->setShipToTradeParty($this->buyer);
+            $shipTo = new TradeParty($name, new Address());
+            if ($id) {
+                $shipTo->setId($id);
+            }
+            $this->delivery->setShipToTradeParty($shipTo);
         }
+    }
+
+    public function setBuyerOrderReference(string $reference)
+    {
+        $this->agreement->setBuyerOrder(new ReferencedDocument($reference));
     }
 
     public function setBuyerIdentifier( string $identifier, ?InternationalCodeDesignator $idType=null, IdentificationType $type = IdentificationType::OTHER )
@@ -256,10 +266,14 @@ class Zugferd extends XmlGenerator
 
     public function setBuyerAddress(string $lineOne, string $postCode, string $city, string $countryCode, ?string $lineTwo = null, ?string $lineThree = null, ?string $stateCode = null)
     {
-        $this->buyer->setAddress($this->createAddress($postCode, $city, $countryCode, $lineOne, $lineTwo, $lineThree));
+        $address = $this->createAddress($postCode, $city, $countryCode, $lineOne, $lineTwo, $lineThree);
+        $this->buyer->setAddress($address);
+        if ($this->hasDelivery && $this->delivery->getShipToTradeParty()) {
+            $this->delivery->getShipToTradeParty()->setAddress($address);
+        }
     }
 
-    public function addItem(string $name, float $price, float $taxRatePercent, float  $quantity, UnitOfMeasurement $unit, ?string $globalID = null, string $globalIDCode = null, ?string $description = null): array
+    public function addItem(string $name, float $price, float $taxRatePercent, float  $quantity, UnitOfMeasurement $unit, ?string $globalID = null, ?string $globalIDCode = null, ?string $description = null): array
     {
         $lineNumber = count($this->items) + 1;
         $tradeAgreement = new SpecifiedTradeAgreement();
@@ -308,7 +322,7 @@ class Zugferd extends XmlGenerator
     public function addPaymentMean(PaymentMeansCode $typeCode, ?string $ibanId = null, ?string $accountName = null, ?string $bicId = null)
     {
 
-        $this->settlement = new Settlement('', $this->currency); // should we send a payment reference?
+        $this->settlement = new Settlement('', $this->currency->value); // should we send a payment reference?
         $mean = new PaymentMeans();
         $mean->setCode($typeCode->value) ;
 

@@ -5,9 +5,11 @@
  *          This file is part of the PdfParser library.
  *
  * @author  Sébastien MALOT <sebastien@malot.fr>
+ *
  * @date    2017-01-03
  *
  * @license LGPLv3
+ *
  * @url     <https://github.com/smalot/pdfparser>
  *
  *  PdfParser is a pdf library written in PHP, extraction oriented.
@@ -58,71 +60,60 @@ class Parser
 
     protected $rawDataParser;
 
-    public function __construct($cfg = [], Config $config = null)
+    public function __construct($cfg = [], ?Config $config = null)
     {
-        $this->rawDataParser = new RawDataParser($cfg);
         $this->config = $config ?: new Config();
+        $this->rawDataParser = new RawDataParser($cfg, $this->config);
     }
 
-    /**
-     * @return Config
-     */
-    public function getConfig()
+    public function getConfig(): Config
     {
         return $this->config;
     }
 
     /**
-     * @param string $filename
-     *
-     * @return Document
-     *
      * @throws \Exception
      */
-    public function parseFile($filename)
+    public function parseFile(string $filename): Document
     {
-        $content = file_get_contents($filename);
-        /*
-         * 2018/06/20 @doganoo as multiple times a
-         * users have complained that the parseFile()
-         * method dies silently, it is an better option
-         * to remove the error control operator (@) and
-         * let the users know that the method throws an exception
-         * by adding @throws tag to PHPDoc.
-         *
-         * See here for an example: https://github.com/smalot/pdfparser/issues/204
-         */
-        return $this->parseContent($content);
+        // parseContent() holds the only reference to the file content, which
+        // enables it to release the content.
+        return $this->parseContent(file_get_contents($filename));
     }
 
     /**
      * @param string $content PDF content to parse
      *
-     * @return Document
-     *
      * @throws \Exception if secured PDF file was detected
      * @throws \Exception if no object list was found
      */
-    public function parseContent($content)
+    public function parseContent(string $content): Document
     {
-        // Create structure from raw data.
-        list($xref, $data) = $this->rawDataParser->parseData($content);
+        // Normalize the raw data and decode the cross-reference/trailer table.
+        list($xref, $pdfData) = $this->rawDataParser->parseHeaderAndXref($content);
 
-        if (isset($xref['trailer']['encrypt'])) {
+        // $pdfData is a copy of $content, if $content had to be normalized (bytes
+        // in front of the header, line endings). $content is released to avoid
+        // holding both while the objects are parsed.
+        unset($content);
+
+        if (isset($xref['trailer']['encrypt']) && false === $this->config->getIgnoreEncryption()) {
             throw new \Exception('Secured pdf file are currently not supported.');
-        }
-
-        if (empty($data)) {
-            throw new \Exception('Object list not found. Possible secured file.');
         }
 
         // Create destination object.
         $document = new Document();
         $this->objects = [];
 
-        foreach ($data as $id => $structure) {
+        // The raw objects are decoded one at a time. Each raw structure is
+        // turned into a PDFObject and goes out of scope before the next one
+        // gets decoded, so only one raw structure is held in memory at a time.
+        foreach ($this->rawDataParser->iterateIndirectObjects($pdfData, $xref) as $id => $structure) {
             $this->parseObject($id, $structure, $document);
-            unset($data[$id]);
+        }
+
+        if (empty($this->objects)) {
+            throw new \Exception('Object list not found. Possible secured file.');
         }
 
         $document->setTrailer($this->parseTrailer($xref['trailer'], $document));
@@ -131,7 +122,7 @@ class Parser
         return $document;
     }
 
-    protected function parseTrailer($structure, $document)
+    protected function parseTrailer(array $structure, ?Document $document)
     {
         $trailer = [];
 
@@ -153,12 +144,7 @@ class Parser
         return new Header($trailer, $document);
     }
 
-    /**
-     * @param string   $id
-     * @param array    $structure
-     * @param Document $document
-     */
-    protected function parseObject($id, $structure, $document)
+    protected function parseObject(string $id, array $structure, ?Document $document)
     {
         $header = new Header([], $document);
         $content = '';
@@ -188,24 +174,15 @@ class Parser
                     $content = isset($part[3][0]) ? $part[3][0] : $part[1];
 
                     if ($header->get('Type')->equals('ObjStm')) {
-                        $match = [];
-
-                        // Split xrefs and contents.
-                        preg_match('/^((\d+\s+\d+\s*)*)(.*)$/s', $content, $match);
-                        $content = $match[3];
-
-                        // Extract xrefs.
-                        $xrefs = preg_split(
-                            '/(\d+\s+\d+\s*)/s',
-                            $match[1],
-                            -1,
-                          \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE
-                        );
+                        list($objectNumbers, $byteOffsets, $firstObjectOffset) = $this->getObjectStreamIndex($header, $content);
+                        $content = substr($content, $firstObjectOffset);
                         $table = [];
 
-                        foreach ($xrefs as $xref) {
-                            list($id, $position) = preg_split("/\s+/", trim($xref));
-                            $table[$position] = $id;
+                        foreach ($byteOffsets as $key => $byteOffset) {
+                            // A byte offset with as many digits as PHP_INT_MAX or more
+                            // is located behind the content in any case
+                            $position = \strlen($byteOffset) < \strlen((string) \PHP_INT_MAX) ? (int) $byteOffset : \PHP_INT_MAX;
+                            $table[$position] = $objectNumbers[$key];
                         }
 
                         ksort($table);
@@ -224,9 +201,11 @@ class Parser
                         }
 
                         // It is not necessary to store this content.
-                        $content = '';
 
                         return;
+                    } elseif ($header->get('Type')->equals('Metadata')) {
+                        // Attempt to parse XMP XML Metadata
+                        $document->extractXMPMetadata($content);
                     }
                     break;
 
@@ -248,14 +227,80 @@ class Parser
     }
 
     /**
-     * @param array    $structure
-     * @param Document $document
+     * Provides the index of an object stream and the byte offset of its first
+     * object.
      *
-     * @return Header
+     * The index consists of pairs of integers: the number of an object and its
+     * byte offset relative to the first object. The index is expected to end
+     * with the last pair, which directly follows another pair.
      *
+     * Integer objects behind the index look like pairs. /First, the byte offset
+     * of the first object, tells them apart. It is used, if it is located
+     * between two pairs and the number of pairs in front of it equals /N (as
+     * far as /N is usable).
+     *
+     * @return array{0: array<int, string>, 1: array<int, string>, 2: int} [$objectNumbers, $byteOffsets, $firstObjectOffset]
+     *
+     * @see https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf#page=53 ISO 32000-1:2008, 7.5.7 (object streams)
+     * @see https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf#page=54 ISO 32000-1:2008, 7.5.7, Table 16 (N, First)
+     */
+    private function getObjectStreamIndex(Header $header, string $content): array
+    {
+        // \G lets a pair start where the previous one ends. White-space is \s
+        // and the null character.
+        $pattern = '/\G[\s\0]*(\d+)[\s\0]+(\d+)[\s\0]*/';
+        preg_match_all($pattern, $content, $index);
+        $length = \strlen(implode('', $index[0]));
+
+        $first = $this->getObjectStreamInteger($header, 'First', $length - 1);
+
+        if (
+            null === $first
+            // only white-space between /First and the end of the pairs
+            || false === strpbrk(substr($content, $first, $length - $first), '0123456789')
+            // /First is located inside of a number
+            || (0 < $first && 2 === strspn($content, '0123456789', $first - 1, 2))
+        ) {
+            return [$index[1], $index[2], $length];
+        }
+
+        preg_match_all($pattern, substr($content, 0, $first), $indexInFrontOfFirst);
+        $numberOfObjects = $this->getObjectStreamInteger($header, 'N', \strlen($content));
+
+        if (
+            $first !== \strlen(implode('', $indexInFrontOfFirst[0]))
+            || (null !== $numberOfObjects && \count($indexInFrontOfFirst[0]) !== $numberOfObjects)
+        ) {
+            return [$index[1], $index[2], $length];
+        }
+
+        return [$indexInFrontOfFirst[1], $indexInFrontOfFirst[2], $first];
+    }
+
+    /**
+     * Provides an integer entry of the dictionary of an object stream. Null is
+     * returned, if the entry is missing, an indirect reference or outside of
+     * the range from 0 to $max.
+     *
+     * @see https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf#page=54 ISO 32000-1:2008, 7.5.7, Table 16 (N, First)
+     */
+    private function getObjectStreamInteger(Header $header, string $name, int $max): ?int
+    {
+        $element = $header->get($name);
+
+        if (!$element instanceof ElementNumeric) {
+            return null;
+        }
+
+        $value = $element->getContent();
+
+        return 0 <= $value && $value <= $max ? (int) $value : null;
+    }
+
+    /**
      * @throws \Exception
      */
-    protected function parseHeader($structure, $document)
+    protected function parseHeader(array $structure, ?Document $document): Header
     {
         $elements = [];
         $count = \count($structure);
@@ -272,16 +317,19 @@ class Parser
     }
 
     /**
-     * @param string       $type
      * @param string|array $value
-     * @param Document     $document
      *
      * @return Element|Header|null
      *
      * @throws \Exception
      */
-    protected function parseHeaderElement($type, $value, $document)
+    protected function parseHeaderElement(?string $type, $value, ?Document $document)
     {
+        $valueIsEmpty = null == $value || '' == $value || false == $value;
+        if (('<<' === $type || '>>' === $type) && $valueIsEmpty) {
+            $value = [];
+        }
+
         switch ($type) {
             case '<<':
             case '>>':
@@ -307,7 +355,7 @@ class Parser
                 return ElementString::parse('('.$value.')', $document);
 
             case '<':
-                return $this->parseHeaderElement('(', ElementHexa::decode($value, $document), $document);
+                return $this->parseHeaderElement('(', ElementHexa::decode($value), $document);
 
             case '/':
                 return ElementName::parse('/'.$value, $document);
@@ -330,7 +378,7 @@ class Parser
                 return new ElementArray($values, $document);
 
             case 'endstream':
-            case 'obj': //I don't know what it means but got my project fixed.
+            case 'obj': // I don't know what it means but got my project fixed.
             case '':
                 // Nothing to do with.
                 return null;

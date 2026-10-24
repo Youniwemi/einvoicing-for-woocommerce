@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easybill\ZUGFeRD\Model;
 
 use JMS\Serializer\Annotation\SerializedName;
@@ -7,45 +9,48 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\XmlElement;
 use JMS\Serializer\Annotation\XmlList;
 
+/**
+ * @deprecated ZUGFeRD 1.0 is deprecated and will be removed in a future release. Please migrate to ZUGFeRD 2.0 (Easybill\ZUGFeRD2).
+ */
 class Header
 {
     /**
      * @var string
-     * @Type("string")
-     * @XmlElement(cdata=false,namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("ID")
      */
+    #[Type('string')]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('ID')]
     private $id = '';
 
     /**
      * @var string
-     * @Type("string")
-     * @XmlElement(cdata=false,namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("Name")
      */
+    #[Type('string')]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('Name')]
     private $name = '';
 
     /**
      * @var string
-     * @Type("string")
-     * @XmlElement(cdata=false,namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("TypeCode")
      */
+    #[Type('string')]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('TypeCode')]
     private $typeCode = '380';
 
     /**
      * @var Date
-     * @Type("Easybill\ZUGFeRD\Model\Date")
-     * @XmlElement(cdata=false,namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("IssueDateTime")
      */
+    #[Type(Date::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('IssueDateTime')]
     private $date;
 
     /**
      * @var Note[]
-     * @Type("array<Easybill\ZUGFeRD\Model\Note>")
-     * @XmlList(inline = true, entry = "IncludedNote", namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
      */
+    #[Type('array<Easybill\ZUGFeRD\Model\Note>')]
+    #[XmlList(entry: 'IncludedNote', inline: true, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
     private $notes = [];
 
     /**

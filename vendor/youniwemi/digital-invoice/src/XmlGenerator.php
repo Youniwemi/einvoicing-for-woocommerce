@@ -20,7 +20,9 @@ interface XmlGeneratorInterface
 
     public function setSellerTaxRegistration(string $id, string $schemeID);
 
-    public function setBuyer(string $buyerReference, string $name, string $id = null);
+    public function setBuyer(string $buyerReference, string $name, ?string $id = null);
+
+    public function setBuyerOrderReference(string $reference);
 
     public function setBuyerContact(?string $personName = null, ?string $telephone = null, ?string $email = null, ?string $departmentName = null);
 
@@ -74,6 +76,7 @@ abstract class XmlGenerator implements XmlGeneratorInterface
 
     protected $noTaxCategory = null;
     protected $noTaxReason =  null;
+    protected ?VatDueDateTypeCode $vatDueDateTypeCode = null;
 
 
     public function __construct($profile, $currency)
@@ -130,6 +133,15 @@ abstract class XmlGenerator implements XmlGeneratorInterface
         $this->noTaxReason = $noTaxReason;
     }
 
+    /**
+     * Value added tax point date code (BT-8), e.g. France: option to pay VAT on debits => invoice date
+     */
+    public function setVatDueDateTypeCode(VatDueDateTypeCode $code)
+    {
+        // Applied by generators that support it
+        $this->vatDueDateTypeCode = $code;
+    }
+
     public function addItemClassification($item, string $code, string $scheme = 'CLASS')
     {
         // Default implementation - override in specific generators if needed
@@ -138,5 +150,33 @@ abstract class XmlGenerator implements XmlGeneratorInterface
     public function setSellerIndustryClassification(string $code, string $name)
     {
         // Default implementation - override in specific generators if needed
+    }
+
+    public function setBillingMode(string $mode)
+    {
+        // Default implementation - override in specific generators if needed
+    }
+
+    public function setSellerElectronicAddress(string $id, string $scheme)
+    {
+        // Default implementation - override in specific generators if needed
+    }
+
+    public function addPrecedingInvoiceReference(string $invoiceId, ?\DateTime $issueDate = null)
+    {
+        // Default implementation - override in specific generators if needed
+    }
+
+    public function setBuyerElectronicAddress(string $id, string $scheme)
+    {
+        // Default implementation - override in specific generators if needed
+    }
+
+    /**
+     * Document level allowance (BG-20)
+     */
+    public function addAllowance(float $amount, float $taxRatePercent, ?string $reason = null, ?string $reasonCode = null)
+    {
+        throw new \Exception('Allowances are not supported for this profile');
     }
 }

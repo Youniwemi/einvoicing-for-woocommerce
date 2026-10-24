@@ -56,7 +56,7 @@ function validate_malaysian_tin_field( $order, $request ) {
 
 	// TIN validation for Malaysia - basic format check.
 	if ( ! empty( $tin ) && ! preg_match( '/^[A-Za-z0-9]{10,20}$/', $tin ) ) {
-		throw new \Exception( __( 'Please enter a valid TIN format (10-20 alphanumeric characters).', 'einvoicing-for-woocommerce' ) );
+		throw new \Exception( esc_html__( 'Please enter a valid TIN format (10-20 alphanumeric characters).', 'einvoicing-for-woocommerce' ) );
 	}
 }
 
@@ -86,7 +86,7 @@ function save_malaysian_tin_to_order( WC_Order $order, $request ) {
  * @param string $profile The UBL profile type.
  * @return object Modified invoice object.
  */
-function ensure_malaysian_einvoice_compliance( $invoice, $order, $profile ) {
+function ensure_malaysian_einvoice_compliance( $invoice, $order, $profile ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- $profile required by wooei_invoice_before_return filter signature
 	// Only process for Malaysian UBL.
 	if ( ! is_malaysian_ubl_active() ) {
 		return $invoice;
@@ -117,7 +117,7 @@ function ensure_malaysian_einvoice_compliance( $invoice, $order, $profile ) {
  * @param object $item         The WooCommerce order item.
  * @param string $profile      The invoice profile/type.
  */
-function add_commodity_classification_to_invoice_item( $invoice_item, $invoice, $item, $profile ) {
+function add_commodity_classification_to_invoice_item( $invoice_item, $invoice, $item, $profile ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- $profile required by wooei_invoice_item_added action signature
 	// Only process for Malaysian UBL.
 	if ( ! is_malaysian_ubl_active() ) {
 		return;

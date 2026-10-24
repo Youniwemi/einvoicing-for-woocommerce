@@ -2,18 +2,18 @@
 /**
  * Plugin Name: E-Invoicing For WooCommerce
  * Plugin URI: https://www.einvoicing-pro.com
- * Version: 0.4.3
+ * Version: 0.5.0
  * Author: Instareza
  * Author URI: https://www.instareza.com
  * Description: Setup your WooCommerce PDF invoices effortlessly and ensure compliance with the latest electronic invoicing regulations! Enable Factur-X, UBL, ZUGFeRD and Xrechnung standards while customizing your invoices to reflect your brand.
  * Text Domain: einvoicing-for-woocommerce
  * Domain Path: /languages
- * Requires PHP: 8.1
+ * Requires PHP: 8.3
  * Requires Plugins: woocommerce
- * Stable tag: 0.4.3
+ * Stable tag: 0.5.0
  *
  * WC requires at least: 7.0
- * WC tested up to: 10.1.1
+ * WC tested up to: 11.2.1
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -27,13 +27,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit(); // Exit if accessed directly.
 }
 
-define( 'WOOEI_VERSION', '0.4.3' );
+define( 'WOOEI_VERSION', '0.5.0' );
 define( 'WOOEI_PLUGIN_DIR', __DIR__ );
 define( 'WOOEI_PLUGIN_FILE', __FILE__ );
 define( 'WOOEI_VENDOR', WOOEI_PLUGIN_DIR . '/vendor/' );
 define( 'WOOEI_INCLUDES', WOOEI_PLUGIN_DIR . '/includes/' );
 define( 'WOOEI_ASSETS', WOOEI_PLUGIN_DIR . '/assets/' );
-define( 'WOOEI_MIN_PHP_VER', '8.1' );
+define( 'WOOEI_MIN_PHP_VER', '8.3' );
 define( 'WOOEI_MIN_WC_VER', '7.0' );
 define( 'WOOEI_REQUIRED_EXTENSIONS', array( 'gd', 'mbstring', 'iconv', 'dom' ) );
 
@@ -72,6 +72,7 @@ function get_environment_warning() {
 function init() {
 
 	define( 'WOOEI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+	// PCP flags this as discouraged since WP 4.6, but we ship bundled translations in languages/ instead of relying on wp.org GlotPress.
 	load_plugin_textdomain(
 		'einvoicing-for-woocommerce',
 		false,
@@ -250,6 +251,16 @@ function load() {
 	// Malaysian compliance functionality.
 	include WOOEI_INCLUDES . '/malaysian-compliance.php';
 
+	// Declare HPOS compatibility.
+	add_action(
+		'before_woocommerce_init',
+		function () {
+			if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', WOOEI_PLUGIN_FILE, true );
+			}
+		}
+	);
+
 	if ( is_admin() ) {
 		include WOOEI_INCLUDES . '/changesets.php';
 		// Onboarding stuff.
@@ -273,7 +284,6 @@ function load() {
 	 * @since 0.0.4
 	 */
 	do_action( 'wooei_ready' );
-
 }
 
 // Activation hook to enable onboarding notice.

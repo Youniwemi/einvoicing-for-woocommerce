@@ -120,7 +120,7 @@ class Settings extends WC_Settings_Page {
 				'desc'    => __( 'This setting is mandatory for e-invoices.', 'einvoicing-for-woocommerce' ) . '<br/>' . __( 'The type of business identification depends on your country. For example, France uses SIREN and SIRET.', 'einvoicing-for-woocommerce' ) . '<br/>' .
 				__( 'If your country has implemented e-invoicing, don\'t hesitate to contact us if you don\'t find your identification system.', 'einvoicing-for-woocommerce' ),
 				'options' => array_merge(
-					array( '' => __( 'Choose identification system based on your country', 'my-textdomain' ) ),
+					array( '' => __( 'Choose identification system based on your country', 'einvoicing-for-woocommerce' ) ),
 					Types::getInternationalCodes()
 				),
 				'id'      => $this->id . '_id_type',
@@ -183,7 +183,7 @@ class Settings extends WC_Settings_Page {
 				'generate_pending_invoices' => array(
 					'name'    => __( 'Generate invoice numbers for pending orders', 'einvoicing-for-woocommerce' ),
 					'type'    => 'checkbox',
-					'desc'    => __( 'Check to generate invoice numbers when orders are created in pending status', 'einvoicing-for-woocommerce' ),
+					'desc'    => __( 'Check to also generate an invoice number when an order gets the pending payment status', 'einvoicing-for-woocommerce' ),
 					'default' => 'no',
 					'id'      => $this->id . '_generate_pending_invoices',
 				),
@@ -257,6 +257,14 @@ class Settings extends WC_Settings_Page {
 			)
 		);
 
+		$settings['skip_free_orders'] = array(
+			'title'   => __( 'Free orders', 'einvoicing-for-woocommerce' ),
+			'id'      => $this->id . '_skip_free_orders',
+			'desc'    => __( 'Do not issue invoices for orders with a total of 0', 'einvoicing-for-woocommerce' ),
+			'default' => 'no',
+			'type'    => 'checkbox',
+		);
+
 		$settings['attach_invoice'] = array(
 			'title'         => __( 'Include Invoice as Attachment', 'einvoicing-for-woocommerce' ),
 			'id'            => $this->id . '_invoice_attach_invoice',
@@ -293,22 +301,6 @@ class Settings extends WC_Settings_Page {
 		$settings['section_type_customizer_end'] = array(
 			'type' => 'sectionend',
 			'id'   => $this->id . '_customizer_end',
-		);
-
-		$changeset = 'admin.php?page=einvoicing-changes';
-		$changeset = admin_url( $changeset );
-
-		$settings['section_invoicing_misc'] = array(
-			'name' => __( 'Miscellaneous', 'einvoicing-for-woocommerce' ),
-			'type' => 'title',
-			/* translators: %s: URL to Invoice customizer. */
-			'desc' => sprintf( __( 'Discover the project <a href="%s">changesets</a>.', 'einvoicing-for-woocommerce' ), esc_url( $changeset ) ),
-			'id'   => $this->id . '_customizer_misc',
-		);
-
-		$settings['section_invoicing_misc_end'] = array(
-			'type' => 'sectionend',
-			'id'   => $this->id . '_customizer_misc_end',
 		);
 
 		if ( ! has_invoice_numbering() ) {

@@ -21,24 +21,25 @@ if ( !function_exists( 'wooei_fs' ) ) {
             // Include Freemius SDK.
             include_once WOOEI_VENDOR . 'freemius/wordpress-sdk/start.php';
             $wooei_fs = fs_dynamic_init( array(
-                'id'             => '14509',
-                'slug'           => 'einvoicing-for-woocommerce',
-                'premium_slug'   => 'einvoicing-pro-for-woocommerce',
-                'type'           => 'plugin',
-                'public_key'     => 'pk_15e83a068f50da8d0e052078acd4a',
-                'is_premium'     => false,
-                'premium_suffix' => 'Pro',
-                'has_addons'     => false,
-                'has_paid_plans' => true,
-                'trial'          => array(
+                'id'               => '14509',
+                'slug'             => 'einvoicing-for-woocommerce',
+                'premium_slug'     => 'einvoicing-pro-for-woocommerce',
+                'type'             => 'plugin',
+                'public_key'       => 'pk_15e83a068f50da8d0e052078acd4a',
+                'is_premium'       => false,
+                'premium_suffix'   => 'Pro',
+                'has_addons'       => false,
+                'has_paid_plans'   => true,
+                'trial'            => array(
                     'days'               => 14,
                     'is_require_payment' => true,
                 ),
-                'menu'           => array(
+                'menu'             => array(
                     'slug'    => 'einvoicing-for-woocommerce',
                     'support' => false,
                 ),
-                'is_live'        => true,
+                'is_live'          => true,
+                'is_org_compliant' => true,
             ) );
         }
         return $wooei_fs;

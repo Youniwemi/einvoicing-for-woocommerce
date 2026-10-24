@@ -47,7 +47,7 @@ if ( class_exists( '\WP_Customize_Control' ) ) {
 			<select id="prebuilt-template" name="prebuilt-template" >
 
 			<?php foreach ( $this->choices as $value => $label ) : ?>
-				<option value="<?php echo esc_attr( $value ); ?>"  
+				<option value="<?php echo esc_attr( $value ); ?>"
 				<?php
 				if ( $this->value() === $value ) {
 					echo 'selected';
@@ -63,6 +63,12 @@ if ( class_exists( '\WP_Customize_Control' ) ) {
 
 			<script>
 				jQuery(document).ready(function($) {
+					// Re-focus template section after a template load triggered a page reload.
+					if (sessionStorage.getItem('wooei_focus_template')) {
+						sessionStorage.removeItem('wooei_focus_template');
+						wp.customize.section('wooei_customizations-template').focus();
+					}
+
 					const templateSelector = $('#prebuilt-template');
 					const currentTemplate = templateSelector.val();
 					$('#wooei-load-template').click(function(){
@@ -82,6 +88,7 @@ if ( class_exists( '\WP_Customize_Control' ) ) {
 
 						// Send request to server.
 						$.post( ajaxurl, data, function( result ) {
+							sessionStorage.setItem('wooei_focus_template', '1');
 							location.reload();
 						}).fail(function(xhr) {
 							alert(xhr.responseText);
@@ -92,7 +99,7 @@ if ( class_exists( '\WP_Customize_Control' ) ) {
 						return false;
 					});
 
-				});                
+				});
 			</script>
 			<?php
 		}

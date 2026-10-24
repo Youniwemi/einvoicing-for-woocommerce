@@ -3,8 +3,6 @@
 /*
  * This file is part of PHP Factur-X library.
  *
- * (c) Lucas Gouy-Pailler <lucas.gouypailler@atgp.net>
- *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -13,11 +11,10 @@ namespace Atgp\FacturX\Fpdi;
 
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
 use setasign\Fpdi\PdfParser\Type\PdfType;
-use UConverter;
 
 class FdpiFacturx extends \setasign\Fpdi\Fpdi
 {
-    const ICC_PROFILE_PATH = __DIR__.'/icc/sRGB2014.icc';
+    public const ICC_PROFILE_PATH = __DIR__.'/icc/sRGB2014.icc';
 
     protected $files = [];
     protected $metadata_descriptions = [];
@@ -29,23 +26,20 @@ class FdpiFacturx extends \setasign\Fpdi\Fpdi
     protected $pdf_metadata_infos = [];
 
     /**
-     * Set the PDF version.
-     *
-     * @param string $version
-     * @param bool   $binary_data
+     * Does this PDF file contains binary data.
      */
-    public function SetPdfVersion($version = '1.3', $binary_data = false)
+    protected bool $containsBinaryData = false;
+
+    public function SetPdfVersion(string $version = '1.3', bool $containsBinaryData = false)
     {
         $this->PDFVersion = sprintf('%.1F', $version);
-        if (true == $binary_data) {
-            $this->PDFVersion .= "\n".'%'.chr(rand(128, 256)).chr(rand(128, 256)).chr(rand(128, 256)).chr(rand(128, 256));
-        }
+        $this->containsBinaryData = $containsBinaryData;
     }
 
     /**
      * Attach file to PDF.
      *
-     * @param $file
+     * @param        $file
      * @param string $name
      * @param string $desc
      * @param string $relationship
@@ -104,6 +98,17 @@ class FdpiFacturx extends \setasign\Fpdi\Fpdi
     public function set_pdf_metadata_infos(array $pdf_metadata_infos)
     {
         $this->pdf_metadata_infos = $pdf_metadata_infos;
+    }
+
+    protected function _putheader()
+    {
+        parent::_putheader();
+
+        // ISO 32000-1:2008, Section 7.5.2 (File Header) : If a PDF file contains binary data,
+        // the header line shall be immediately followed by a comment line containing at least four binary characters...
+        if ($this->containsBinaryData) {
+            $this->_put('%'.chr(rand(128, 255)).chr(rand(128, 255)).chr(rand(128, 255)).chr(rand(128, 255)));
+        }
     }
 
     /**
@@ -196,7 +201,7 @@ class FdpiFacturx extends \setasign\Fpdi\Fpdi
         $this->_put('<<');
         $s = '';
         $files = $this->files;
-        usort($files, function ($a, $b) { // Sorting files in name order as PDF specs (if not, issue with Acrobat Reader when trying to download attachments)
+        usort($files, static function ($a, $b) { // Sorting files in name order as PDF specs (if not, issue with Acrobat Reader when trying to download attachments)
             return strcmp($a['name'], $b['name']);
         });
         foreach ($files as $info) {
@@ -258,7 +263,7 @@ class FdpiFacturx extends \setasign\Fpdi\Fpdi
         $this->_put('<<');
         $this->_put('/Type /OutputIntent');
         $this->_put('/S /GTS_PDFA1');
-        $this->_put('/OuputCondition (sRGB)');
+        $this->_put('/OutputCondition (sRGB)');
         $this->_put('/OutputConditionIdentifier (Custom)');
         $this->_put('/DestOutputProfile '.($this->n + 1).' 0 R');
         $this->_put('/Info (sRGB V4 ICC)');
@@ -375,7 +380,7 @@ class FdpiFacturx extends \setasign\Fpdi\Fpdi
         }
 
         if (class_exists('UConverter')) {
-            return UConverter::transcode($s, 'UTF8', 'ISO-8859-1');
+            return \UConverter::transcode($s, 'UTF8', 'ISO-8859-1');
         }
 
         if (function_exists('iconv')) {
@@ -392,9 +397,14 @@ class FdpiFacturx extends \setasign\Fpdi\Fpdi
 
         for ($i = $len >> 1, $j = 0; $i < $len; ++$i, ++$j) {
             switch (true) {
-                case $s[$i] < "\x80": $s[$j] = $s[$i]; break;
-                case $s[$i] < "\xC0": $s[$j] = "\xC2"; $s[++$j] = $s[$i]; break;
-                default: $s[$j] = "\xC3"; $s[++$j] = \chr(\ord($s[$i]) - 64); break;
+                case $s[$i] < "\x80": $s[$j] = $s[$i];
+                    break;
+                case $s[$i] < "\xC0": $s[$j] = "\xC2";
+                    $s[++$j] = $s[$i];
+                    break;
+                default: $s[$j] = "\xC3";
+                    $s[++$j] = \chr(\ord($s[$i]) - 64);
+                    break;
             }
         }
 

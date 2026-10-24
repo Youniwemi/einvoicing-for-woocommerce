@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easybill\ZUGFeRD\Model\Trade;
 
 use Easybill\ZUGFeRD\Model\Date;
@@ -7,14 +9,17 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\XmlElement;
 
+/**
+ * @deprecated ZUGFeRD 1.0 is deprecated and will be removed in a future release. Please migrate to ZUGFeRD 2.0 (Easybill\ZUGFeRD2).
+ */
 class DeliveryChainEvent
 {
     /**
      * @var Date
-     * @Type("Easybill\ZUGFeRD\Model\Date")
-     * @XmlElement(cdata=false,namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("OccurrenceDateTime")
      */
+    #[Type(Date::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('OccurrenceDateTime')]
     private $date;
 
     /**
@@ -29,7 +34,7 @@ class DeliveryChainEvent
     }
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\Date
+     * @return Date
      */
     public function getDate()
     {
@@ -37,7 +42,7 @@ class DeliveryChainEvent
     }
 
     /**
-     * @param \Easybill\ZUGFeRD\Model\Date $date
+     * @param Date $date
      */
     public function setDate($date)
     {

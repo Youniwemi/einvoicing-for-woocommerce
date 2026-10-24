@@ -23,6 +23,7 @@ use JMS\Serializer\GraphNavigatorInterface;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
 use JMS\Serializer\Metadata\ClassMetadata;
 use JMS\Serializer\NullAwareVisitorInterface;
+use JMS\Serializer\Type\Type;
 use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 use Metadata\MetadataFactoryInterface;
 
@@ -33,6 +34,8 @@ use Metadata\MetadataFactoryInterface;
  * on visitors, or custom handlers to process its nodes.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ *
+ * @phpstan-import-type TypeArray from Type
  */
 final class DeserializationGraphNavigator extends GraphNavigator implements GraphNavigatorInterface
 {
@@ -97,7 +100,7 @@ final class DeserializationGraphNavigator extends GraphNavigator implements Grap
      * Called for each node of the graph that is being traversed.
      *
      * @param mixed $data the data depends on the direction, and type of visitor
-     * @param array|null $type array has the format ["name" => string, "params" => array]
+     * @param TypeArray|null $type array has the format ["name" => string, "params" => array]
      *
      * @return mixed the return value depends on the direction, and type of visitor
      */
@@ -128,6 +131,8 @@ final class DeserializationGraphNavigator extends GraphNavigator implements Grap
 
             case 'bool':
             case 'boolean':
+            case 'false':
+            case 'true':
                 return $this->visitor->visitBoolean($data, $type);
 
             case 'double':
@@ -155,7 +160,7 @@ final class DeserializationGraphNavigator extends GraphNavigator implements Grap
 
                 // First, try whether a custom handler exists for the given type. This is done
                 // before loading metadata because the type name might not be a class, but
-                // could also simply be an artifical type.
+                // could also simply be an artificial type.
                 if (null !== $handler = $this->handlerRegistry->getHandler(GraphNavigatorInterface::DIRECTION_DESERIALIZATION, $type['name'], $this->format)) {
                     try {
                         $rs = \call_user_func($handler, $this->visitor, $data, $type, $this->context);
@@ -163,7 +168,7 @@ final class DeserializationGraphNavigator extends GraphNavigator implements Grap
 
                         return $rs;
                     } catch (SkipHandlerException $e) {
-                        // Skip handler, fallback to default behavior
+                        // Skip handler, fall back to default behavior
                     }
                 }
 
@@ -243,13 +248,16 @@ final class DeserializationGraphNavigator extends GraphNavigator implements Grap
                 'The type value "%s" does not exist in the discriminator map of class "%s". Available types: %s',
                 $typeValue,
                 $metadata->name,
-                implode(', ', array_keys($metadata->discriminatorMap))
+                implode(', ', array_keys($metadata->discriminatorMap)),
             ));
         }
 
         return $this->metadataFactory->getMetadataForClass($metadata->discriminatorMap[$typeValue]);
     }
 
+    /**
+     * @param TypeArray $type
+     */
     private function afterVisitingObject(ClassMetadata $metadata, object $object, array $type): void
     {
         $this->context->decreaseDepth();

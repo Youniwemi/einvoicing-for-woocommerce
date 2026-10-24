@@ -1,70 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easybill\ZUGFeRD\Model\Trade\Item;
 
 use Easybill\ZUGFeRD\Model\Trade\TradeCountry;
+use JMS\Serializer\Annotation\AccessorOrder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\XmlElement;
 use JMS\Serializer\Annotation\XmlList;
 
+#[AccessorOrder(order: 'custom', custom: ['sellerAssignedID', 'name', 'description', 'tradeCountries'])]
 /**
- * Class Product.
+ * @deprecated ZUGFeRD 1.0 is deprecated and will be removed in a future release. Please migrate to ZUGFeRD 2.0 (Easybill\ZUGFeRD2).
  */
 class Product
 {
     /**
      * @var string
-     * @Type("string")
-     * @XmlElement(cdata=false,namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("SellerAssignedID")
      */
-    private $sellerAssignedID;
-
-    /**
-     * @var string
-     * @Type("string")
-     * @XmlElement(cdata=false,namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("BuyerAssignedID")
-     */
+    #[Type('string')]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('BuyerAssignedID')]
     private $buyerAssignedID;
 
     /**
-     * @var string
-     * @Type("string")
-     * @XmlElement(cdata=false,namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("Name")
-     */
-    private $name;
-
-    /**
-     * @var string
-     * @Type("string")
-     * @XmlElement(cdata=false,namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("Description")
-     */
-    private $description;
-
-    /**
      * @var TradeCountry[]
-     * @Type("array<Easybill\ZUGFeRD\Model\Trade\TradeCountry>")
-     * @XmlList(inline = true, entry = "OriginTradeCountry", namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
      */
+    #[Type('array<Easybill\ZUGFeRD\Model\Trade\TradeCountry>')]
+    #[XmlList(entry: 'OriginTradeCountry', inline: true, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
     private $tradeCountries = [];
 
-    /**
-     * Product constructor.
-     *
-     * @param string $sellerAssignedID
-     * @param string $name
-     * @param null|mixed $description
-     */
-    public function __construct($sellerAssignedID, $name, $description = null)
-    {
-        $this->sellerAssignedID = $sellerAssignedID;
-        $this->name = $name;
-        $this->description = $description;
-    }
+    public function __construct(#[Type('string')]
+        #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+        #[SerializedName('SellerAssignedID')]
+        private ?string $sellerAssignedID, #[Type('string')]
+        #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+        #[SerializedName('Name')]
+        private string $name, #[Type('string')]
+        #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+        #[SerializedName('Description')]
+        private mixed $description = null) {}
 
     /**
      * @return string

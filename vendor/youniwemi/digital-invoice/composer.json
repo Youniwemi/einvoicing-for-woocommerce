@@ -11,15 +11,18 @@
         }
     ],
     "require": {
-        "easybill/zugferd-php": "dev-master",
-        "atgp/factur-x": "^1.0",
-        "milo/schematron": "dev-master",
+        "php": "^8.3",
+        "easybill/zugferd-php": "^6.0",
+        "atgp/factur-x": "^2.3 || ^3.0",
         "josemmo/einvoicing": "dev-master",
-        "jms/serializer": "3.28.0",
-        "jms/metadata": "2.8.0"
+        "jms/serializer": "^3.30"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8 || ^9"
+        "phpunit/phpunit": "^10 || ^11 || ^12",
+        "milo/schematron": "dev-master"
+    },
+    "suggest": {
+        "milo/schematron": "needed for FacturX::validate() with schematron"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -27,10 +30,6 @@
         {
             "type": "git",
             "url": "https://github.com/Youniwemi/einvoicing"
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/Youniwemi/zugferd-php"
         },
         {
             "type": "git",

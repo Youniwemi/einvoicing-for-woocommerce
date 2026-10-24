@@ -7,10 +7,14 @@
 
 namespace WOOEI;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // Only run when Blocksy theme is active.
 add_action(
 	'after_setup_theme',
-	function() {
+	function () {
 		// Check if Blocksy theme is active.
 		if ( ! class_exists( 'Blocksy_Manager', false ) ) {
 			return;
@@ -22,4 +26,3 @@ add_action(
 	},
 	1
 );
-

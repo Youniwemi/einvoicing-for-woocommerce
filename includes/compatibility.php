@@ -8,6 +8,10 @@
 
 namespace WOOEI;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 require_once WOOEI_INCLUDES . 'compatibility/class-astra-customizer.php';
 require_once WOOEI_INCLUDES . 'compatibility/oceanwp.php';
 require_once WOOEI_INCLUDES . 'compatibility/blocksy.php';

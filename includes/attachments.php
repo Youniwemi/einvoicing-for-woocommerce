@@ -12,7 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WC_Abstract_Order;
-use WP_Filesystem;
 use Throwable;
 
 /**
@@ -46,21 +45,31 @@ function invoice_filename( WC_Abstract_Order $order ) {
 
 
 /**
+ * Initializes WP_Filesystem, also outside wp-admin (checkout emails, cron, REST).
+ *
+ * @return     bool  True if the filesystem is available.
+ */
+function init_filesystem() {
+	if ( ! function_exists( 'WP_Filesystem' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+	}
+	return \WP_Filesystem();
+}
+
+/**
  * Ensures a directory exists
  *
  * @param      string $directory_path  The directory.
  */
 function ensure_directory_exists( $directory_path ) {
-	if ( WP_Filesystem() ) {
+	if ( init_filesystem() ) {
 		global $wp_filesystem;
 
 		if ( ! is_dir( $directory_path ) || ! wp_is_writable( $directory_path ) ) {
 			$wp_filesystem->mkdir( $directory_path );
 		}
-	} else {
-		if ( ! is_dir( $directory_path ) || ! wp_is_writable( $directory_path ) ) {
-			mkdir( $directory_path );
-		}
+	} elseif ( ! is_dir( $directory_path ) || ! wp_is_writable( $directory_path ) ) {
+			wp_mkdir_p( $directory_path );
 	}
 }
 
@@ -81,11 +90,11 @@ function save_invoice_temp( string $content, WC_Abstract_Order $order ) {
 
 	$filepath = $temp_directory_url . invoice_filename( $order );
 	ensure_directory_exists( $temp_directory_url );
-	if ( WP_Filesystem() ) {
+	if ( init_filesystem() ) {
 		global $wp_filesystem;
 		$wp_filesystem->put_contents( $filepath, $content );
 	} else {
-		file_put_contents( $filepath, $content ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents -- We use file_put_contents only if WP_Filesystem not available
+		file_put_contents( $filepath, $content ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Fallback when WP_Filesystem is not available
 	}
 
 	return $filepath;
@@ -110,6 +119,11 @@ function attach_invoice_to_email( array $attachments, string $email_id, $maybe_o
 	if ( 'no' === $can_attach ) {
 		return $attachments;
 	}
+	// Excluded free order, or with invoice numbering, an order without invoice number is not invoiced yet.
+	if ( is_skipped_free_order( $maybe_order ) || ( has_invoice_numbering() && null === get_invoice_number( $maybe_order ) ) ) {
+		return $attachments;
+	}
+
 	$send_for = get_option( 'wooei_invoice_attach', array() );
 
 	if ( isset( $send_for[ $email_id ] ) && 'yes' === $send_for[ $email_id ] ) {
@@ -138,7 +152,7 @@ function attach_invoice_to_email( array $attachments, string $email_id, $maybe_o
 			// Register shutdown function only when error occurs.
 			add_action(
 				'shutdown',
-				function() use ( $admin_email, $message ) {
+				function () use ( $admin_email, $message ) {
 					wp_mail( $admin_email, __( 'Invoice Generation Failed', 'einvoicing-for-woocommerce' ), $message );
 				}
 			);

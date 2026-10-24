@@ -8,6 +8,8 @@ use JMS\Serializer\Type\Exception\SyntaxError;
 
 /**
  * @internal
+ *
+ * @phpstan-import-type TypeArray from Type
  */
 final class Parser implements ParserInterface
 {
@@ -39,7 +41,7 @@ final class Parser implements ParserInterface
 
         if (!$this->lexer->token) {
             throw new SyntaxError(
-                'Syntax error, unexpected end of stream'
+                'Syntax error, unexpected end of stream',
             );
         }
 
@@ -66,20 +68,23 @@ final class Parser implements ParserInterface
         throw new SyntaxError(sprintf(
             'Syntax error, unexpected "%s" (%s)',
             $this->lexer->token->value,
-            $this->getConstant($this->lexer->token->type)
+            $this->getConstant($this->lexer->token->type),
         ));
     }
 
     /**
-     * @return string|mixed[]
+     * @return TypeArray
      */
-    private function visitSimpleType()
+    private function visitSimpleType(): array
     {
         $value = $this->lexer->token->value;
 
         return ['name' => $value, 'params' => []];
     }
 
+    /**
+     * @return TypeArray
+     */
     private function visitCompoundType(): array
     {
         $this->root = false;
@@ -135,7 +140,7 @@ final class Parser implements ParserInterface
     {
         if (!$this->lexer->lookahead) {
             throw new SyntaxError(
-                sprintf('Syntax error, unexpected end of stream, expected %s', $this->getConstant($token))
+                sprintf('Syntax error, unexpected end of stream, expected %s', $this->getConstant($token)),
             );
         }
 
@@ -149,7 +154,7 @@ final class Parser implements ParserInterface
             'Syntax error, unexpected "%s" (%s), expected was %s',
             $this->lexer->lookahead->value,
             $this->getConstant($this->lexer->lookahead->type),
-            $this->getConstant($token)
+            $this->getConstant($token),
         ));
     }
 

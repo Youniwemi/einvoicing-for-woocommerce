@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easybill\ZUGFeRD\Model\Trade;
 
 use Easybill\ZUGFeRD\Model\Trade\Item\LineItem;
@@ -8,37 +10,40 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\XmlElement;
 use JMS\Serializer\Annotation\XmlList;
 
+/**
+ * @deprecated ZUGFeRD 1.0 is deprecated and will be removed in a future release. Please migrate to ZUGFeRD 2.0 (Easybill\ZUGFeRD2).
+ */
 class Trade
 {
     /**
      * @var Agreement
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Agreement")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("ApplicableSupplyChainTradeAgreement")
      */
+    #[Type(Agreement::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('ApplicableSupplyChainTradeAgreement')]
     private $agreement;
 
     /**
      * @var Delivery
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Delivery")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("ApplicableSupplyChainTradeDelivery")
      */
+    #[Type(Delivery::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('ApplicableSupplyChainTradeDelivery')]
     private $delivery;
 
     /**
      * @var Settlement
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Settlement")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("ApplicableSupplyChainTradeSettlement")
      */
+    #[Type(Settlement::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('ApplicableSupplyChainTradeSettlement')]
     private $settlement;
 
     /**
      * @var LineItem[]
-     * @Type("array<Easybill\ZUGFeRD\Model\Trade\Item\LineItem>")
-     * @XmlList(inline = true, entry = "IncludedSupplyChainTradeLineItem", namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
      */
+    #[Type('array<Easybill\ZUGFeRD\Model\Trade\Item\LineItem>')]
+    #[XmlList(entry: 'IncludedSupplyChainTradeLineItem', inline: true, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
     private $lineItems = [];
 
     public function __construct()
@@ -66,7 +71,7 @@ class Trade
     }
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\Trade\Delivery
+     * @return Delivery
      */
     public function getDelivery()
     {
@@ -74,7 +79,7 @@ class Trade
     }
 
     /**
-     * @param \Easybill\ZUGFeRD\Model\Trade\Delivery $delivery
+     * @param Delivery $delivery
      *
      * @return self
      */
@@ -85,7 +90,7 @@ class Trade
     }
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\Trade\Settlement
+     * @return Settlement
      */
     public function getSettlement()
     {
@@ -93,7 +98,7 @@ class Trade
     }
 
     /**
-     * @param \Easybill\ZUGFeRD\Model\Trade\Settlement $settlement
+     * @param Settlement $settlement
      *
      * @return self
      */
@@ -104,7 +109,7 @@ class Trade
     }
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\Trade\Item\LineItem[]
+     * @return LineItem[]
      */
     public function getLineItems()
     {

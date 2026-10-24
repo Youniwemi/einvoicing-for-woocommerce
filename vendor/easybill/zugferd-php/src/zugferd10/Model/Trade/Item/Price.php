@@ -1,34 +1,42 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easybill\ZUGFeRD\Model\Trade\Item;
 
 use Easybill\ZUGFeRD\Model\AllowanceCharge;
 use Easybill\ZUGFeRD\Model\Trade\Amount;
-use JMS\Serializer\Annotation as JMS;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\XmlElement;
+use JMS\Serializer\Annotation\XmlList;
 
+/**
+ * @deprecated ZUGFeRD 1.0 is deprecated and will be removed in a future release. Please migrate to ZUGFeRD 2.0 (Easybill\ZUGFeRD2).
+ */
 class Price
 {
     /**
      * @var Amount
-     * @JMS\Type("Easybill\ZUGFeRD\Model\Trade\Amount")
-     * @JMS\XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @JMS\SerializedName("ChargeAmount")
      */
+    #[Type(Amount::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('ChargeAmount')]
     private $amount;
 
     /**
      * @var Quantity
-     * @JMS\Type("Easybill\ZUGFeRD\Model\Trade\Item\Quantity")
-     * @JMS\XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @JMS\SerializedName("BasisQuantity")
      */
+    #[Type(Quantity::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('BasisQuantity')]
     private $quantity;
 
     /**
      * @var AllowanceCharge[]
-     * @JMS\Type("array<Easybill\ZUGFeRD\Model\AllowanceCharge>")
-     * @JMS\XmlList(inline = true, entry = "AppliedTradeAllowanceCharge", namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
      */
+    #[Type('array<Easybill\ZUGFeRD\Model\AllowanceCharge>')]
+    #[XmlList(entry: 'AppliedTradeAllowanceCharge', inline: true, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
     private $allowanceCharges = [];
 
     /**
@@ -44,7 +52,7 @@ class Price
     }
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\Trade\Amount
+     * @return Amount
      */
     public function getAmount()
     {
@@ -52,7 +60,7 @@ class Price
     }
 
     /**
-     * @param \Easybill\ZUGFeRD\Model\Trade\Amount $amount
+     * @param Amount $amount
      */
     public function setAmount($amount)
     {
@@ -60,7 +68,7 @@ class Price
     }
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\AllowanceCharge[]
+     * @return AllowanceCharge[]
      */
     public function getAllowanceCharges()
     {

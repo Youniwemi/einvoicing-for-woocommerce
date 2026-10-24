@@ -124,6 +124,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	/***** FX CONTENT *******/
 	.fx-invoice-shipping .fx-container,
 	.fx-footer .fx-container,
+	.fx-footer-spacer .fx-container,
 	.fx-invoice-order .fx-container{
 		padding: 20px <?php echo esc_attr( $fx_lr_padding ); ?>px;
 	}
@@ -147,12 +148,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	.fx-invoice-shipping .fx-container {
 		color: <?php echo esc_attr( $details_invoice_txt ); ?>;
 	}
-	.fx-invoice-title{
-		color: <?php echo esc_attr( $details_invoice_title ); ?>;
-	}
 	/****** TBALE INVOICE ORDERS SECTION **********/
 	.fx-invoice-order {
-		min-height: calc(70vh);
+		min-height: calc(50vh);
 	}
 
 	table.order-details tr:nth-child(even) {
@@ -173,16 +171,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 		width: 14%;
 	}
 
-	table.order-details{ 
+	table.order-details{
 		width:100%;
 		margin-top: <?php echo (float) $order_detail['top_bottom_margin']; ?>px;
 		margin-bottom: <?php echo (float) $order_detail['top_bottom_margin']; ?>px;
 		page-break-before: avoid;
 	}
 
-	table.order-details tr { 
+	table.order-details tr {
 		page-break-inside: always;
-		page-break-after: auto;    
+		page-break-after: auto;
 	}
 
 	table.order-details td,  table.order-details th{
@@ -235,6 +233,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		position: absolute;
 		bottom: 0;
 	}
+	.fx-footer-spacer {
+		visibility: hidden;
+		page-break-inside: avoid;
+	}
+	.fx-footer-spacer .footer_text,
 	.fx-footer #footer_text {
 		color: <?php echo esc_attr( $footer_txt_color ); ?>;
 		font-size: <?php echo floatval( $footer_txt_size ); ?>px;
@@ -258,9 +261,9 @@ do_action( 'wooei_before_document', $this->order );
 	<div class="row fx-invoice-head fx-clear">
 		<div class="fx-container">
 			<div class="fx-invoice-logo">
-				<?php if ( isset( $logo ) && $logo ) { ?> 
+				<?php if ( isset( $logo ) && $logo ) { ?>
 				<img src="<?php echo esc_url( $logo ); ?>" alt="logo" />
-				<?php } ?> 
+				<?php } ?>
 			</div>
 			<div class="fx-invoice-shop-info">
 					<h3 class="shop-name"><?php echo esc_html( $this->shop_name() ); ?></h3>
@@ -268,6 +271,15 @@ do_action( 'wooei_before_document', $this->order );
 			</div>
 		</div>
 	</div>
+	<?php
+	/**
+	 * After invoice header (logo and shop info).
+	 *
+	 * @param WC_Abstract_Order $order The order object.
+	 * @since 0.4.4
+	 */
+	do_action( 'wooei_after_header', $this->order );
+	?>
 	<div class="row fx-invoice-shipping fx-clear">
 		<div class="fx-container">
 			<div class="fx-invoice-item fx-invoice-left fx-float-l">
@@ -320,7 +332,7 @@ do_action( 'wooei_before_document', $this->order );
 						<div class="shipping-phone"><?php echo esc_html( $this->get_shipping_phone() ); ?></div>
 					<?php endif; ?>
 				</div>
-				<?php endif; ?>    
+				<?php endif; ?>
 			</div>
 			<div class="fx-invoice-item fx-invoice-right fx-float-r">
 				<h2 class="fx-invoice-title document-type-label">
@@ -346,7 +358,7 @@ do_action( 'wooei_before_document', $this->order );
 							<?php else : ?>
 								<?php esc_html_e( 'Order Date:', 'einvoicing-for-woocommerce' ); ?>
 							<?php endif; ?>
-							<?php echo esc_html( $this->get_date_paid() ? $this->get_date_paid()->format( 'd-m-Y' ) : $this->get_safe_date()->format( 'd-m-Y' ) ); ?>
+							<?php echo esc_html( $this->get_invoice_date()->format( 'd-m-Y' ) ); ?>
 						</div>
 						<?php
 						/**
@@ -378,10 +390,14 @@ do_action( 'wooei_before_document', $this->order );
 						<th class="quantity"><?php esc_html_e( 'Quantity', 'einvoicing-for-woocommerce' ); ?></th>
 						<th class="price"><?php esc_html_e( 'Price', 'einvoicing-for-woocommerce' ); ?></th>
 						<th class="total"><?php esc_html_e( 'Total', 'einvoicing-for-woocommerce' ); ?></th>
+						<?php if ( isset( $fields['display_vat_column'] ) && $fields['display_vat_column'] ) : ?>
+							<th class="vat"><?php esc_html_e( 'VAT', 'einvoicing-for-woocommerce' ); ?></th>
+						<?php endif; ?>
 					</tr>
 				</thead>
 				<tbody>
 					<?php
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template loop vars, not globals.
 					foreach ( $this->order->get_items() as $item_id => $item ) :
 						?>
 						<tr class="item-order item-<?php echo esc_attr( $item_id ); ?>">
@@ -404,13 +420,17 @@ do_action( 'wooei_before_document', $this->order );
 								</dl>
 							</td>
 							<td class="quantity"><?php echo esc_html( $item['quantity'] ); ?></td>
-							<td class="price"><?php echo esc_html( $this->format_money( $item['subtotal'] ) ); ?></td>
+							<td class="price"><?php echo esc_html( $this->format_money( $this->order->get_item_subtotal( $item, false, false ) ) ); ?></td>
 							<td class="total"><?php echo esc_html( $this->format_money( $item['total'] ) ); ?></td>
+							<?php if ( isset( $fields['display_vat_column'] ) && $fields['display_vat_column'] ) : ?>
+								<td class="vat"><?php echo esc_html( $this->format_money( $item->get_total_tax() ) ); ?></td>
+							<?php endif; ?>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
 				<tfoot class="totals">
-					<tr><td class="no-borders" colspan="4" ></td></tr>
+					<?php $col_count = ( isset( $fields['display_vat_column'] ) && $fields['display_vat_column'] ) ? 5 : 4; ?>
+					<tr><td class="no-borders" colspan="<?php echo (int) $col_count; ?>" ></td></tr>
 					<tr>
 						<td class="no-borders"  colspan="1" rowspan="<?php echo count( $this->order->get_order_item_totals() ) + 1; ?>">
 							<div class="customer-notes">
@@ -418,15 +438,25 @@ do_action( 'wooei_before_document', $this->order );
 									<h3><?php esc_html_e( 'Customer Notes', 'einvoicing-for-woocommerce' ); ?></h3>
 									<p><?php echo esc_html( $this->get_customer_note() ); ?></p>
 								<?php endif; ?>
-							</div>                
+							</div>
 						</td>
 					</tr>
+					<?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template loop vars, not globals. ?>
 					<?php foreach ( $this->order->get_order_item_totals() as $key => $total ) : ?>
 						<tr class="<?php echo esc_attr( $key ); ?>">
-							<th colspan="2" class="description"><?php echo esc_html( $total['label'] ); ?></th>
+							<th colspan="<?php echo (int) ( $col_count - 2 ); ?>" class="description"><?php echo esc_html( $total['label'] ); ?></th>
 							<td class="price"><span class="totals-price"><?php echo wp_kses_post( $total['value'] ); ?></span></td>
 						</tr>
 					<?php endforeach; ?>
+					<?php
+					/**
+					 * After order totals rows.
+					 *
+					 * @param WC_Abstract_Order $order The order object.
+					 * @since 0.4.4
+					 */
+					do_action( 'wooei_after_totals', $this->order );
+					?>
 				</tfoot>
 			</table>
 			<?php
@@ -439,7 +469,22 @@ do_action( 'wooei_before_document', $this->order );
 			?>
 		</div>
 	</div>
+	<?php
+	/**
+	 * Before invoice footer.
+	 *
+	 * @param WC_Abstract_Order $order The order object.
+	 * @since 0.4.4
+	 */
+	do_action( 'wooei_before_footer', $this->order );
+	?>
 	<?php if ( isset( $footer ) && $footer ) { ?>
+		<?php // Invisible copy reserving the footer height, so content never ends under the footer. ?>
+	<div class="row fx-footer-spacer fx-clear" aria-hidden="true">
+		<div class="fx-container">
+			<p class="footer_text"><?php echo wp_kses_post( $footer ); ?></p>
+		</div>
+	</div>
 	<div class="row fx-footer fx-clear">
 		<div class="fx-container">
 			<p id="footer_text"><?php echo wp_kses_post( $footer ); ?></p>

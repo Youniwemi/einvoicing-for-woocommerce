@@ -142,7 +142,7 @@ final class JsonDeserializationVisitor extends AbstractVisitor implements Deseri
         throw new LogicException(sprintf(
             'The discriminator field name "%s" for base-class "%s" was not found in input data.',
             $metadata->discriminatorFieldName,
-            $metadata->name
+            $metadata->name,
         ));
     }
 
@@ -204,7 +204,7 @@ final class JsonDeserializationVisitor extends AbstractVisitor implements Deseri
      */
     public function getResult($data)
     {
-        unset($this->navigator);
+        $this->navigator = null;
 
         return $data;
     }

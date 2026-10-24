@@ -23,7 +23,18 @@ use WP_Filesystem;
  * @return     bool               True if the specified order should be invoiced, False otherwise.
  */
 function should_be_invoiced( WC_Abstract_Order $order ) {
-	return in_array( $order->get_status(), array( 'completed', 'processing', 'refunded' ), true );
+	return ! is_skipped_free_order( $order ) && in_array( $order->get_status(), array( 'completed', 'processing', 'refunded' ), true );
+}
+
+/**
+ * Determines if the order is free and free orders are excluded from invoicing.
+ *
+ * @param      WC_Abstract_Order $order  The order.
+ *
+ * @return     bool  True if no invoice should be issued for this free order.
+ */
+function is_skipped_free_order( WC_Abstract_Order $order ) {
+	return 'yes' === get_option( 'wooei_skip_free_orders', 'no' ) && 0.0 === (float) $order->get_total();
 }
 
 /**
@@ -43,7 +54,7 @@ function has_invoice_numbering() {
  * @return     int  The invoice number.
  */
 function get_invoice_number( WC_Abstract_Order $order ) {
-	$number = get_post_meta( $order->get_id(), '_invoice_number', true );
+	$number = get_stored_invoice_number( $order );
 
 	if ( empty( $number ) ) {
 		// processing or completed or refunded, but no number, maybe just switched to invoice numbering.
@@ -56,7 +67,43 @@ function get_invoice_number( WC_Abstract_Order $order ) {
 	return $number;
 }
 
+/**
+ * Gets the invoice date, shared by the PDF and the XML.
+ *
+ * @param      WC_Abstract_Order $order  The order.
+ *
+ * @return     \WC_DateTime  The paid date, else completed date, else creation date.
+ */
+function get_invoice_date( WC_Abstract_Order $order ) {
+	return $order->get_date_paid() ?? $order->get_date_completed() ?? $order->get_date_created();
+}
 
+/**
+ * Gets the invoice number stored on the order (HPOS compatible).
+ *
+ * @param      WC_Abstract_Order $order  The order.
+ *
+ * @return     string  The stored invoice number, empty if none.
+ */
+function get_stored_invoice_number( WC_Abstract_Order $order ) {
+	$number = $order->get_meta( '_invoice_number' );
+	if ( '' === $number ) {
+		// Numbers saved before 0.5.0 were stored as post meta.
+		$number = get_post_meta( $order->get_id(), '_invoice_number', true );
+	}
+	return (string) $number;
+}
+
+/**
+ * Stores the invoice number on the order (HPOS compatible).
+ *
+ * @param      WC_Abstract_Order $order   The order.
+ * @param      string            $number  The invoice number.
+ */
+function set_invoice_number( WC_Abstract_Order $order, string $number ) {
+	$order->update_meta_data( '_invoice_number', $number );
+	$order->save_meta_data();
+}
 
 /**
  * Generates the invoice number
@@ -83,8 +130,9 @@ function generate_invoice_number( $order_id, $new_status ) {
 		return;
 	}
 
-	// Skip if already has invoice number.
-	if ( get_post_meta( $order_id, '_invoice_number', true ) ) {
+	$order = wc_get_order( $order_id );
+	// Skip if no order, excluded free order or already has invoice number.
+	if ( ! $order || is_skipped_free_order( $order ) || get_stored_invoice_number( $order ) ) {
 		return;
 	}
 
@@ -113,7 +161,7 @@ function generate_invoice_number( $order_id, $new_status ) {
 		$format
 	);
 
-	update_post_meta( $order_id, '_invoice_number', sanitize_text_field( $invoice_number ) );
+	set_invoice_number( $order, sanitize_text_field( $invoice_number ) );
 	update_option( 'wooei_last_invoice_number', $next_number );
 	update_option( 'wooei_last_invoice_date', time() );
 }
@@ -121,39 +169,33 @@ function generate_invoice_number( $order_id, $new_status ) {
 // Generate invoice number on settings status to pending.
 add_action(
 	'woocommerce_order_status_pending',
-	function( $order_id, WC_Abstract_Order $order, $status_transition ) {
+	function ( $order_id ) {
 		generate_invoice_number( $order_id, 'pending' );
-	},
-	10,
-	3
+	}
 );
 
 // Generate invoice number on settings status to processing.
 add_action(
 	'woocommerce_order_status_processing',
-	function( $order_id, WC_Abstract_Order $order, $status_transition ) {
+	function ( $order_id ) {
 		generate_invoice_number( $order_id, 'processing' );
-	},
-	10,
-	3
+	}
 );
 
 // Generate invoice number on settings status to complete.
 add_action(
 	'woocommerce_order_status_completed',
-	function( $order_id, WC_Abstract_Order $order, $status_transition ) {
+	function ( $order_id ) {
 		generate_invoice_number( $order_id, 'completed' );
-	},
-	10,
-	3
+	}
 );
 
 // Generate invoice number on order status change.
 add_action(
 	'woocommerce_order_status_changed',
-	function( $order_id, $old_status, $new_status, WC_Abstract_Order $order ) {
+	function ( $order_id, $old_status, $new_status ) {
 		generate_invoice_number( $order_id, $new_status );
 	},
 	10,
-	4
+	3
 );

@@ -90,7 +90,7 @@ abstract class Customizer_Helper {
 	private function hide_site_editor_notice() {
 		add_action(
 			'customize_controls_print_styles',
-			function() {
+			function () {
 				echo '<style>#customize-notifications-area:has([data-code=site_editor_block_theme_notice]){display:none !important;}</style>';
 			}
 		);
@@ -442,7 +442,7 @@ abstract class Customizer_Helper {
 			 * @since        0.0.4
 			 */
 			$font_families = apply_filters(
-				'customizer_font_families',
+				'wooei_customizer_font_families',
 				array(
 					'helvetica'   => '"Helvetica Neue", Helvetica, Roboto, Arial, sans-serif',
 					'arial'       => 'Arial, Helvetica, sans-serif',
@@ -471,10 +471,10 @@ abstract class Customizer_Helper {
 		static $font_transform;
 		if ( null === $font_transform ) {
 			$font_transform = array(
-				'uppercase'  => __( 'Uppercase' ),
-				'capitalize' => __( 'Capitalize' ),
-				'lowercase'  => __( 'Lowercase' ),
-				'none'       => __( 'None' ),
+				'uppercase'  => __( 'Uppercase', 'einvoicing-for-woocommerce' ),
+				'capitalize' => __( 'Capitalize', 'einvoicing-for-woocommerce' ),
+				'lowercase'  => __( 'Lowercase', 'einvoicing-for-woocommerce' ),
+				'none'       => __( 'None', 'einvoicing-for-woocommerce' ),
 			);
 		}
 
@@ -490,10 +490,10 @@ abstract class Customizer_Helper {
 		static $text_align;
 		if ( null === $text_align ) {
 			$text_align = array(
-				'left'    => __( 'Left' ),
-				'center'  => __( 'Center' ),
-				'right'   => __( 'Right' ),
-				'justify' => __( 'Justify' ),
+				'left'    => __( 'Left', 'einvoicing-for-woocommerce' ),
+				'center'  => __( 'Center', 'einvoicing-for-woocommerce' ),
+				'right'   => __( 'Right', 'einvoicing-for-woocommerce' ),
+				'justify' => __( 'Justify', 'einvoicing-for-woocommerce' ),
 			);
 		}
 		return $text_align;

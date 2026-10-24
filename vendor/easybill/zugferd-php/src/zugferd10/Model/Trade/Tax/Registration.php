@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easybill\ZUGFeRD\Model\Trade\Tax;
 
 use JMS\Serializer\Annotation\SerializedName;
@@ -7,34 +9,23 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\XmlAttribute;
 use JMS\Serializer\Annotation\XmlValue;
 
+/**
+ * @deprecated ZUGFeRD 1.0 is deprecated and will be removed in a future release. Please migrate to ZUGFeRD 2.0 (Easybill\ZUGFeRD2).
+ */
 class Registration
 {
-    /**
-     * @var string
-     * @Type("string")
-     * @XmlAttribute
-     * @SerializedName("schemeID")
-     */
-    private $schemeID;
-
-    /**
-     * @var string
-     * @Type("string")
-     * @XmlValue(cdata = false)
-     */
-    private $value;
-
     /**
      * TaxRegistration constructor.
      *
      * @param string $schemeID
      * @param string $value
      */
-    public function __construct($schemeID, $value = '')
-    {
-        $this->schemeID = $schemeID;
-        $this->value = $value;
-    }
+    public function __construct(#[Type('string')]
+        #[XmlAttribute]
+        #[SerializedName('schemeID')]
+        private $schemeID, #[Type('string')]
+        #[XmlValue(cdata: false)]
+        private $value = '') {}
 
     /**
      * @return string

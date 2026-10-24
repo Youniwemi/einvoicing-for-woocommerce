@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easybill\ZUGFeRD\Model\Trade\Item;
 
 use Easybill\ZUGFeRD\Model\Trade\Tax\TradeTax;
@@ -7,26 +9,29 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\XmlElement;
 
+/**
+ * @deprecated ZUGFeRD 1.0 is deprecated and will be removed in a future release. Please migrate to ZUGFeRD 2.0 (Easybill\ZUGFeRD2).
+ */
 class SpecifiedTradeSettlement
 {
     /**
      * @var TradeTax
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Tax\TradeTax")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("ApplicableTradeTax")
      */
+    #[Type(TradeTax::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('ApplicableTradeTax')]
     private $tradeTax;
 
     /**
      * @var SpecifiedTradeMonetarySummation
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Item\SpecifiedTradeMonetarySummation")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("SpecifiedTradeSettlementMonetarySummation")
      */
+    #[Type(SpecifiedTradeMonetarySummation::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('SpecifiedTradeSettlementMonetarySummation')]
     private $monetarySummation;
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\Trade\Tax\TradeTax
+     * @return TradeTax
      */
     public function getTradeTax()
     {
@@ -34,7 +39,7 @@ class SpecifiedTradeSettlement
     }
 
     /**
-     * @param \Easybill\ZUGFeRD\Model\Trade\Tax\TradeTax $tradeTax
+     * @param TradeTax $tradeTax
      *
      * @return self
      */
@@ -45,7 +50,7 @@ class SpecifiedTradeSettlement
     }
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\Trade\Item\SpecifiedTradeMonetarySummation
+     * @return SpecifiedTradeMonetarySummation
      */
     public function getMonetarySummation()
     {
@@ -53,7 +58,7 @@ class SpecifiedTradeSettlement
     }
 
     /**
-     * @param \Easybill\ZUGFeRD\Model\Trade\Item\SpecifiedTradeMonetarySummation $monetarySummation
+     * @param SpecifiedTradeMonetarySummation $monetarySummation
      *
      * @return self
      */

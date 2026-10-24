@@ -1,43 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easybill\ZUGFeRD\Model\Trade;
 
+use JMS\Serializer\Annotation\AccessorOrder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\XmlElement;
 
+#[AccessorOrder(order: 'custom', custom: ['issuedDateTime', 'typeCode', 'id'])]
+/**
+ * @deprecated ZUGFeRD 1.0 is deprecated and will be removed in a future release. Please migrate to ZUGFeRD 2.0 (Easybill\ZUGFeRD2).
+ */
 class ReferencedDocument
 {
-    /**
-     * @var string
-     * @Type("string")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("IssueDateTime")
-     */
-    private $issuedDateTime;
-
-    /**
-     * @var string
-     * @Type("string")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("TypeCode")
-     */
-    private $typeCode;
-
-    /**
-     * @var string
-     * @Type("string")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("ID")
-     */
-    private $id;
-
-    public function __construct(string $id, string $issuedDateTime = null, string $typeCode = null)
-    {
-        $this->issuedDateTime = $issuedDateTime;
-        $this->typeCode = $typeCode;
-        $this->id = $id;
-    }
+    public function __construct(
+        #[Type('string')]
+        #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+        #[SerializedName('ID')]
+        private string $id,
+        #[Type('string')]
+        #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+        #[SerializedName('IssueDateTime')]
+        private ?string $issuedDateTime = null,
+        #[Type('string')]
+        #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+        #[SerializedName('TypeCode')]
+        private ?string $typeCode = null
+    ) {}
 
     /**
      * @return string

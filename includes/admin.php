@@ -13,14 +13,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'WOOEI_ZIP_EXPORT_PATH', 'tmp_invoice-zip-' );
 
-use \Automattic\WooCommerce\Utilities\FeaturesUtil;
+use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use WC_Abstract_Order;
 use ZipArchive;
 
 /**
  * Starts a branded notice.
  */
-function start_branded_notice() {   ?>
+function start_branded_notice() {
+	?>
 <div class="notice notice-info is-dismissible" style="display:flex; align-items: center;column-gap:2em">
 	<div>
 		<img width="120" src="<?php echo esc_url( WOOEI_PLUGIN_ASSETS . '/images/logo-dark.png' ); ?>" />
@@ -111,7 +112,7 @@ function onboarding_notice() {
 			delete_transient( 'wooei_just_activated' );
 		}
 	}
-};
+}
 
 /**
  * Show a nice onboarding notice.
@@ -243,7 +244,8 @@ add_filter(
 		}
 
 		$row_meta = array(
-			'docs' => '<a href="https://www.einvoicing-pro.com/docs/" aria-label="' . esc_attr__( 'View E-Invoicing for WooCommerce documentation', 'einvoicing-for-woocommerce' ) . '">' . esc_html__( 'E-Invoicing Documentation', 'einvoicing-for-woocommerce' ) . '</a>',
+			'docs'      => '<a href="https://www.einvoicing-pro.com/docs/" aria-label="' . esc_attr__( 'View E-Invoicing for WooCommerce documentation', 'einvoicing-for-woocommerce' ) . '">' . esc_html__( 'E-Invoicing Documentation', 'einvoicing-for-woocommerce' ) . '</a>',
+			'changelog' => '<a href="' . esc_url( admin_url( 'admin.php?page=einvoicing-changes' ) ) . '" aria-label="' . esc_attr__( 'View Changelog', 'einvoicing-for-woocommerce' ) . '">' . esc_html__( 'Changelog', 'einvoicing-for-woocommerce' ) . '</a>',
 		);
 		return array_merge( $links, $row_meta );
 	},
@@ -267,17 +269,6 @@ function prefix_plugin_update_message( $data, $response ) {
 }
 add_action( 'in_plugin_update_message-einvoicing-for-woocommerce/einvoicing-for-woocommerce.php', __NAMESPACE__ . '\prefix_plugin_update_message', 10, 2 );
 
-/**
- * Declare compatibility with WooCommerce
- */
-add_action(
-	'before_woocommerce_init',
-	function () {
-		if ( class_exists( FeaturesUtil::class ) ) {
-			FeaturesUtil::declare_compatibility( 'custom_order_tables', WOOEI_PLUGIN_FILE, true );
-		}
-	}
-);
 
 // Adding to order list bulk invoice download item.
 add_filter( 'bulk_actions-edit-shop_order', __NAMESPACE__ . '\add_bulk_download_item', 20, 1 );
@@ -383,7 +374,7 @@ function add_invoice_number_field( WC_Abstract_Order $order ) {
 		array(
 			'id'            => '_invoice_number',
 			'label'         => __( 'Invoice Number :', 'einvoicing-for-woocommerce' ),
-			'value'         => get_post_meta( $order->get_id(), '_invoice_number', true ),
+			'value'         => get_stored_invoice_number( $order ),
 			'wrapper_class' => 'form-field-wide',
 		)
 	);
@@ -399,8 +390,9 @@ function save_invoice_number_field( int $order_id ) {
 	if ( empty( $_POST['woocommerce_meta_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['woocommerce_meta_nonce'] ), 'woocommerce_save_data' ) ) {
 		return;
 	}
-	if ( isset( $_POST['_invoice_number'] ) ) {
-		update_post_meta( $order_id, '_invoice_number', sanitize_text_field( wp_unslash( $_POST['_invoice_number'] ) ) );
+	$order = wc_get_order( $order_id );
+	if ( $order && isset( $_POST['_invoice_number'] ) ) {
+		set_invoice_number( $order, sanitize_text_field( wp_unslash( $_POST['_invoice_number'] ) ) );
 	}
 }
 

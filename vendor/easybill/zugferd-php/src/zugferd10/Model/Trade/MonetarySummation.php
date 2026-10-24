@@ -1,91 +1,96 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easybill\ZUGFeRD\Model\Trade;
 
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\XmlElement;
 
+/**
+ * @deprecated ZUGFeRD 1.0 is deprecated and will be removed in a future release. Please migrate to ZUGFeRD 2.0 (Easybill\ZUGFeRD2).
+ */
 class MonetarySummation
 {
     /**
      * Total amount of all invoice positions.
      *
      * @var Amount
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Amount")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("LineTotalAmount")
      */
+    #[Type(Amount::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('LineTotalAmount')]
     private $lineTotal;
 
     /**
      * Total amount of the supplements.
      *
      * @var Amount
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Amount")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("ChargeTotalAmount")
      */
+    #[Type(Amount::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('ChargeTotalAmount')]
     private $chargeTotal;
 
     /**
      * Total amount of the reductions.
      *
      * @var Amount
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Amount")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("AllowanceTotalAmount")
      */
+    #[Type(Amount::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('AllowanceTotalAmount')]
     private $allowanceTotal;
 
     /**
      * Invoice amount WITHOUT taxes.
      *
      * @var Amount
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Amount")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("TaxBasisTotalAmount")
      */
+    #[Type(Amount::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('TaxBasisTotalAmount')]
     private $taxBasisTotal;
 
     /**
      * Total amount of taxes.
      *
      * @var Amount
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Amount")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("TaxTotalAmount")
      */
+    #[Type(Amount::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('TaxTotalAmount')]
     private $taxTotal;
 
     /**
      * Gross amount.
      *
      * @var Amount
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Amount")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("GrandTotalAmount")
      */
+    #[Type(Amount::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('GrandTotalAmount')]
     private $grandTotal;
 
     /**
      * Total Prepaid Amount.
      *
      * @var Amount
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Amount")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("TotalPrepaidAmount")
      */
+    #[Type(Amount::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('TotalPrepaidAmount')]
     private $totalPrepaidAmount;
 
     /**
      * Due Payable Amount.
      *
      * @var Amount
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Amount")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("DuePayableAmount")
      */
+    #[Type(Amount::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('DuePayableAmount')]
     private $duePayableAmount;
 
     /**

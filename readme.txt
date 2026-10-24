@@ -1,11 +1,12 @@
 === E-Invoicing For WooCommerce ===
 Contributors: rahal.aboulfeth
-Tags: e-invoicing, factur-x, UBL, invoice, WooCommerce, pdf
+Tags: e-invoicing, factur-x, UBL, invoice, WooCommerce
 Requires at least: 5.0
-Tested up to: 6.8.2
-Requires PHP: 8.1
-License: GPL
-Stable tag: 0.4.3
+Tested up to: 7.1.3
+Requires PHP: 8.3
+License: GNU General Public License v3.0
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Stable tag: 0.5.0
 
 Easily Customize WooCommerce PDF invoices and comply with Factur-X, UBL, and other e-invoicing standards.
 
@@ -31,7 +32,7 @@ https://www.youtube.com/watch?v=0SWRxHRXnEM
 == Requirements ==
 
 - WordPress 5.0 or higher.
-- PHP 8.1 or higher.
+- PHP 8.3 or higher.
 - PHP Extensions: GD, mbstring, dom, and iconv enabled. ZipArchive to allow zip creation.
 
 == Installation ==
@@ -121,14 +122,50 @@ Big Thanks to :
 
 == Changelog ==
 
-2025-11-20 – version 0.4.3
+2026-10-11 - version 0.5.0
+* Fix - Factur-X / ZUGFeRD XML now uses the sequential invoice number when invoice numbering is enabled
+* Fix - PDF and XML now share the same invoice date
+* Fix - Invoice number stored as order meta (HPOS compatible)
+* Fix - No invoice attached to emails of orders not invoiced yet
+* Fix - Invoice footer no longer overlaps the totals
+* Fix - Price column now shows the unit price
+* Fix - Invoice attachments failing outside wp-admin (checkout emails, cron, REST)
+* New - Option to skip invoices for free orders
+* Dev - Log an error when the XML cannot be embedded in the PDF
+* Enhancement - Updated dompdf to 3.1 and digital-invoice library to v0.4.1
+* Tweak - Minimum PHP version is now 8.3
+* Enhancement - Updated WordPress compatibility to 7.1.3 and WooCommerce compatibility to 11.2.1
+* Enhancement - Factur-X invoices now use the EN 16931 profile
+* Fix - Invoices of orders without billing name now get a buyer name, required by e-invoice standards
+
+2026-03-25 - version 0.4.5
+* Fix - HPOS compatibility declaration moved outside admin context
+* Enhancement - Updated WordPress compatibility to 6.9.4
+
+2026-03-25 - version 0.4.4
+* Fix - Title color setting now works correctly in the customizer
+* Fix - Invoice footer visible in customizer preview without scrolling
+* Fix - Seller contact phone/email were swapped in e-invoice XML
+* Fix - VAT ID no longer duplicates country code prefix
+* Fix - Template selector stays on sub-tab after applying a design
+* New - VAT column option in invoice line items table
+* New - Changelog link added to plugin row on plugins page
+* Enhancement - Resolved all Plugin Check (PCP) text domain issues
+* Enhancement - Updated WooCommerce compatibility to 10.6.1
+* Enhancement - Updated WordPress compatibility to 6.9
+* Enhancement - Updated digital-invoice library to v0.2.8
+* Fix - Minor settings page and customizer fixes
+* New - Template hooks for extensibility (wooei_after_header, wooei_after_totals, wooei_before_footer)
+* Dev - Updated PHPCS rulesets to v3, fixed all code warnings
+
+2025-11-20 - version 0.4.3
 * Added Blocksy theme compatibility
 * Fixed invoice number generation with WooCommerce status prefixes
 
-2025-09-12 – version 0.4.2
-* Fixed – Bug causing Zugferd invoices to be blank
+2025-09-12 - version 0.4.2
+* Fixed - Bug causing Zugferd invoices to be blank
 
-2025-08-24 – version 0.4.1
+2025-08-24 - version 0.4.1
 * Clean up error_log
 * Added screenshots
 

@@ -1,0 +1,136 @@
+<?php
+
+namespace DigitalInvoice;
+
+/**
+ * Main facade for reading e-invoices in any supported format.
+ *
+ * Single entry point: read() auto-detects XML vs PDF, then delegates to the
+ * appropriate parser based on the XML root element.
+ *
+ * Supported formats:
+ *   - FacturX / ZUGFeRD 2.1.1 / XRechnung  → CiiParser   (CrossIndustryInvoice)
+ *   - ZUGFeRD 1.0                            → ZugferdParser (CrossIndustryDocument)
+ *   - UBL 2.1 / Peppol / CIUS-*             → UblParser   (Invoice)
+ *
+ * Usage:
+ *   $data = InvoiceReader::read($xmlString);
+ *   $data = InvoiceReader::read($pdfContent);   // FacturX / ZUGFeRD PDF
+ *   $data = InvoiceReader::fromXml($xmlString); // explicit XML
+ */
+class InvoiceReader
+{
+    /**
+     * Unified entry point: accepts XML or PDF content (or file path for PDF).
+     * PDF input is routed to CiiParser since only CII-based formats (FacturX,
+     * ZUGFeRD) embed XML in PDFs.
+     */
+    public static function read(string $input): InvoiceData
+    {
+        if (self::looksLikeXml($input)) {
+            return self::fromXml($input);
+        }
+
+        // Reject anything that is not PDF binary content.
+        // The Facturx library calls @is_file() on its input, so passing a
+        // filesystem path would silently read an arbitrary local file.
+        if (!str_starts_with($input, '%PDF-')) {
+            throw new \InvalidArgumentException(
+                'InvoiceReader: input is neither valid XML nor a PDF file.'
+            );
+        }
+
+        try {
+            return (new CiiParser())->parsePdf($input);
+        } catch (\Throwable $e) {
+            // atgp/factur-x matches the attachment Filespec /F against the literal
+            // 'factur-x.xml'; PDFs encoding that name in UTF-16BE (BOM FE FF, seen
+            // in Chorus/PA flows) never match. Fall back to reading the embedded
+            // file streams directly.
+            $xml = self::extractEmbeddedXml($input);
+            if ($xml === null) {
+                throw $e;
+            }
+            return self::fromXml($xml);
+        }
+    }
+
+    /**
+     * Extract the first XML attachment from a PDF by scanning /EmbeddedFile
+     * streams directly, regardless of how the attachment is named.
+     */
+    public static function extractEmbeddedXml(string $pdf): ?string
+    {
+        if (!preg_match_all('#/EmbeddedFile.{0,300}?stream\r?\n(.*?)\r?\nendstream#s', $pdf, $m)) {
+            return null;
+        }
+
+        foreach ($m[1] as $raw) {
+            $xml = @gzuncompress($raw);
+            if ($xml === false) {
+                $xml = @gzinflate($raw);
+            }
+            if ($xml === false) {
+                $xml = $raw;
+            }
+            if (str_starts_with(ltrim($xml), '<')) {
+                return $xml;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Parse an e-invoice from an XML string.
+     *
+     * @throws \Exception if the format cannot be detected or parsing fails
+     */
+    public static function fromXml(string $xml): InvoiceData
+    {
+        return self::detectParser($xml)->parse($xml);
+    }
+
+    /**
+     * Detect the correct parser by inspecting the XML root element.
+     *
+     * Detection rules:
+     *   localName == 'Invoice'|'CreditNote'  → UBL (Peppol, CIUS, Malaysia…)
+     *   localName == 'CrossIndustryInvoice'  → CII (FacturX / ZUGFeRD 2.1.1 / XRechnung)
+     *   localName == 'CrossIndustryDocument' → ZUGFeRD 1.0
+     */
+    private static function detectParser(string $xml): XmlParser
+    {
+        // Block DOCTYPE declarations to prevent billion-laughs entity expansion.
+        XmlParser::assertNoDoctype($xml);
+
+        $doc = new \DOMDocument();
+        libxml_use_internal_errors(true);
+        $loaded = $doc->loadXML($xml, LIBXML_NONET);
+        libxml_use_internal_errors(false);
+
+        if (!$loaded || !$doc->documentElement) {
+            throw new \Exception('InvoiceReader: failed to parse XML document.');
+        }
+
+        $localName = $doc->documentElement->localName;
+
+        return match ($localName) {
+            'Invoice', 'CreditNote' => new UblParser($doc),
+            'CrossIndustryInvoice'  => new CiiParser($doc),
+            'CrossIndustryDocument' => new ZugferdParser($doc),
+            default => throw new \Exception(
+                "InvoiceReader: unknown invoice format (root element: <$localName>)."
+            ),
+        };
+    }
+
+    /**
+     * A string is considered XML if, after stripping leading whitespace,
+     * it starts with '<'. PDF binaries never start with '<'.
+     */
+    private static function looksLikeXml(string $input): bool
+    {
+        return str_starts_with(ltrim($input), '<');
+    }
+}

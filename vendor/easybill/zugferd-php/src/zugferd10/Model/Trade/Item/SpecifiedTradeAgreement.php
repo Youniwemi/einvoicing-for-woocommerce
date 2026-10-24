@@ -1,31 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easybill\ZUGFeRD\Model\Trade\Item;
 
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\XmlElement;
 
+/**
+ * @deprecated ZUGFeRD 1.0 is deprecated and will be removed in a future release. Please migrate to ZUGFeRD 2.0 (Easybill\ZUGFeRD2).
+ */
 class SpecifiedTradeAgreement
 {
     /**
      * @var Price
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Item\Price")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("GrossPriceProductTradePrice")
      */
+    #[Type(Price::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('GrossPriceProductTradePrice')]
     private $grossPrice;
 
     /**
      * @var Price
-     * @Type("Easybill\ZUGFeRD\Model\Trade\Item\Price")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("NetPriceProductTradePrice")
      */
+    #[Type(Price::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('NetPriceProductTradePrice')]
     private $netPrice;
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\Trade\Item\Price
+     * @return Price
      */
     public function getGrossPrice()
     {
@@ -33,7 +38,7 @@ class SpecifiedTradeAgreement
     }
 
     /**
-     * @param \Easybill\ZUGFeRD\Model\Trade\Item\Price $grossPrice
+     * @param Price $grossPrice
      *
      * @return self
      */
@@ -44,7 +49,7 @@ class SpecifiedTradeAgreement
     }
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\Trade\Item\Price
+     * @return Price
      */
     public function getNetPrice()
     {
@@ -52,7 +57,7 @@ class SpecifiedTradeAgreement
     }
 
     /**
-     * @param \Easybill\ZUGFeRD\Model\Trade\Item\Price $netPrice
+     * @param Price $netPrice
      *
      * @return self
      */

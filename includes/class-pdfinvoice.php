@@ -153,6 +153,8 @@ class PdfInvoice {
 			case 'get_billing_first_name':
 			case 'get_billing_last_name':
 				return $this->order->$method();
+			case 'get_invoice_date':
+				return get_invoice_date( $this->order ) ?? $this->get_safe_date();
 			case 'get_safe_date':
 				$date = $this->order->get_date_modified();
 				return $date instanceof \Datetime ? $date : new \Datetime( 'today' );

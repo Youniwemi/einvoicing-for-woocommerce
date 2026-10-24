@@ -24,20 +24,17 @@ use Exception;
  * @return     Invoice   The e-invoice.
  * @throws     Exception Setup Needed.
  */
-function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASIC ) {
+function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_EN16931 ) {
 	// If there is no id type, no point in trying to do einvoice.
 	$id_type = (string) get_option( 'wooei_id_type' );
 	if ( '' === $id_type ) {
 		throw new Exception( 'Setup Needed' );
 	}
 
-	$issue_date = $order->get_date_completed();
+	$issue_date = get_invoice_date( $order );
 	$date_paid  = $order->get_date_paid();
-	if ( null === $issue_date ) {
-		// not paid.
-		$issue_date = $order->get_date_created();
-	}
-	$invoice = new Invoice( $order->get_order_number(), $issue_date, $date_paid, get_woocommerce_currency(), $profile );
+	$invoice_id = has_invoice_numbering() ? get_invoice_number( $order ) : null;
+	$invoice    = new Invoice( $invoice_id ? $invoice_id : $order->get_order_number(), $issue_date, $date_paid, get_woocommerce_currency(), $profile );
 
 	// Setup Seller.
 	$invoice->setSeller(
@@ -48,9 +45,9 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 
 	$invoice->setSellerContact(
 		null,
+		null,
 		get_option( 'wooei_shop_phone' ),
 		get_option( 'wooei_shop_email' ),
-		null,
 	);
 
 	$seller_country_code = WC()->countries->get_base_country();
@@ -70,15 +67,28 @@ function get_invoice( WC_Abstract_Order $order, $profile = Invoice::FACTURX_BASI
 	}
 	// only if tax.
 	if ( get_option( 'wooei_id_vat' ) ) {
-		$invoice->setSellerTaxRegistration( $seller_country_code . get_option( 'wooei_id_vat' ), 'VA' );
+		$vat_id = get_option( 'wooei_id_vat' );
+		// Don't prepend country code if VAT already starts with it.
+		if ( stripos( $vat_id, $seller_country_code ) !== 0 ) {
+			$vat_id = $seller_country_code . $vat_id;
+		}
+		$invoice->setSellerTaxRegistration( $vat_id, 'VA' );
 	}
 
 	// Setup Buyer.
 	$buyer_country_code = $order->get_billing_country();
 
 	$company_name = $order->get_billing_company();
-	$contact_name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
+	$contact_name = trim( $order->get_billing_first_name() . ' ' . $order->get_billing_last_name() );
 	$buyer_name   = $company_name ? $company_name : $contact_name;
+	if ( '' === $buyer_name ) {
+		// The buyer name (BT-44) is mandatory in every profile, checkouts without billing name (virtual products) still need one.
+		$billing_email = $order->get_billing_email();
+		$buyer_name    = $billing_email
+			/* translators: %s: customer email address. */
+			? sprintf( __( 'Customer (%s)', 'einvoicing-for-woocommerce' ), $billing_email )
+			: __( 'Customer', 'einvoicing-for-woocommerce' );
+	}
 	// we dont have at this point any identification, leave it empty.
 	$invoice->setBuyer( '', $buyer_name, '' );
 
@@ -194,7 +204,7 @@ function is_xml( ?string $profile = null ) {
 function get_e_invoice( string $pdf, WC_Abstract_Order $order, ?string $type = null, $return_xml = false ) {
 	switch ( $type ) {
 		case WOOEI_TYPES_FACTURX:
-			$profile = Invoice::FACTURX_BASIC;
+			$profile = Invoice::FACTURX_EN16931;
 			break;
 		case WOOEI_TYPES_ZUGFERD:
 			$profile = Invoice::ZUGFERD_CONFORT;
@@ -224,7 +234,7 @@ function get_e_invoice( string $pdf, WC_Abstract_Order $order, ?string $type = n
 			$profile = Invoice::UBL_MALAYSIA; // Using Peppol as base for Malaysian UBL.
 			break;
 		default:
-			$profile = Invoice::FACTURX_BASIC;
+			$profile = Invoice::FACTURX_EN16931;
 	}
 	try {
 		$invoice = get_invoice( $order, $profile );
@@ -250,6 +260,11 @@ function get_e_invoice( string $pdf, WC_Abstract_Order $order, ?string $type = n
 	try {
 		$pdf_content = $invoice->getPdf( $pdf );
 	} catch ( \Exception $e ) {
+		// Fallback to the plain PDF, but leave a trace: the XML is missing.
+		wc_get_logger()->error(
+			sprintf( 'E-invoice XML could not be embedded for order %s: %s', $order->get_id(), $e->getMessage() ),
+			array( 'source' => 'einvoicing-for-woocommerce' )
+		);
 		return $pdf;
 	}
 

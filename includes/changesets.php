@@ -19,6 +19,42 @@ if ( ! defined( 'ABSPATH' ) ) {
 function show_changesets_since( string $current ) {
 	// Let's define all the changesets, this way, we can easily translate them, and most importantly show what changed since the previous version.
 	$all = array(
+		__( '0.5.0 : Support forum fixes and dompdf 3', 'einvoicing-for-woocommerce' ) => array(
+			__( 'Fix - Factur-X / ZUGFeRD XML now uses the sequential invoice number when invoice numbering is enabled', 'einvoicing-for-woocommerce' ),
+			__( 'Fix - PDF and XML now share the same invoice date', 'einvoicing-for-woocommerce' ),
+			__( 'Fix - Invoice number stored as order meta (HPOS compatible)', 'einvoicing-for-woocommerce' ),
+			__( 'Fix - No invoice attached to emails of orders not invoiced yet', 'einvoicing-for-woocommerce' ),
+			__( 'Fix - Invoice footer no longer overlaps the totals', 'einvoicing-for-woocommerce' ),
+			__( 'Fix - Price column now shows the unit price', 'einvoicing-for-woocommerce' ),
+			__( 'Fix - Invoice attachments failing outside wp-admin (checkout emails, cron, REST)', 'einvoicing-for-woocommerce' ),
+			__( 'New - Option to skip invoices for free orders', 'einvoicing-for-woocommerce' ),
+			__( 'Dev - Log an error when the XML cannot be embedded in the PDF', 'einvoicing-for-woocommerce' ),
+			__( 'Enhancement - Updated dompdf to 3.1 and digital-invoice library to v0.4.1', 'einvoicing-for-woocommerce' ),
+			__( 'Tweak - Minimum PHP version is now 8.3', 'einvoicing-for-woocommerce' ),
+			__( 'Enhancement - Updated WordPress compatibility to 7.1.3 and WooCommerce compatibility to 11.2.1', 'einvoicing-for-woocommerce' ),
+			__( 'Enhancement - Factur-X invoices now use the EN 16931 profile', 'einvoicing-for-woocommerce' ),
+			__( 'Fix - Invoices of orders without billing name now get a buyer name, required by e-invoice standards', 'einvoicing-for-woocommerce' ),
+		),
+		__( '0.4.5 : HPOS and WordPress compatibility fixes', 'einvoicing-for-woocommerce' ) => array(
+			__( 'Fix - HPOS compatibility declaration moved outside admin context', 'einvoicing-for-woocommerce' ),
+			__( 'Enhancement - Updated WordPress compatibility to 6.9.4', 'einvoicing-for-woocommerce' ),
+		),
+		__( '0.4.4 : WooCommerce Marketplace feedback fixes', 'einvoicing-for-woocommerce' ) => array(
+			__( 'Fix - Title color setting now works correctly in the customizer', 'einvoicing-for-woocommerce' ),
+			__( 'Fix - Invoice footer visible in customizer preview without scrolling', 'einvoicing-for-woocommerce' ),
+			__( 'Fix - Seller contact phone/email were swapped in e-invoice XML', 'einvoicing-for-woocommerce' ),
+			__( 'Fix - VAT ID no longer duplicates country code prefix', 'einvoicing-for-woocommerce' ),
+			__( 'Fix - Template selector stays on sub-tab after applying a design', 'einvoicing-for-woocommerce' ),
+			__( 'New - VAT column option in invoice line items table', 'einvoicing-for-woocommerce' ),
+			__( 'New - Changelog link added to plugin row on plugins page', 'einvoicing-for-woocommerce' ),
+			__( 'Enhancement - Resolved all Plugin Check (PCP) text domain issues', 'einvoicing-for-woocommerce' ),
+			__( 'Enhancement - Updated WooCommerce compatibility to 10.6.1', 'einvoicing-for-woocommerce' ),
+			__( 'Enhancement - Updated WordPress compatibility to 6.9', 'einvoicing-for-woocommerce' ),
+			__( 'Enhancement - Updated digital-invoice library to v0.2.8', 'einvoicing-for-woocommerce' ),
+			__( 'Fix - Minor settings page and customizer fixes', 'einvoicing-for-woocommerce' ),
+			__( 'New - Template hooks for extensibility (wooei_after_header, wooei_after_totals, wooei_before_footer)', 'einvoicing-for-woocommerce' ),
+			__( 'Dev - Updated PHPCS rulesets to v3, fixed all code warnings', 'einvoicing-for-woocommerce' ),
+		),
 		__( '0.4.3 : Added Blocksy theme compatibility', 'einvoicing-for-woocommerce' ) => array(
 			__( 'Added Blocksy theme compatibility', 'einvoicing-for-woocommerce' ),
 			__( 'Fixed invoice number generation with WooCommerce status prefixes', 'einvoicing-for-woocommerce' ),
@@ -57,7 +93,7 @@ function show_changesets_since( string $current ) {
 			__( 'Added settings section to configure numbering strategy, format, override last number.', 'einvoicing-for-woocommerce' ),
 			__( 'On change status change to processing or completed, the invoice number is applied.', 'einvoicing-for-woocommerce' ),
 		),
-		__( '0.2.9 : Better compatibility with different themes and plugins' ) => array(
+		__( '0.2.9 : Better compatibility with different themes and plugins', 'einvoicing-for-woocommerce' ) => array(
 			__( 'Fixed a fatal error that occurred in some cases if the theme or installed plugins were interacting with the native customizer.', 'einvoicing-for-woocommerce' ),
 			__( 'Fixed the settings link to redirect to E-Invoice tab instead of WooCommerce.', 'einvoicing-for-woocommerce' ),
 		),

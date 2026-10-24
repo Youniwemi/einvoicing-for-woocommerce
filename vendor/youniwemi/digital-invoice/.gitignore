@@ -3,4 +3,8 @@ vendor
 .DS_Store
 .vscode
 test/examples/basic-*
+test/examples/malaysian-*
 .php-cs-fixer.cache
+test/fnfe
+test/examples/attachment.*
+test/examples/french-*

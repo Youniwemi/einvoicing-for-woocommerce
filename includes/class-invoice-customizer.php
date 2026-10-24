@@ -263,6 +263,7 @@ class Invoice_Customizer extends Customizer_Helper {
 
 				'footer_txt_color'      => '#000000',
 				'footer_txt_size'       => 12,
+				'footer_bg_color'       => 'transparent',
 				'order_detail'          => array(
 					'border_color'         => '#eaeaea',
 					'border_size'          => 0.5,
@@ -379,6 +380,14 @@ class Invoice_Customizer extends Customizer_Helper {
 						'display_invoice_date' => array(
 							'label'       => __( 'Display invoice date', 'einvoicing-for-woocommerce' ),
 							'description' => __( 'Show invoice date instead of order date', 'einvoicing-for-woocommerce' ),
+							'section'     => 'fields',
+							'type'        => 'checkbox',
+							'default'     => false,
+						),
+
+						'display_vat_column'   => array(
+							'label'       => __( 'Display VAT column', 'einvoicing-for-woocommerce' ),
+							'description' => __( 'Show a VAT/Tax column in the invoice line items table', 'einvoicing-for-woocommerce' ),
 							'section'     => 'fields',
 							'type'        => 'checkbox',
 							'default'     => false,
@@ -635,7 +644,7 @@ class Invoice_Customizer extends Customizer_Helper {
 					'section'     => 'details_invoice',
 					'control'     => 'color',
 
-					'selectors'   => '.fx-invoice-shipping',
+					'selectors'   => '.fx-address-title',
 					'default'     => $this->get_defaults( 'details_invoice_title' ),
 				),
 				array(
@@ -679,7 +688,6 @@ class Invoice_Customizer extends Customizer_Helper {
 					'id'          => 'footer_bg_color',
 					'label'       => __( 'Select footer background color', 'einvoicing-for-woocommerce' ),
 					'description' => __( 'Choose a background color that complements the header and provides a visual anchor for your invoice.', 'einvoicing-for-woocommerce' ),
-					'section'     => 'general',
 					'control'     => 'color',
 					'section'     => 'footer_section',
 					'selectors'   => '.fx-footer .fx-container',

@@ -20,9 +20,11 @@ use JMS\Serializer\Annotation\PostSerialize;
 use JMS\Serializer\Annotation\PreSerialize;
 use JMS\Serializer\Annotation\ReadOnlyProperty;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\SerializerAttribute;
 use JMS\Serializer\Annotation\Since;
 use JMS\Serializer\Annotation\SkipWhenEmpty;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\UnionDiscriminator;
 use JMS\Serializer\Annotation\Until;
 use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\XmlAttribute;
@@ -131,7 +133,7 @@ class AnnotationOrAttributeDriver implements DriverInterface
                 $virtualPropertyMetadata = new ExpressionPropertyMetadata(
                     $name,
                     $annot->name,
-                    $this->parseExpression($annot->exp)
+                    $this->parseExpression($annot->exp),
                 );
                 $propertiesMetadata[] = $virtualPropertyMetadata;
                 $propertiesAnnotations[] = $annot->options;
@@ -247,7 +249,7 @@ class AnnotationOrAttributeDriver implements DriverInterface
                                 throw new InvalidMetadataException(sprintf(
                                     'Invalid group name "%s" on "%s", did you mean to create multiple groups?',
                                     implode(', ', $propertyMetadata->groups),
-                                    $propertyMetadata->class . '->' . $propertyMetadata->name
+                                    $propertyMetadata->class . '->' . $propertyMetadata->name,
                                 ));
                             }
                         }
@@ -257,6 +259,11 @@ class AnnotationOrAttributeDriver implements DriverInterface
                         $propertyMetadata->xmlAttributeMap = true;
                     } elseif ($annot instanceof MaxDepth) {
                         $propertyMetadata->maxDepth = $annot->depth;
+                    } elseif ($annot instanceof UnionDiscriminator) {
+                        $propertyMetadata->setType([
+                            'name' => 'union',
+                            'params' => [null, $annot->field, $annot->map],
+                        ]);
                     }
                 }
 
@@ -265,7 +272,7 @@ class AnnotationOrAttributeDriver implements DriverInterface
                     $classMetadata->isMap = $classMetadata->isMap || PropertyMetadata::isCollectionMap($propertyMetadata->type);
 
                     if ($classMetadata->isMap && $classMetadata->isList) {
-                        throw new InvalidMetadataException('Can not have an inline map and and inline map on the same class');
+                        throw new InvalidMetadataException('Cannot have an inline map and inline map on the same class');
                     }
                 }
 
@@ -289,16 +296,16 @@ class AnnotationOrAttributeDriver implements DriverInterface
             }
         }
 
-        if (!$configured) {
+        // if (!$configured) {
             // return null;
-            // uncomment the above line afetr a couple of months
-        }
+            // uncomment the above line after a couple of months
+        // }
 
         return $classMetadata;
     }
 
     /**
-     * @return list<object>
+     * @return list<SerializerAttribute>
      */
     protected function getClassAnnotations(\ReflectionClass $class): array
     {
@@ -306,10 +313,8 @@ class AnnotationOrAttributeDriver implements DriverInterface
 
         if (PHP_VERSION_ID >= 80000) {
             $annotations = array_map(
-                static function (\ReflectionAttribute $attribute): object {
-                    return $attribute->newInstance();
-                },
-                $class->getAttributes()
+                static fn (\ReflectionAttribute $attribute): object => $attribute->newInstance(),
+                $class->getAttributes(SerializerAttribute::class, \ReflectionAttribute::IS_INSTANCEOF),
             );
         }
 
@@ -321,7 +326,7 @@ class AnnotationOrAttributeDriver implements DriverInterface
     }
 
     /**
-     * @return list<object>
+     * @return list<SerializerAttribute>
      */
     protected function getMethodAnnotations(\ReflectionMethod $method): array
     {
@@ -329,10 +334,8 @@ class AnnotationOrAttributeDriver implements DriverInterface
 
         if (PHP_VERSION_ID >= 80000) {
             $annotations = array_map(
-                static function (\ReflectionAttribute $attribute): object {
-                    return $attribute->newInstance();
-                },
-                $method->getAttributes()
+                static fn (\ReflectionAttribute $attribute): object => $attribute->newInstance(),
+                $method->getAttributes(SerializerAttribute::class, \ReflectionAttribute::IS_INSTANCEOF),
             );
         }
 
@@ -344,7 +347,7 @@ class AnnotationOrAttributeDriver implements DriverInterface
     }
 
     /**
-     * @return list<object>
+     * @return list<SerializerAttribute>
      */
     protected function getPropertyAnnotations(\ReflectionProperty $property): array
     {
@@ -352,10 +355,8 @@ class AnnotationOrAttributeDriver implements DriverInterface
 
         if (PHP_VERSION_ID >= 80000) {
             $annotations = array_map(
-                static function (\ReflectionAttribute $attribute): object {
-                    return $attribute->newInstance();
-                },
-                $property->getAttributes()
+                static fn (\ReflectionAttribute $attribute): object => $attribute->newInstance(),
+                $property->getAttributes(SerializerAttribute::class, \ReflectionAttribute::IS_INSTANCEOF),
             );
         }
 

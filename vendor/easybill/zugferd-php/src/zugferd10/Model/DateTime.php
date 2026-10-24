@@ -1,22 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easybill\ZUGFeRD\Model;
 
-use JMS\Serializer\Annotation as JMS;
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\XmlAttribute;
+use JMS\Serializer\Annotation\XmlValue;
 
+/**
+ * @deprecated ZUGFeRD 1.0 is deprecated and will be removed in a future release. Please migrate to ZUGFeRD 2.0 (Easybill\ZUGFeRD2).
+ */
 class DateTime
 {
     /**
      * @var int
-     * @JMS\Type("integer")
-     * @JMS\XmlAttribute
      */
+    #[Type('integer')]
+    #[XmlAttribute]
     private $format;
     /**
      * @var string
-     * @JMS\Type("string")
-     * @JMS\XmlValue(cdata=false)
      */
+    #[Type('string')]
+    #[XmlValue(cdata: false)]
     private $time;
 
     /**
@@ -39,17 +46,11 @@ class DateTime
             throw new \RuntimeException('Invalid date! it must be an instance of \DateTime or must be a string!');
         }
 
-        switch ($format) {
-            case 616:
-                $formatStr = 'YW';
-                break;
-            case 610:
-                $formatStr = 'Ym';
-                break;
-            case 102:
-            default:
-                $formatStr = 'Ymd';
-        }
+        $formatStr = match ($format) {
+            616 => 'YW',
+            610 => 'Ym',
+            default => 'Ymd',
+        };
 
         $this->time = $dateTime->format($formatStr);
         $this->format = $format;

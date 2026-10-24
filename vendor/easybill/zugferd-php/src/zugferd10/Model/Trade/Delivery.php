@@ -1,43 +1,48 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easybill\ZUGFeRD\Model\Trade;
 
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\XmlElement;
 
+/**
+ * @deprecated ZUGFeRD 1.0 is deprecated and will be removed in a future release. Please migrate to ZUGFeRD 2.0 (Easybill\ZUGFeRD2).
+ */
 class Delivery
 {
     /**
      * @var TradeParty
-     * @Type("Easybill\ZUGFeRD\Model\Trade\TradeParty")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("ShipToTradeParty")
      */
+    #[Type(TradeParty::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('ShipToTradeParty')]
     private $shipToTradeParty;
 
     /**
      * @var TradeParty
-     * @Type("Easybill\ZUGFeRD\Model\Trade\TradeParty")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("UltimateShipToTradeParty")
      */
+    #[Type(TradeParty::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('UltimateShipToTradeParty')]
     private $ultimateShipToTradeParty;
 
     /**
      * @var TradeParty
-     * @Type("Easybill\ZUGFeRD\Model\Trade\TradeParty")
-     * @XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("ShipFromTradeParty")
      */
+    #[Type(TradeParty::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('ShipFromTradeParty')]
     private $shipFromTradeParty;
 
     /**
      * @var DeliveryChainEvent
-     * @Type("Easybill\ZUGFeRD\Model\Trade\DeliveryChainEvent")
-     * @XmlElement(cdata=false,namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @SerializedName("ActualDeliverySupplyChainEvent")
      */
+    #[Type(DeliveryChainEvent::class)]
+    #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+    #[SerializedName('ActualDeliverySupplyChainEvent')]
     private $chainEvent;
 
     /**
@@ -52,7 +57,7 @@ class Delivery
     }
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\Trade\DeliveryChainEvent
+     * @return DeliveryChainEvent
      */
     public function getChainEvent()
     {
@@ -60,7 +65,7 @@ class Delivery
     }
 
     /**
-     * @param \Easybill\ZUGFeRD\Model\Trade\DeliveryChainEvent $chainEvent
+     * @param DeliveryChainEvent $chainEvent
      */
     public function setChainEvent($chainEvent)
     {
@@ -68,7 +73,7 @@ class Delivery
     }
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\Trade\TradeParty
+     * @return TradeParty
      */
     public function getShipToTradeParty()
     {
@@ -85,7 +90,7 @@ class Delivery
     }
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\Trade\TradeParty
+     * @return TradeParty
      */
     public function getUltimateShipToTradeParty()
     {
@@ -102,7 +107,7 @@ class Delivery
     }
 
     /**
-     * @return \Easybill\ZUGFeRD\Model\Trade\TradeParty
+     * @return TradeParty
      */
     public function getShipFromTradeParty()
     {

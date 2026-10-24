@@ -1,33 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Easybill\ZUGFeRD\Model\Trade;
 
 use Easybill\ZUGFeRD\Model\Date;
-use JMS\Serializer\Annotation as JMS;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\XmlElement;
 
+/**
+ * @deprecated ZUGFeRD 1.0 is deprecated and will be removed in a future release. Please migrate to ZUGFeRD 2.0 (Easybill\ZUGFeRD2).
+ */
 class BillingPeriod
 {
-    /**
-     * @var Date
-     * @JMS\Type("Easybill\ZUGFeRD\Model\Date")
-     * @JMS\XmlElement(cdata=false,namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @JMS\SerializedName("StartDateTime")
-     */
-    private $start;
-
-    /**
-     * @var Date
-     * @JMS\Type("Easybill\ZUGFeRD\Model\Date")
-     * @JMS\XmlElement(cdata=false,namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
-     * @JMS\SerializedName("EndDateTime")
-     */
-    private $end;
-
-    public function __construct(Date $start, Date $end)
-    {
-        $this->start = $start;
-        $this->end = $end;
-    }
+    public function __construct(#[Type(Date::class)]
+        #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+        #[SerializedName('StartDateTime')]
+        private Date $start, #[Type(Date::class)]
+        #[XmlElement(cdata: false, namespace: 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12')]
+        #[SerializedName('EndDateTime')]
+        private Date $end) {}
 
     /**
      * @return Date

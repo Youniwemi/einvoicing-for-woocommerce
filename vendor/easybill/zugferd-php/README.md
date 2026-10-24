@@ -1,7 +1,7 @@
 ZUGFeRD PHP
 ===========
 
-[![Latest Stable Version](https://poser.pugx.org/easybill/zugferd-php/v/stable.png)](https://packagist.org/packages/easybill/zugferd-php) [![Total Downloads](https://poser.pugx.org/easybill/zugferd-php/downloads.png)](https://packagist.org/packages/easybill/zugferd-php) [![Latest Unstable Version](https://poser.pugx.org/easybill/zugferd-php/v/unstable.png)](https://packagist.org/packages/easybill/zugferd-php) [![License](https://poser.pugx.org/easybill/zugferd-php/license.png)](https://packagist.org/packages/easybill/zugferd-php) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/easybill/zugferd-php)
+[![Latest Stable Version](https://poser.pugx.org/easybill/zugferd-php/v/stable.png)](https://packagist.org/packages/easybill/zugferd-php) [![Total Downloads](https://poser.pugx.org/easybill/zugferd-php/downloads.png)](https://packagist.org/packages/easybill/zugferd-php)[![License](https://poser.pugx.org/easybill/zugferd-php/license.png)](https://packagist.org/packages/easybill/zugferd-php)
 
 ZUGFeRD PHP SDK (Factur-X, XRechnung) - Convert PHP Objects to XML and back.
 
@@ -40,12 +40,12 @@ $xml = Builder::create()->getXML($doc);
 echo $xml; // Zugferd XML.
 ```
 
-## Usage ZUGFeRD v2.1
+## Usage ZUGFeRD v2
 
 Convert XML to PHP Objects:
 
 ```php
-use Easybill\ZUGFeRD211\Reader;
+use Easybill\ZUGFeRD2\Reader;
 
 $xml = file_get_contents('factur-x.xml');
 $obj = Reader::create()->transform($xml);
@@ -54,7 +54,7 @@ $obj = Reader::create()->transform($xml);
 Convert PHP Objects to XML:
 
 ```php
-use Easybill\ZUGFeRD211\Builder;
+use Easybill\ZUGFeRD2\Builder;
  
 $obj = ...;
 
